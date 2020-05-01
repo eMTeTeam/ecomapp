@@ -1,0 +1,60 @@
+﻿<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goback()">
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentActionSheet()">
+                <ion-icon name="cart"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="text-center">
+            SELL MY PRODUCT
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <div style="padding:20px;">
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Product Category</ion-label>
+            <ion-select [(ngModel)]="selectedCategory" (ionChange)="onSelectCategory();"
+                placeholder="Select Product Category">
+                <ion-select-option [value]="item" *ngFor="let item of categoryList">{{item.name}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Products</ion-label>
+            <ionic-selectable item-content [(ngModel)]="selectedProduct" (ngModelChange)="onSelectProduct();" itemTextField="productName"
+                [items]="productList" [canSearch]="true" placeholder="Select Products">
+            </ionic-selectable>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Units in KG/lbs</ion-label>
+            <ion-input [(ngModel)]="unitName" disabled="true"></ion-input>
+            <!-- <ion-label position="stacked" class="productLabel"></ion-label> -->
+            <!-- <ion-select placeholder="Select Units in KG/lbs" mode="ios">
+                <ion-select-option value="f">KG</ion-select-option>
+                <ion-select-option value="m">Lbs</ion-select-option>
+            </ion-select> -->
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Images upload</ion-label>
+            <input style="margin-top:20px;margin-bottom:10px;" type="file" value="upload" name="filefield"
+                multiple="multiple" />
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Available on</ion-label>
+            <ion-datetime displayFormat="D MMM YYYY" [(ngModel)]="currentDate"
+                (ionChange)="changeProductAvailableDate(currentDate)"></ion-datetime>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Cost per kg</ion-label>
+            <ion-input [(ngModel)]="price"></ion-input>
+        </ion-item>
+        <ion-row style="padding:10px;">
+            <ion-button style="width:100%;--background:green;" size="large" (click)="addProduct()">SAVE</ion-button>
+        </ion-row>
+    </div>
+</ion-content>

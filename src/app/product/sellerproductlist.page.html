@@ -1,0 +1,98 @@
+<ion-menu side="start" menuId="second">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title class="menuTitle">Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list *ngFor="let item of categoryList">
+      <ion-item class="menuItem">{{item.name}}</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet main></ion-router-outlet>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBacktoHome()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-fab vertical="top" horizontal="end" slot="end">
+      <ion-fab-button (click)="openCart()" #cart>
+        <div class="cart-length">{{ cartItemCount | async }}</div>
+        <ion-icon name="cart" class="cart-icon"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+    <ion-title class="text-center">
+      Product Listed based on Seller
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+  <ion-item>
+  </ion-item>
+  <ion-list>
+    <ion-card *ngFor="let item of searchList">
+      <ion-card-header>
+        <ion-item lines="none" mode="ios">
+          <ion-thumbnail slot="start" style="height:175px;width:130px;">
+            <img src="../../assets/products/vegetables/{{item.name}}.jpg" style="border-radius:50%;">
+          </ion-thumbnail>
+          <ion-label>
+            <div class="ellipsisText">{{item.name}}</div>
+            <br />
+            <p style="white-space:normal;">Seller: {{item.userId}}</p>
+            <p>Distance: 7 Kms</p>
+            <ion-label color="secondary">
+              <b>Price: ₹ {{item.price}}</b>
+            </ion-label>
+            <p style="color:#f9b612;font-size:20px;">
+              <ion-icon *ngFor="let i of [].constructor(item.ratingFill)" name="star"></ion-icon>
+              <ion-icon *ngFor="let i of [].constructor(item.ratingHalf)" name="star-half"></ion-icon>
+              <ion-icon *ngFor="let i of [].constructor(item.ratingNone)" name="star-outline"></ion-icon>
+            </p>
+          </ion-label>
+        </ion-item>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="8">
+            <ion-label color="secondary">
+            </ion-label>
+          </ion-col>
+          <ion-col size="4" class="ion-text-right">
+            <ion-button fill="clear" (click)="addToCart(item)">
+              <ion-icon name="add"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button style="--background:#3453c4">
+      <ion-icon name="ios-funnel"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="filterAlert()">
+        <ion-icon name="ios-funnel"></ion-icon>
+        <ion-label class="productLabel">Price Range</ion-label>
+        <ion-input [(ngModel)]="minPrice"></ion-input>
+        <ion-input [(ngModel)]="maxPrice"></ion-input>
+      </ion-fab-button>
+      <ion-fab-button>
+        <ion-icon name="funnel"></ion-icon>
+        <ion-select [(ngModel)]="sortbyPrice" (ionChange)="sort();" placeholder="Sort By">
+          <ion-select-option [value]="Low" value="Low">Show Low to High Price</ion-select-option>
+          <ion-select-option [value]="High" value="High">Show High to Low Price</ion-select-option>
+          <ion-select-option [value]="High" value="High">Seller Name</ion-select-option>
+        </ion-select>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

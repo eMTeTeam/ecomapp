@@ -1,0 +1,27 @@
+﻿<ion-content>
+    <ion-grid>
+        <ion-row justify-content-center>
+            <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
+                <div text-center>
+                    <h4 style="color:#f9b612;font-weight:700;">SIGN IN</h4>
+                </div>
+                <div padding>
+                    <ion-item>
+                        <ion-label color="ligh-grey" position="floating">Username</ion-label>
+                        <ion-input type="text"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="ligh-grey" position="floating">Password</ion-label>
+                        <ion-input type="password"></ion-input>
+                    </ion-item>
+                </div>
+                <div padding>
+                    <ion-button style="--background:#f9b612!important" size="large" (click)="googleLogin('google')"
+                        routerDirection="forward" expand="block">SIGN IN</ion-button>
+                    <ion-button style="--background:#f9b612!important" expand="full" shape="round"
+                        (click)="googleLogin()">Sign in with Goolge</ion-button>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

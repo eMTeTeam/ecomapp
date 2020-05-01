@@ -1,0 +1,54 @@
+﻿<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goback()">
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentActionSheet()">
+                <ion-icon name="cart"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="text-center">
+           Account
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row style="padding:10px;">
+            <ion-button style="width:100%;" size="large" color="light"><span>MY ORDERS</span></ion-button>
+        </ion-row>
+        <ion-row style="padding:10px;">
+            <ion-button style="width:100%;" size="large" color="light"><span>MY WALLET AND ORDERS</span></ion-button>
+        </ion-row>
+        <ion-row style="padding:10px;">
+            <ion-button style="width:100%;" size="large" color="light"><span>MY ADDRESSES</span></ion-button>
+        </ion-row>
+        <ion-row style="padding:10px;">
+            <ion-button style="width:100%;" size="large" color="light" (click)="sellMyProductList()"><span>SELL MY PRODUCT</span></ion-button>
+        </ion-row>
+        <ion-row style="padding:10px;">
+            <ion-button style="width:100%;" size="large" color="light" (click)="presentAlertConfirm()"><span>SIGN OUT</span></ion-button>
+        </ion-row>
+    </ion-grid>
+
+
+</ion-content>
+<ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" (click)="openListPage()">
+        <ion-icon name="list"></ion-icon>
+        <ion-label>List</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="cart" (click)="openCartPage()">
+        <ion-icon name="cart"></ion-icon>
+        <ion-label>Cart</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="product" (click)="openAccountPage()"  style="color:#e51d23;">
+        <ion-icon name="person"></ion-icon>
+        <ion-label>Account</ion-label>
+    </ion-tab-button>
+</ion-tab-bar>

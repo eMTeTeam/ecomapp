@@ -1,0 +1,27 @@
+﻿body {
+}
+.text-center {
+    text-align: center !important;
+}
+.ellipsisText {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.cartNumber {
+    margin-left: 6px;
+    position: absolute;
+    width: 70px;
+    font-size: 20px;
+    border: 1px solid;
+    height: 35px;
+    padding: 6px;
+    border-radius: 5px;
+}
+.productLabel{
+    font-size:25px;
+    font-weight:600;
+}
+.item-native {
+    padding-left: 0px!important;
+}

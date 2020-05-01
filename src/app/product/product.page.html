@@ -1,0 +1,76 @@
+﻿<ion-menu side="start" menuId="second">
+    <ion-header>
+        <ion-toolbar>
+            <ion-title class="menuTitle">Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+        <ion-list *ngFor="let item of categoryList">
+            <ion-item class="menuItem">{{item.name}}</ion-item>
+        </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-router-outlet main></ion-router-outlet>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBacktoHome()">
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentActionSheet()">
+                <ion-icon name="cart"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="text-center">
+            Products
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+    <ion-list>
+        <ion-card *ngFor="let item of searchList">
+            <ion-card-header>
+                <ion-item lines="none" mode="ios" (click)="goToProductDetail(item)">
+                    <ion-thumbnail slot="start" style="height:195px;width:130px;">
+                        <img src="../../assets/products/vegetables/{{item.productName}}.jpg" style="border-radius:50%;">
+                    </ion-thumbnail>
+                    <ion-label>
+                        <div class="ellipsisText">{{item.productName}}</div>
+                        <p style="white-space:normal;">{{item.description}}</p>
+                        <br />
+                        <p>Distance: 7-10 Kms</p>
+                        <p>Ready On: {{today | date}}</p>
+                        <ion-label color="secondary">
+                            <b>Price Range: ₹ {{item.price}} - 300</b>
+                        </ion-label>
+                    </ion-label>
+                </ion-item>
+            </ion-card-header>
+        </ion-card>
+    </ion-list>
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button style="--background:#3453c4">
+            <ion-icon name="arrow-dropup"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-list side="top">
+            <ion-fab-button>
+                <ion-icon name="logo-vimeo"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button>
+                <ion-icon name="logo-facebook"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button>
+                <ion-icon name="logo-instagram"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-button>
+                <ion-icon name="logo-twitter"></ion-icon>
+            </ion-fab-button>
+        </ion-fab-list>
+    </ion-fab>
+</ion-content>

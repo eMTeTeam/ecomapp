@@ -1,0 +1,54 @@
+<ion-menu side="start" menuId="first">
+    <ion-header>
+        <ion-toolbar class="menuHeader">
+            <ion-title class="menuTitle">Menu</ion-title>
+        </ion-toolbar>
+    </ion-header>
+    <ion-content>
+    </ion-content>
+</ion-menu>
+<ion-router-outlet main></ion-router-outlet>
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="openFirst()">
+                <ion-icon name="menu"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentActionSheet()">
+                <ion-icon name="cart"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="text-center">
+            Seller History
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-button size="medium" color="secondary" (click)="addNewProduct()" round><span>ADD NEW PRODUCT</span>
+    </ion-button>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+    <ion-list>
+        <ion-item *ngFor="let item of searchList" detail="true">
+            <ion-thumbnail slot="end" style="height:155px;width:130px;">
+                <img src="../../assets/products/vegetables/{{item.productName}}.jpg" style="border-radius:50%;">
+            </ion-thumbnail>
+            <ion-label>
+                <ion-label>
+                    <div class="ellipsisText">{{item.productName}}</div>
+                    <br />
+                    <P>Buyer: {{item.buyerId}}</P>
+                    <P>Quantity: {{item.quantity}}</P>
+                    <P>Price: ₹ {{item.price}}</P>
+                    <p>Status: {{item.status}}</p>
+                    <p>Ordered Date: {{item.orderedDate}}</p>
+                    <p>Received Date: {{item.eta}}</p>
+                </ion-label>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>

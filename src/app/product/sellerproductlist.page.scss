@@ -1,0 +1,33 @@
+  .cart-icon {
+    font-size: 38px;
+  }
+   
+  .cart-length {
+    color: var(--ion-color-primary);
+    position: absolute;
+    top: 14px;
+    left: 17px;
+    font-weight: 600;
+    font-size: 1em;
+    min-width: 25px;
+    z-index: 10;
+  }
+
+  // .prompt_alert .alert-message{
+  //   text-align: right;
+  // }
+  // .prompt_alert .alert-input{
+  //   border-bottom: none!important;
+  //     caret-color: #F58282;
+  // }
+  // .prompt_alert .alert-input-group:before {
+  //     content: '#';
+  //     display: inline-block;
+  //     float: right;
+  //     line-height: 3.5;
+  //     color: black;
+  // }
+  // .prompt_alert .alert-input-wrapper {
+  //     display: flex;
+  //     padding-right: 3px;
+  // }

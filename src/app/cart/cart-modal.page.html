@@ -1,0 +1,120 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goback()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="presentActionSheet()">
+        <ion-icon name="md-contact" style="font-size:20px"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="text-center">
+      CART
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content fullscreen>
+  <ion-grid>
+    <ion-row style="padding:10px;">
+      <ion-button style="width:100%;--background:green;" size="large" [disabled]="buttonState()" (click)="buyNow()">BUY
+        NOW</ion-button>
+    </ion-row>
+  </ion-grid>
+  <div class="ion-text-end">
+    <ion-button (click)="close()" fill="clear" color="dark">
+      <ion-icon name="close" slot="start"></ion-icon>
+    </ion-button>
+  </div>
+  <div class="ion-padding">
+    <ion-list>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="1" class="ion-align-self-center">
+              <label class="container">
+                <input type="checkbox" [(ngModel)]="masterSelected" name="list_name" (change)="checkUncheckAll()" />
+                <span class="checkmark"></span>
+              </label>
+            </ion-col>
+            <ion-col size="3" class="ion-align-self-center">
+              <div class="ion-text-start">
+                <h3><b>Product</b></h3>
+              </div>
+            </ion-col>
+            <ion-col size="4" class="ion-align-self-center">
+              <div class="ion-text-center">
+                <h3><b>Quantity</b></h3>
+              </div>
+            </ion-col>
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="ion-text-center">
+                <h3><b>Price</b></h3>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+    <ion-list>
+      <ion-item *ngFor="let p of cart" class="ion-text-wrap">
+        <ion-grid>
+          <ion-row>
+            <ion-col size="1" class="ion-align-self-center">
+              <div class="ion-text-center">
+                <label class="container">
+                  <input type="checkbox" [(ngModel)]="p.isSelected" name="list_name" value="{{p.ProductId}}"
+                    (change)="isAllSelected()" />
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </ion-col>
+            <ion-col size="3" class="ion-align-self-center">
+              <div class="ion-text-start">
+                <ion-thumbnail slot="start" style="height:105px;width:100px;">
+                  <img src="../../assets/products/vegetables/{{p.name}}.jpg" style="border-radius:50%;">
+                </ion-thumbnail>
+              </div>
+            </ion-col>
+            <ion-col size="4" class="ion-align-self-center">
+              <div class="ion-text-center">
+                <ion-button color="medium" fill="clear" (click)="decreaseCartItem(p)">
+                  <ion-icon name="remove-circle" slot="icon-only"></ion-icon>
+                </ion-button>
+                <b> {{ p.rating }}</b>
+                <ion-button color="medium" fill="clear" (click)="increaseCartItem(p)">
+                  <ion-icon name="add-circle" slot="icon-only"></ion-icon>
+                </ion-button>
+              </div>
+            </ion-col>
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="ion-text-center">
+                ₹ {{ p.price * p.rating}}
+              </div>
+            </ion-col>
+            <ion-col size="1" class="ion-align-self-center">
+              <div class="ion-text-end" col-md-3 offset-md-3>
+                <ion-button color="medium" fill="clear" (click)="removeCartItem(p)">
+                  <ion-icon name="close-circle" slot="icon-only"></ion-icon>
+                </ion-button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="8.2">
+              Total Amount:
+            </ion-col>
+            <ion-col size="2" class="ion-text-start">
+              <b>₹ {{ getTotal()}}</b>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

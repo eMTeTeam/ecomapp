@@ -1,0 +1,61 @@
+﻿<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goback()">
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentActionSheet()">
+                <ion-icon name="cart"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="text-center">
+            Detail
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-grid>
+        <ion-row style="justify-content:center;">
+            <ion-col>
+                <ion-card style="background:#f5f5f5;border-radius:10px;justify-content:center;">
+                    <ion-card-header style="padding:0px;">
+                        <div *ngFor="let item of productDetail" style="text-align:center;">
+                            <ion-card style="box-shadow:none;">
+                                <ion-card-header>
+                                    <img src="../../assets/products/vegetables/{{item.name}}.jpg" />
+                                </ion-card-header>
+                            </ion-card>
+                            <ion-card-title class="ellipsisText" style="text-align:center;">{{item.name}}
+                            </ion-card-title>
+                            <ion-card-title class="ellipsisText" style="color:brown;text-align:center;">₹ {{item.price}}
+                            </ion-card-title>
+                        </div>
+                    </ion-card-header>
+                    <ion-card-content *ngFor="let item of productDetail">
+                        <ion-card-title class="ellipsisText" style="text-align:left;">About This Product
+                        </ion-card-title>
+                        About <br />
+                        {{item.name}} Organic are high quality vegetables.
+                        <br />
+                        Benefits <br />
+                        {{item.name}} contain lycopene, an antioxidant that reduces the risk of cancer and heart
+                        diseases.
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col style="text-align:center;font-size:36px;color:brown">
+                <ion-icon name="remove-circle-outline" (click)="decrement()"></ion-icon>
+                <label class="cartNumber" style="margin-left:5px;position:absolute;">{{currentNumber}}</label>
+                <ion-icon style="margin-left:80px;" name="add-circle-outline" (click)="increment()"></ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row *ngFor="let item of productDetail" style="padding:10px;">
+            <ion-button style="width:100%;--background:#e51d23;" size="large" (click)="addToCart();"><span>₹
+                    {{currentNumber*item.price}}</span> &nbsp; &nbsp;<span> ADD TO CART</span></ion-button>
+        </ion-row>
+    </ion-grid>
+</ion-content>
