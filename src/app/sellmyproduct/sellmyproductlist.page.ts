@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, ActionSheetController, LoadingController, NavController } from '@ionic/angular';
+import { MenuController, ActionSheetController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { SellmyproductlistService } from 'src/app/service/sellmyproductlist.service';
 import { IonSlides } from '@ionic/angular';
 import { NavigationExtras } from '@angular/router';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-sellmyproductlist',
@@ -13,17 +14,23 @@ export class SellmyproductlistPage {
   sellmyproductList: any;
   searchQuery: string;
   searchList: any;
-
+  today: any;
+  approvedData: any;
+  rejectedData: any;
   constructor(
     private menu: MenuController,
     private sellmyproductlistService: SellmyproductlistService,
     public loadingController: LoadingController,
     public actionSheetController: ActionSheetController,
+    private alertCtrl: AlertController,
     public nav: NavController
   ) {
     this.presentLoading();
     this.getSellmyproductlist();
     this.searchList = this.sellmyproductList;
+    // this.today = Date.now();
+    this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    
   }
 
   openFirst() {
@@ -45,6 +52,60 @@ export class SellmyproductlistPage {
 
   addNewProduct() {
     this.nav.navigateForward("sellmyproduct");
+  }
+
+  approve(item: any) {
+    //  this.cartService.addProduct(item);
+    var approveApi = {
+      InventoryItemId: item.id,
+      ETA: this.today
+
+    };
+    this.sellmyproductlistService.approveItem(approveApi).subscribe(
+      (savedreturnapprovedItem) => {
+        this.approvedData = JSON.stringify(savedreturnapprovedItem);
+        console.log(this.approvedData);
+      }
+    )
+  }
+  async rejectAlert(item: any) {
+    const alert = await this.alertCtrl.create({
+      header: 'Enter Your Comments',
+      inputs: [
+        {
+          name: 'comments',
+          type: 'text',
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }, {
+          text: 'Apply',
+          handler: (comValue) => this.reject(item.id, comValue.comments)
+        }
+      ]
+    });
+    await alert.present();
+  }
+  reject(itemid: any, rejComments: any) {
+    //  this.cartService.addProduct(item);
+    var rejectApi = {
+      InventoryItemId: itemid,
+      Comments: rejComments
+
+    };
+    this.sellmyproductlistService.rejectItem(rejectApi).subscribe(
+      (savedreturnrejectedItem) => {
+        this.rejectedData = JSON.stringify(savedreturnrejectedItem);
+        console.log(this.rejectedData);
+      }
+    )
   }
 
   async presentActionSheet() {

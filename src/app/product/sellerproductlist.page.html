@@ -48,6 +48,14 @@
             <br />
             <p style="white-space:normal;">Seller: {{item.userId}}</p>
             <p>Distance: 7 Kms</p>
+            <ion-select [(ngModel)]="quantity" (ionChange)="onSelectQuantity();" placeholder="Choose Quantity">
+              <ion-select-option [value]="1">1</ion-select-option>
+              <ion-select-option [value]="2">2</ion-select-option>
+              <ion-select-option [value]="3">3</ion-select-option>
+              <ion-select-option [value]="4">4</ion-select-option>
+              <ion-select-option [value]="5">5</ion-select-option>
+              <ion-select-option [value]="6">6</ion-select-option>
+            </ion-select>
             <ion-label color="secondary">
               <b>Price: ₹ {{item.price}}</b>
             </ion-label>

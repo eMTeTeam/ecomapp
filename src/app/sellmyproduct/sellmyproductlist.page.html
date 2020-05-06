@@ -48,6 +48,10 @@
                     <p>Ordered Date: {{item.orderedDate}}</p>
                     <p>Received Date: {{item.eta}}</p>
                 </ion-label>
+                <ion-row style="padding:10px;">
+                    <ion-button *ngIf="item?.status == 'Approval Pending'" style="width:100%;--background:green;" size="small" (click)="approve(item)">Approve</ion-button>
+                    <ion-button *ngIf="item?.status == 'Approval Pending'" style="width:100%;--background:red;" size="small" (click)="rejectAlert(item)">Reject</ion-button>
+                </ion-row>
             </ion-label>
         </ion-item>
     </ion-list>

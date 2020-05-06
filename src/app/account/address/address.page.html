@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+      <!-- <ion-buttons slot="start">
+          <ion-button (click)="goback()">
+              <ion-icon name="arrow-round-back"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+          <ion-button (click)="presentActionSheet()">
+              <ion-icon name="cart"></ion-icon>
+          </ion-button>
+      </ion-buttons> -->
+      <ion-title class="text-center">
+          Add Address
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div style="padding:20px;">
+    <ion-item class="productItem">
+      <ion-label position="stacked" class="productLabel">Address Line1</ion-label>
+      <ion-input [(ngModel)]="addressline1"></ion-input>
+  </ion-item>
+      <ion-item class="productItem">
+          <ion-label position="stacked" class="productLabel">Address Line2</ion-label>
+          <ion-input [(ngModel)]="addressline2"></ion-input>
+      </ion-item>
+      <ion-item class="productItem">
+        <ion-label position="stacked" class="productLabel">City</ion-label>
+        <ion-input [(ngModel)]="city"></ion-input>
+    </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">State</ion-label>
+            <ion-input [(ngModel)]="state"></ion-input>
+        </ion-item>
+        <ion-item class="productItem">
+          <ion-label position="stacked" class="productLabel">Country</ion-label>
+          <ion-input [(ngModel)]="country"></ion-input>
+      </ion-item>
+          <ion-item class="productItem">
+              <ion-label position="stacked" class="productLabel">Zip code</ion-label>
+              <ion-input [(ngModel)]="zipcode"></ion-input>
+          </ion-item>
+          <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Lattitude</ion-label>
+            <ion-input [(ngModel)]="lattitude"></ion-input>
+        </ion-item>
+            <ion-item class="productItem">
+                <ion-label position="stacked" class="productLabel">Longitude</ion-label>
+                <ion-input [(ngModel)]="longitude"></ion-input>
+            </ion-item>
+      <ion-row style="padding:10px;">
+          <ion-button style="width:100%;--background:green;" size="large" (click)="addAddress()">SAVE</ion-button>
+      </ion-row>
+  </div>
+</ion-content>

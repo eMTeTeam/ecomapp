@@ -3,9 +3,6 @@ import { MenuController, ActionSheetController, LoadingController, NavController
 import { ProductService } from 'src/app/service/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationExtras } from '@angular/router';
-import { CartService } from 'src/app/service/cart.service';
-import { CartModalPage } from 'src/app/cart/cart-modal.page';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-product',
@@ -13,21 +10,17 @@ import { BehaviorSubject } from 'rxjs';
     styleUrls: ['product.page.scss'],
 })
 export class ProductPage {
-    cart: any;
     products: any;
-    cartItemCount: BehaviorSubject<number>;
     productList: any;
     categoryList: any;
     searchQuery: string;
     searchList: any;
     selectedCategory: any;
     today: any;
-    @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
     constructor(private menu: MenuController,
         private route: ActivatedRoute,
         private router: Router,
         private productService: ProductService,
-        private cartService: CartService,
         public loadingController: LoadingController,
         private modalCtrl: ModalController,
         public actionSheetController: ActionSheetController,
@@ -39,43 +32,9 @@ export class ProductPage {
             if (this.router.getCurrentNavigation().extras.state) {
                 this.selectedCategory = this.router.getCurrentNavigation().extras.state.selectedCategory;
                 this.getProducts(this.selectedCategory);
-                this.cart = this.cartService.getCart();
-                this.cartItemCount = this.cartService.getCartItemCount();
             }
         });
         this.searchList = this.productList;
-    }
-
-    async addToCart(item: any) {
-        this.cartService.addProduct(item);
-        this.animateCSS('tada');
-    }
-
-    async openCart() {
-        this.animateCSS('bounceOutLeft', true);
-
-        let modal = await this.modalCtrl.create({
-            component: CartModalPage,
-            cssClass: 'cart-modal'
-        });
-        modal.onWillDismiss().then(() => {
-            this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
-            this.animateCSS('bounceInLeft');
-        });
-        modal.present();
-    }
-
-    animateCSS(animationName, keepAnimated = false) {
-        const node = this.fab.nativeElement;
-        node.classList.add('animated', animationName)
-
-        function handleAnimationEnd() {
-            if (!keepAnimated) {
-                node.classList.remove('animated', animationName);
-            }
-            node.removeEventListener('animationend', handleAnimationEnd)
-        }
-        node.addEventListener('animationend', handleAnimationEnd)
     }
 
     openFirst() {

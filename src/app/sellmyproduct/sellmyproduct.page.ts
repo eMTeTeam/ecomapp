@@ -22,20 +22,8 @@ export class SellmyproductPage {
     today: any;
     savedData: any = "";
     price: string;
+    quantity:any;
     unitName: string;
-
-    private currentNumber = 1;
-
-    private increment() {
-        this.currentNumber++;
-    }
-
-    private decrement() {
-        this.currentNumber--;
-        if (this.currentNumber < 1) {
-            this.currentNumber = 1
-        }
-    }
 
     constructor(private menu: MenuController,
         public loadingController: LoadingController,
@@ -97,7 +85,7 @@ export class SellmyproductPage {
             CategoryId: this.selectedCategory.id,
             Description: this.selectedProduct.productName,
             UnitId: "ad89ae0a-44c6-4c3a-b116-2a8f1f1144f0",
-            Quantity: 6,
+            Quantity: eval(this.quantity),
             Price: eval(this.price),
             ImageUrl: "image"
 
@@ -114,10 +102,10 @@ export class SellmyproductPage {
             buttons: ['OK']
 
         });
-        alert.present().then(() => {
-            this.modalCtrl.dismiss();
-            this.router.navigate(['/home']);
-        });
+        // alert.present().then(() => {
+        //     this.modalCtrl.dismiss();
+        //     this.router.navigate(['/home']);
+        // });
     }
 
     goback() {

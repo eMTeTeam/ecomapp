@@ -6,6 +6,7 @@ import { NavigationExtras } from '@angular/router';
 import { CartService } from 'src/app/service/cart.service';
 import { CartModalPage } from 'src/app/cart/cart-modal.page';
 import { BehaviorSubject } from 'rxjs';
+import { ProductService } from 'src/app/service/product.service';
 
 @Component({
   selector: 'app-sellerproductlist',
@@ -15,17 +16,20 @@ import { BehaviorSubject } from 'rxjs';
 export class SellerproductlistPage {
   cart: any;
   products: any;
-  cartItemCount: BehaviorSubject<number>;
+  //cartItemCount: BehaviorSubject<number>;
+  cartItemCount: any;
   productList: any;
   categoryList: any;
   searchQuery: string;
   searchList: any;
   selectedProduct: any;
+  quantity: any;
   sortbyPrice: any;
   today: any;
   hideMe: boolean;
   minPrice: any;
   maxPrice: any;
+  basketData: any = "";
   price: any;
   userId: any;
   @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
@@ -35,6 +39,7 @@ export class SellerproductlistPage {
     private router: Router,
     private productdetailService: ProductdetailService,
     private cartService: CartService,
+    private productService: ProductService,
     public loadingController: LoadingController,
     private modalCtrl: ModalController,
     public actionSheetController: ActionSheetController,
@@ -46,11 +51,12 @@ export class SellerproductlistPage {
       if (this.router.getCurrentNavigation().extras.state) {
         this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
         this.getProductsdetail(this.selectedProduct);
-        this.cart = this.cartService.getCart();
-        this.cartItemCount = this.cartService.getCartItemCount();
+     //   this.cart = this.cartService.getCart();
+     //   this.cartItemCount = this.cartService.getCartItemCount();
       }
     });
     this.searchList = this.productList;
+    this.cartItemCount = this.cartService.getCartItemCount();
   }
 
   filterValue(minPrice, maxPrice) {
@@ -105,24 +111,44 @@ export class SellerproductlistPage {
     }
     return this.searchList = this.productList;
   }
-
+  onSelectQuantity() {
+    this.quantity = this.quantity;
+    console.log(this.quantity);
+}
   async addToCart(item: any) {
-    this.cartService.addProduct(item);
+    //  this.cartService.addProduct(item);
+    
+    var pID : any = this.route.snapshot.paramMap.get(item.id);
+    var basketToApi = {
+      ProductId: item.id,
+      Quantity: eval(this.quantity)
+
+    };
+    this.cartService.addProductToBasket(basketToApi).subscribe(
+      (savedreturnbasketData) => {
+        this.basketData = JSON.stringify(savedreturnbasketData);
+        console.log(this.basketData);
+      }
+    )
+    this.cartItemCount = this.cartService.getCartItemCount();
     this.animateCSS('tada');
   }
 
   async openCart() {
     this.animateCSS('bounceOutLeft', true);
 
-    let modal = await this.modalCtrl.create({
-      component: CartModalPage,
-      cssClass: 'cart-modal'
-    });
-    modal.onWillDismiss().then(() => {
-      this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
-      this.animateCSS('bounceInLeft');
-    });
-    modal.present();
+    // let modal = await this.modalCtrl.create({
+    //   component: CartModalPage,
+    //   cssClass: 'cart-modal'
+    // });
+    this.nav.navigateForward("cartbasket");
+    this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
+    this.animateCSS('bounceInLeft');
+    // modal.onWillDismiss().then(() => {
+    //   this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
+    //   this.animateCSS('bounceInLeft');
+    // });
+    // modal.present();
   }
 
   animateCSS(animationName, keepAnimated = false) {
@@ -230,7 +256,7 @@ export class SellerproductlistPage {
 
   async filterAlert() {
     const alert = await this.alertCtrl.create({
-     header: 'Enter Price Range',
+      header: 'Enter Price Range',
       inputs: [
         {
           name: 'min',
@@ -258,4 +284,3 @@ export class SellerproductlistPage {
     await alert.present();
   }
 }
-

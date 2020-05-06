@@ -124,6 +124,9 @@ export class AccountPage {
     sellMyProductList() {
         this.nav.navigateForward("sellmyproductlist");
     }
+    addAddress() {
+        this.nav.navigateForward("address");
+    }
     openListPage() {
         this.nav.navigateForward("home");
     }

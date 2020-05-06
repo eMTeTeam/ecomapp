@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
 
 export interface Product {
   ProductId: number;
@@ -14,17 +14,53 @@ export interface Product {
 })
 export class CartService {
 
-  private cart = [];
+  cart: any;
+  productId: any; 
+  quantity: any; 
+  addressId: string;
+  //private cart = [];
   private cartItemCount = new BehaviorSubject(0);
   constructor(public http: HttpClient) { }
 
   getCart() {
     return this.cart;
   }
+  addProductToBasket(basketToApi) {
+    var basketURL = "http://localhost:5000/api/Baskets/v1";
+    return this.http.post(basketURL, basketToApi,
+      {
+        headers: new HttpHeaders(
+          {
+            "content-Type": "application/json"
+          }
+        )
+      });
+    //this.cartItemCount.next(this.cartItemCount.value + 1);
+    //this.cart.push(basketToApi);
+  }
+
+
 
   getCartItemCount() {
-    return this.cartItemCount;
+    var basketCount = "http://localhost:5000/api/Baskets/v1/itemCount";
+    return this.http.get(basketCount);
   }
+
+  getBasketItems() {
+    var basketItems = "http://localhost:5000/api/Baskets/v1";
+    return this.http.get(basketItems,
+      {
+        headers: new HttpHeaders(
+          {
+            "content-Type": "application/json",
+            "languageCode":"en"
+          }
+        )
+      });
+    }
+  // getCartItemCount() {
+  //   return this.cartItemCount;
+  // }
 
   addProduct(product) {
     let added = false;
@@ -63,13 +99,19 @@ export class CartService {
     }
   }
 
-  buynowData(dataToApi) {
-    var saveURL = "http://localhost:5000/api/Inventories/v1/buyNow";
-    return this.http.post(saveURL, dataToApi,
+  buynowData(productId,quantity) {
+    //http://localhost:5000/api/Inventories/v1/buyNow?productId=0e69b5c1-efad-4e54-ae31-3a501ffdc97d&quantity=2&addressId=7d98f860-8af5-11ea-b8f7-020361373239
+    
+    var saveURL = "http://localhost:5000/api/Inventories/v1/buyNow?productId=";
+    return this.http.post(saveURL + productId + '&quantity=' + quantity + "&addressId=08d7ef43-e9e5-43d8-8443-c4b5a74f7195",
       {
-        headers: new HttpHeaders(
+        httpparams: new HttpParams(
           {
-            "content-Type": "application/json"
+            fromObject:{
+            "productId": productId,
+            "quantity":quantity,
+            "addressId":"08d7ef43-e9e5-43d8-8443-c4b5a74f7195"
+            }
           }
         )
       });

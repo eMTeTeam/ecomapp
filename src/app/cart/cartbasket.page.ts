@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { MenuController, ActionSheetController, LoadingController, NavController, ModalController, AlertController } from '@ionic/angular';
 import { Product, CartService } from 'src/app/service/cart.service';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { async } from '@angular/core/testing';
 
 @Component({
-  selector: 'app-cart-modal',
-  templateUrl: './cart-modal.page.html',
-  styleUrls: ['./cart-modal.page.scss'],
+  selector: 'app-cartbasket',
+  templateUrl: './cartbasket.page.html',
+  styleUrls: ['./cartbasket.page.scss'],
 })
-export class CartModalPage implements OnInit {
+export class CartbasketPage {
 
   cart: any;
   productList: any;
@@ -20,7 +22,9 @@ export class CartModalPage implements OnInit {
   checklist: any;
   savedData: any = "";
   prId: any;
-
+  total:number=0;
+  priceTotal: number = 0;
+  price: number=0;
   private currentNumber = 1;
 
   private increment() {
@@ -41,30 +45,41 @@ export class CartModalPage implements OnInit {
     public httpClient: HttpClient,
     private cartService: CartService,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController) { }
-
-  ngOnInit() {
-    this.masterSelected = false;
-
+    private alertCtrl: AlertController,
+    private route: ActivatedRoute) {
     this.cart = this.getBasketproducts();
+    
     // this.cart = this.cartService.getBasketItems();
     this.checklist = this.cart;
-    //this.getCheckedItemList();
+    this.masterSelected = true;
   }
 
-  buttonState() {
-    return !this.checklist.some(_ => _.isSelected);
-  }
+  // ngOnInit() {
+  //   this.masterSelected = false;
 
+  //   this.cart = this.getBasketproducts();
+  //   // this.cart = this.cartService.getBasketItems();
+  //   this.checklist = this.cart;
+  //   //this.getCheckedItemList();
+  // }
+  // buttonState() {
+  //   return !this.checklist.some(_ => _.isSelected);
+  // }
+  // buttonState() {
+  //   //return !this.checklist.some(_ => _.isSelected);
+  //   return !this.checklist.some(_=> _.isSelected);
+  // }
   checkUncheckAll() {
-    for (var i = 0; i < this.checklist.length; i++) {
-      this.checklist[i].isSelected = this.masterSelected;
+    for (var i = 0; i < this.cart.length; i++) {
+      this.cart[i].isSelected = this.masterSelected;
     }
+    this.total=0;
     this.getCheckedItemList();
   }
 
   isAllSelected() {
-    this.masterSelected = this.checklist.every(function (item: any) {
+    // this.masterSelected=this.cart.every
+    this.masterSelected = this.cart.every(function (item: any) {
       return item.isSelected == true;
     })
     this.getCheckedItemList();
@@ -72,32 +87,36 @@ export class CartModalPage implements OnInit {
 
   getCheckedItemList() {
     this.checkedList = [];
-    this.checklist = this.cart.map(elm => ({ ProductId: elm.id, Price: elm.price, ProductName: elm.name, Image: elm.imageUrl, Rating: elm.rating, NumberOfRatings: elm.numberOfRatings, Userid: elm.userId, isSelected: elm.isSelected }))
-    for (var i = 0; i < this.checklist.length; i++) {
-      if (this.checklist[i].isSelected)
-        this.checkedList.push(this.checklist[i]);
+        // this.checklist = this.cart.map(elm => ({ ProductId: elm.id, Price: elm.price, ProductName: elm.name, Image: elm.imageUrl, Rating: elm.rating, NumberOfRatings: elm.numberOfRatings, Userid: elm.userId, isSelected: elm.isSelected }))
+    for (var i = 0; i < this.cart.length; i++) {
+      if (this.cart[i].isSelected)
+      this.total = this.total + this.cart[i].price;
+      
+        this.checkedList.push(this.cart[i]);
     }
-    this.checkedList = JSON.stringify(this.checkedList);
-    this.prId = this.checkedList.id;
+    
+    console.log(this.total);
+    //  this.checkedList = JSON.stringify(this.checkedList);
+    //this.prId = this.checkedList[0].id;
     console.log(this.checkedList);
+    console.log(this.checkedList[0].productId);
   }
 
   buyNow() {
-    var dataToApi = {
-      ProductId: this.prId,
-      Price: this.checkedList.price,
-      Quantity: 7,
-      SellerId: "Karthik0",
-      BuyerId: "Karthik0",
-      StatusId: "a2c85f54-621e-4110-91c3-026b36d9ce54"
+    for (var i = 0; i < this.checkedList.length; i++) {
+      this.cartService.buynowData(this.checkedList[i].productId, this.checkedList[i].quantity).subscribe(
+        (savedreturnData) => {
+          this.savedData = JSON.stringify(savedreturnData);
+          console.log(this.savedData);
+        }
+      )
+    }
+  //   let alert = async this.alertCtrl.create({
+  //     header: 'Success',
+  //     message: 'Product Added Successfully',
+  //     buttons: ['OK']
 
-    };
-    // this.cartService.buynowData(this.checkedList).subscribe(
-    //   (savedreturnData) => {
-    //     this.savedData = JSON.stringify(savedreturnData);
-    //     console.log(this.savedData);
-    //   }
-   // )
+  // });
   }
 
   goback() {
@@ -117,7 +136,12 @@ export class CartModalPage implements OnInit {
   }
 
   getTotal() {
-    return this.cart.reduce((i, j) => i + j.price * j.rating, 0);
+    return this.total;
+    // this.total=0;
+    // return this.cart.map(value =>{
+    //   this.total=this.total+this.cart.price
+    // }).subscribe();
+    // // return this.cart.reduce((i, j) => i + j.price * j.rating, 0);
   }
 
   close() {
@@ -212,6 +236,7 @@ export class CartModalPage implements OnInit {
     this.cartService.getBasketItems()
       .subscribe(
         data => {
+          debugger;
           this.cart = data;
           // this.searchList = data;
           console.log(data);

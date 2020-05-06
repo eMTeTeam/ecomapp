@@ -12,6 +12,10 @@ const routes: Routes = [
   { path: 'cart-modal', loadChildren: () => import('./cart/cart-modal.module').then(m => m.CartModalPageModule) },
   { path: 'sellmyproductlist', loadChildren: () => import('./sellmyproduct/sellmyproductlist.module').then(m => m.SellmyproductlistPageModule) },
   { path: 'sellerproductlist', loadChildren: () => import('./product/sellerproductlist.module').then(m => m.SellerproductlistPageModule) },
+  { path: 'cartbasket', loadChildren: () => import('./cart/cartbasket.module').then(m => m.CartbasketPageModule) },
+  { path: 'address', loadChildren: () => import('./account/address/address.module').then(m => m.AddressPageModule) },
+
+
 ];
 
 @NgModule({

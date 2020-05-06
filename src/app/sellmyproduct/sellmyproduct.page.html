@@ -30,15 +30,15 @@
                 [items]="productList" [canSearch]="true" placeholder="Select Products">
             </ionic-selectable>
         </ion-item>
-        <ion-item class="productItem">
+        <!-- <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Units in KG/lbs</ion-label>
             <ion-input [(ngModel)]="unitName" disabled="true"></ion-input>
-            <!-- <ion-label position="stacked" class="productLabel"></ion-label> -->
+            <ion-label position="stacked" class="productLabel"></ion-label> -->
             <!-- <ion-select placeholder="Select Units in KG/lbs" mode="ios">
                 <ion-select-option value="f">KG</ion-select-option>
                 <ion-select-option value="m">Lbs</ion-select-option>
-            </ion-select> -->
-        </ion-item>
+            </ion-select> 
+        </ion-item> -->
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Images upload</ion-label>
             <input style="margin-top:20px;margin-bottom:10px;" type="file" value="upload" name="filefield"
@@ -51,7 +51,11 @@
         </ion-item>
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Cost per kg</ion-label>
-            <ion-input [(ngModel)]="price"></ion-input>
+            <ion-input [(ngModel)]="price"></ion-input> <ion-input [(ngModel)]="unitName" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Quantity</ion-label>
+            <ion-input [(ngModel)]="quantity"></ion-input>
         </ion-item>
         <ion-row style="padding:10px;">
             <ion-button style="width:100%;--background:green;" size="large" (click)="addProduct()">SAVE</ion-button>
