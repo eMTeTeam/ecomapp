@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, ActionSheetController, LoadingController, AlertController, NavController } from '@ionic/angular';
+import { MenuController, ActionSheetController, LoadingController, NavController, AlertController, ModalController } from '@ionic/angular';
 import { SellmyproductlistService } from 'src/app/service/sellmyproductlist.service';
 import { IonSlides } from '@ionic/angular';
-import { NavigationExtras } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { ReviewsService } from 'src/app/service/reviews.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sellmyproductlist',
@@ -12,15 +13,22 @@ import { formatDate } from '@angular/common';
 })
 export class SellmyproductlistPage {
   sellmyproductList: any;
-  searchQuery: string;
   searchList: any;
   today: any;
   approvedData: any;
   rejectedData: any;
+  rating: any;
+  comments: any;
+  reviewData: any;
+  buyerId: any;
+
   constructor(
     private menu: MenuController,
+    private route: ActivatedRoute,
+    private router: Router,
     private sellmyproductlistService: SellmyproductlistService,
     public loadingController: LoadingController,
+    private reviewsService: ReviewsService,
     public actionSheetController: ActionSheetController,
     private alertCtrl: AlertController,
     public nav: NavController
@@ -28,9 +36,9 @@ export class SellmyproductlistPage {
     this.presentLoading();
     this.getSellmyproductlist();
     this.searchList = this.sellmyproductList;
-    // this.today = Date.now();
+    this.today = Date.now();
     this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-    
+
   }
 
   openFirst() {
@@ -44,9 +52,7 @@ export class SellmyproductlistPage {
       duration: 1000
     });
     await loading.present();
-
     const { role, data } = await loading.onDidDismiss();
-
     console.log('Loading dismissed!');
   }
 
@@ -54,12 +60,10 @@ export class SellmyproductlistPage {
     this.nav.navigateForward("sellmyproduct");
   }
 
-  approve(item: any) {
-    //  this.cartService.addProduct(item);
+  async approve(item: any) {
     var approveApi = {
       InventoryItemId: item.id,
       ETA: this.today
-
     };
     this.sellmyproductlistService.approveItem(approveApi).subscribe(
       (savedreturnapprovedItem) => {
@@ -67,7 +71,23 @@ export class SellmyproductlistPage {
         console.log(this.approvedData);
       }
     )
+
+    const alert = await this.alertCtrl.create({
+      message: 'Order Approved',
+      buttons: [
+        {
+          text: 'OK',
+
+          handler: () => {
+            this.router.navigate(['/allproductslist']);
+          }
+        }
+      ]
+    });
+    await alert.present().then(() => {
+    });
   }
+
   async rejectAlert(item: any) {
     const alert = await this.alertCtrl.create({
       header: 'Enter Your Comments',
@@ -93,12 +113,11 @@ export class SellmyproductlistPage {
     });
     await alert.present();
   }
-  reject(itemid: any, rejComments: any) {
-    //  this.cartService.addProduct(item);
+
+  async reject(itemid: any, rejComments: any) {
     var rejectApi = {
       InventoryItemId: itemid,
       Comments: rejComments
-
     };
     this.sellmyproductlistService.rejectItem(rejectApi).subscribe(
       (savedreturnrejectedItem) => {
@@ -106,6 +125,71 @@ export class SellmyproductlistPage {
         console.log(this.rejectedData);
       }
     )
+    const alert = await this.alertCtrl.create({
+      message: 'Order Rejected',
+      buttons: [
+        {
+          text: 'OK',
+
+          handler: () => {
+            this.router.navigate(['/allproductslist']);
+          }
+        }
+      ]
+    });
+    await alert.present().then(() => {
+    });
+  }
+
+  async sllerreviewAlert(item: any) {
+    const alert = await this.alertCtrl.create({
+      header: 'Buyer Rating:',
+      cssClass: 'alertstar',
+      buttons: [
+        { text: '', handler: data => { this.sllerreRating(item, 1); } },
+        { text: '', handler: data => { this.sllerreRating(item, 2); } },
+        { text: '', handler: data => { this.sllerreRating(item, 3); } },
+        { text: '', handler: data => { this.sllerreRating(item, 4); } },
+        { text: '', handler: data => { this.sllerreRating(item, 5); } }
+      ]
+    });
+    await alert.present();
+  }
+
+  async sllerreRating(itemid: any, rating: any) {
+    var tags = ["9d82e20b-96e1-11ea-9399-020361373239"];
+    var userReview = {
+      TagIds: tags,
+      UserId: itemid.buyerId,
+      Comments: this.comments,
+      Rating: rating
+    }
+    var dataToApi = {
+      InventoryItemId: itemid.id,
+      OTP: 1272,
+      UserReview: userReview
+    };
+    this.reviewsService.buyerReview(dataToApi).subscribe(
+      (savedreturnData) => {
+        this.reviewData = JSON.stringify(savedreturnData);
+        console.log(this.reviewData);
+      }
+    )
+
+    const alert = await this.alertCtrl.create({
+      message: 'Order Delivered',
+      buttons: [
+        {
+          text: 'OK',
+
+          handler: () => {
+            this.router.navigate(['/allproductslist']);
+          }
+        }
+      ]
+    });
+    await alert.present().then(() => {
+    });
   }
 
   async presentActionSheet() {
@@ -140,6 +224,7 @@ export class SellmyproductlistPage {
     speed: 400,
     autoplay: true
   };
+
   doRefresh(event) {
     console.log('Begin async operation');
 
@@ -150,12 +235,9 @@ export class SellmyproductlistPage {
   }
 
   searchValue(value: any, args?: any): any {
-
     if (!value) return null;
     if (!args) return value;
-
     args = args.toLowerCase();
-
     return value.filter(function (item) {
       return JSON.stringify(item).toLowerCase().includes(args);
     });
@@ -171,6 +253,10 @@ export class SellmyproductlistPage {
 
   openListPage() {
     this.nav.navigateForward("home");
+  }
+
+  goBack() {
+    this.nav.navigateForward("allproductslist");
   }
 
   openCartPage() {
@@ -194,4 +280,5 @@ export class SellmyproductlistPage {
         }
       );
   }
+
 }

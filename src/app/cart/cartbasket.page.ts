@@ -3,7 +3,7 @@ import { MenuController, ActionSheetController, LoadingController, NavController
 import { Product, CartService } from 'src/app/service/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-import { async } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cartbasket',
@@ -13,30 +13,14 @@ import { async } from '@angular/core/testing';
 export class CartbasketPage {
 
   cart: any;
-  productList: any;
-  categoryList: any;
-  searchQuery: string;
   searchList: any;
   masterSelected: boolean;
   checkedList: any;
   checklist: any;
   savedData: any = "";
-  prId: any;
-  total:number=0;
-  priceTotal: number = 0;
-  price: number=0;
-  private currentNumber = 1;
-
-  private increment() {
-    this.currentNumber++;
-  }
-
-  private decrement() {
-    this.currentNumber--;
-    if (this.currentNumber < 1) {
-      this.currentNumber = 1
-    }
-  }
+  total: number = 0;
+  price: number = 0;
+  quantity: any;
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -46,39 +30,22 @@ export class CartbasketPage {
     private cartService: CartService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
+    private router: Router,
     private route: ActivatedRoute) {
     this.cart = this.getBasketproducts();
-    
-    // this.cart = this.cartService.getBasketItems();
     this.checklist = this.cart;
     this.masterSelected = true;
   }
 
-  // ngOnInit() {
-  //   this.masterSelected = false;
-
-  //   this.cart = this.getBasketproducts();
-  //   // this.cart = this.cartService.getBasketItems();
-  //   this.checklist = this.cart;
-  //   //this.getCheckedItemList();
-  // }
-  // buttonState() {
-  //   return !this.checklist.some(_ => _.isSelected);
-  // }
-  // buttonState() {
-  //   //return !this.checklist.some(_ => _.isSelected);
-  //   return !this.checklist.some(_=> _.isSelected);
-  // }
   checkUncheckAll() {
     for (var i = 0; i < this.cart.length; i++) {
       this.cart[i].isSelected = this.masterSelected;
     }
-    this.total=0;
+    this.total = 0;
     this.getCheckedItemList();
   }
 
   isAllSelected() {
-    // this.masterSelected=this.cart.every
     this.masterSelected = this.cart.every(function (item: any) {
       return item.isSelected == true;
     })
@@ -87,21 +54,47 @@ export class CartbasketPage {
 
   getCheckedItemList() {
     this.checkedList = [];
-        // this.checklist = this.cart.map(elm => ({ ProductId: elm.id, Price: elm.price, ProductName: elm.name, Image: elm.imageUrl, Rating: elm.rating, NumberOfRatings: elm.numberOfRatings, Userid: elm.userId, isSelected: elm.isSelected }))
     for (var i = 0; i < this.cart.length; i++) {
       if (this.cart[i].isSelected)
-      this.total = this.total + this.cart[i].price;
-      
-        this.checkedList.push(this.cart[i]);
+        this.total += this.cart[i].price;
+      this.checkedList.push(this.cart[i]);
     }
-    
-    console.log(this.total);
-    //  this.checkedList = JSON.stringify(this.checkedList);
-    //this.prId = this.checkedList[0].id;
-    console.log(this.checkedList);
-    console.log(this.checkedList[0].productId);
   }
 
+  async checkouts() {
+    var d = [];
+    for (var i = 0; i < this.checkedList.length; i++) {
+      d.push(this.checkedList[i]["id"]);
+    }
+    if (d.length > 0) {
+      this.cartService.checkoutData(d)
+        .subscribe(
+          (savedreturnData) => {
+            this.savedData = JSON.stringify(savedreturnData);
+            console.log(this.savedData);
+          }
+        )
+    }
+    else {
+      console.log("No items selected");
+    }
+    const alert = await this.alertCtrl.create({
+      message: 'Order Placed Successfully',
+      buttons: [
+        {
+          text: 'OK',
+
+          handler: () => {
+            this.router.navigate(['/myorders']);
+          }
+        }
+      ]
+    });
+    await alert.present().then(() => {
+    });
+  }
+
+  //** Dont delete this method */
   buyNow() {
     for (var i = 0; i < this.checkedList.length; i++) {
       this.cartService.buynowData(this.checkedList[i].productId, this.checkedList[i].quantity).subscribe(
@@ -111,37 +104,46 @@ export class CartbasketPage {
         }
       )
     }
-  //   let alert = async this.alertCtrl.create({
-  //     header: 'Success',
-  //     message: 'Product Added Successfully',
-  //     buttons: ['OK']
-
-  // });
   }
 
   goback() {
-    this.nav.navigateBack("home");
+    this.nav.navigateBack("sellerproductlist");
   }
 
-  decreaseCartItem(product) {
-    this.cartService.decreaseProduct(product);
+  decreaseCartItem(p) {
+    var dataToApi = {
+      BasketItemId: p.id,
+      Quantity: 1,
+      UpdateAction: 1
+    };
+    this.cartService.decreaseProduct(dataToApi).subscribe(
+      (savedreturnData) => {
+        this.savedData = JSON.stringify(savedreturnData);
+        console.log(this.savedData);
+      }
+    )
   }
 
-  increaseCartItem(product) {
-    this.cartService.addProduct(product);
+  increaseCartItem(p) {
+    var dataToApi = {
+      BasketItemId: p.id,
+      Quantity: 1,
+      UpdateAction: 0
+    };
+    this.cartService.addProduct(dataToApi).subscribe(
+      (savedreturnData) => {
+        this.savedData = JSON.stringify(savedreturnData);
+        console.log(this.savedData);
+      }
+    )
   }
 
-  removeCartItem(product) {
-    this.cartService.removeProduct(product);
+  removeCartItem(p) {
+    this.cartService.removeProduct(p.id);
   }
 
   getTotal() {
     return this.total;
-    // this.total=0;
-    // return this.cart.map(value =>{
-    //   this.total=this.total+this.cart.price
-    // }).subscribe();
-    // // return this.cart.reduce((i, j) => i + j.price * j.rating, 0);
   }
 
   close() {
@@ -203,10 +205,6 @@ export class CartbasketPage {
     });
   }
 
-  searchText(text) {
-    this.searchList = this.searchValue(this.productList, text);
-  }
-
   openListPage() {
     this.nav.navigateForward("home");
   }
@@ -219,26 +217,11 @@ export class CartbasketPage {
     this.nav.navigateForward("account");
   }
 
-  async checkout() {
-    let alert = await this.alertCtrl.create({
-      header: 'Thanks for your Order!',
-      message: 'We will deliver your products as soon as possible. Total amount is ₹ ' + this.getTotal(),
-      buttons: ['OK']
-
-    });
-    alert.present().then(() => {
-      this.modalCtrl.dismiss();
-    });
-  }
-
   getBasketproducts() {
-    debugger;
     this.cartService.getBasketItems()
       .subscribe(
         data => {
-          debugger;
           this.cart = data;
-          // this.searchList = data;
           console.log(data);
         },
         error => {

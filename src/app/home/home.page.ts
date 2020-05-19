@@ -11,7 +11,6 @@ import { NavigationExtras } from '@angular/router';
 })
 export class HomePage {
     categoryList: any;
-    searchQuery: string;
     searchList: any;
 
     constructor(private menu: MenuController,
@@ -134,4 +133,5 @@ export class HomePage {
                 }
             );
     }
+
 }

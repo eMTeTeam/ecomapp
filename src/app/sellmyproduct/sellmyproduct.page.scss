@@ -19,9 +19,22 @@
     border-radius: 5px;
 }
 .productLabel{
-    font-size:25px;
-    font-weight:600;
+   /*  font-size:25px;
+    font-weight:600; */
 }
 .item-native {
     padding-left: 0px!important;
+}
+.btn-primary {
+    height: 36px;
+    width: 100%;
+}
+.text-input::-moz-placeholder {
+    font-size: 14px;
+}
+.text-input:-ms-input-placeholder {
+    font-size: 14px;
+}
+.text-input::-webkit-input-placeholder {
+    font-size: 14px;
 }

@@ -1,0 +1,25 @@
+.pin-location {
+  display: grid;
+  grid-template-columns: 1fr;
+  button {
+    margin-top: 17px;
+    color: whitesmoke;
+  }
+}
+app-address ion-item {
+  font-weight: bold;
+}
+.btn-primary { 
+width: 100%;
+margin-top: 20px;
+height: 40px;
+font-size: 14px;
+}
+.add-default { 
+margin-top: 20px;
+
+span {
+  position: relative;
+  top: -3px;;
+}
+}

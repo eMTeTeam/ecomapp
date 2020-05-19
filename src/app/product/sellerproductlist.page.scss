@@ -1,16 +1,29 @@
   .cart-icon {
     font-size: 38px;
   }
-   
+  .cart { 
+    top: 0px;
+    width: 50px;
+
+    ion-fab-button {
+      margin-top: 6px;
+      width: 45px;
+      height: 45px;
+      float: right;
+    }
+
+  }
+  .head-title { font-size: 17px;}
   .cart-length {
-    color: var(--ion-color-primary);
+    //color: var(--ion-color-primary);
     position: absolute;
-    top: 14px;
-    left: 17px;
-    font-weight: 600;
-    font-size: 1em;
+    top: 9px;
+    left: 11px;
+    font-weight: bold;
+    font-size: 14px;
     min-width: 25px;
     z-index: 10;
+    font-family: sans-serif;
   }
 
   // .prompt_alert .alert-message{
@@ -31,3 +44,89 @@
   //     display: flex;
   //     padding-right: 3px;
   // }
+  .sell-crd {
+    color: #000000;
+    margin-top: 0;
+  }
+  .sell-pro .card-content-md {
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .sell-pro .card-content-md ion-col, .sell-pro .sell-pro-row ion-col {
+    margin: 0;
+    padding: 0;
+  }
+  .sell-pro .pro-qty {
+    display: inline-flex;
+    border: 1px solid gray;
+    padding-top: 5px;
+    margin-top: 4px !important;
+    border-radius: 3px;
+    height: 36px;
+    
+    ion-icon {
+      color: #000000;
+    }
+    ion-input { 
+      //border-bottom: 0.5px solid gainsboro;
+     // height: 25px;
+    }
+    ion-button{
+      //height: 25px;
+      padding: 0;
+      margin: 0;
+    }
+  }
+  .sell-pro .btn-primary {
+    //margin-left: 30%;
+    //margin-top: 10px;
+    float: right;
+  }
+ /*.sell-pro .sell-crd:nth-child(n){
+    margin-left: 0px;
+  }
+  .sell-pro .sell-crd:nth-child(2n+1){
+    margin-right: 0px;
+  } */
+  
+  .sell-pro .sell-pro-row .sell-rating{
+    font-size: 15px;
+    display: inline-block;
+    float: right;
+    color: #FF0000;
+  }
+  
+
+.sell-pro .sell-crd{
+  -webkit-box-shadow: 1px 1px 40px -28px rgba(252,13,13,1);
+    -moz-box-shadow: 1px 1px 40px -28px rgba(252,13,13,1);
+    box-shadow: 1px 1px 40px -28px rgba(252,13,13,1);
+    background-color: white;
+}
+.sell-pro .seller-name {
+  font-weight: bold;
+}
+.sell-pro .dist ion-icon{
+  font-size: 20px;
+  margin-right: 10px;
+}
+.sell-pro .prd-price{
+  float: right;
+} 
+.sell-pro .dist span {
+  position: relative;
+  top: -5px;
+}
+
+// Filter and Sort
+.sort-filter{
+  ion-row{
+    width: 100%;
+
+    ion-col{
+      text-align: center;
+    }
+  }
+}

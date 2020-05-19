@@ -12,11 +12,9 @@ import { NavigationExtras } from '@angular/router';
 export class ProductPage {
     products: any;
     productList: any;
-    categoryList: any;
-    searchQuery: string;
     searchList: any;
     selectedCategory: any;
-    today: any;
+
     constructor(private menu: MenuController,
         private route: ActivatedRoute,
         private router: Router,
@@ -27,7 +25,6 @@ export class ProductPage {
         public alertController: AlertController,
         public nav: NavController, ) {
         this.presentLoading();
-        this.today = Date.now();
         this.route.queryParams.subscribe(params => {
             if (this.router.getCurrentNavigation().extras.state) {
                 this.selectedCategory = this.router.getCurrentNavigation().extras.state.selectedCategory;
@@ -132,6 +129,6 @@ export class ProductPage {
                     console.log(error);
                 }
             );
-
     }
+
 }

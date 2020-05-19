@@ -24,7 +24,6 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
-@import '~animate.css/animate.min.css';
 
 .swiper-container-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet {
     background: #fff;
@@ -52,3 +51,63 @@
    padding: 10px;
   }
 
+//
+
+  $btncolor: #FF0000;
+  $bgcolor:#f9f8f8;
+
+ion-content, .sc-ion-label-md-s h2, .sc-ion-label-md-s p ,.sc-ion-label-md-s, app-address ion-item  {
+    font-size: 14px;
+    font-family: sans-serif;
+    color: black;
+}  
+.btn-primary {
+    border: 1px solid $btncolor;
+    background-color: $btncolor;
+    border-radius: 3px;
+    color: white;
+}
+.product .product-card.sc-ion-card-md-h , .product .list-md, .sell-pro ion-list , .cart-basket,
+.cart-basket .list-md, ion-searchbar{
+    background-color: $bgcolor;
+    --background: $bgcolor;
+}
+.cart-length , .btn-heart {
+    color: $btncolor;
+}
+.cart-basket .crt-inc ion-icon {
+    columns: $btncolor;
+}
+.cart-basket .btn-by-now {
+    --background-activated: $btncolor;
+  --background: $btncolor;
+  background-color: $btncolor;
+  --background-focused: $btncolor;
+  --background-hover: $btncolor;
+}
+.cart-basket {
+    
+     /* On mouse-over, add a grey background color */
+     .container:hover input ~ .checkmark {
+        background-color: #ccc;
+      }
+      
+      /* When the checkbox is checked, add a blue background */
+      .container input:checked ~ .checkmark {
+        background-color: $btncolor;
+      }
+}
+
+.alertstar{
+    button{
+         width: 40px;
+         margin: 0 !important;
+         background-image:url("../src/assets/icon/star.png");
+         background-repeat: no-repeat;
+         background-position: center;
+         color:white !important;
+    }
+    .alert-button-group{padding:0; margin-top: 10px; flex-direction: row; justify-content: space-around;}
+    border-radius: 12px;
+    .alert-wrapper{border-radius: 12px;}
+}

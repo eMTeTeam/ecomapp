@@ -1,0 +1,111 @@
+<ion-menu side="start" menuId="first">
+  <ion-header>
+    <ion-toolbar class="menuHeader">
+      <ion-title class="menuTitle">Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+  </ion-content>
+</ion-menu>
+<ion-router-outlet main></ion-router-outlet>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="text-center">
+      Address List
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="all-prod-list">
+  <ion-button size="medium" fill="clear" class="btn-primary" (click)="addNewAddress()" round><span>ADD NEW
+      ADDRESS</span>
+  </ion-button>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+  <ion-list class="product">
+    <ion-row class="mr-10">
+      <ion-col class="product-col" size="12" *ngFor="let item of searchList">
+        <ion-card class="product-card">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="12">
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-label class="product-details">
+                      <div class="ellipsisText">AddressLine1</div>
+                    </ion-label>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="ellipsisText">:{{item.addressLine1}}</div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-label class="product-details">
+                      <div class="ellipsisText">AddressLine2</div>
+                    </ion-label>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="ellipsisText">:{{item.addressLine2}}</div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-label class="product-details">
+                      <div class="ellipsisText">City</div>
+                    </ion-label>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="ellipsisText">:{{item.city}}</div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-label class="product-details">
+                      <div class="ellipsisText">State</div>
+                    </ion-label>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="ellipsisText">:{{item.state}}</div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-label class="product-details">
+                      <div class="ellipsisText">Country</div>
+                    </ion-label>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="ellipsisText">:{{item.country}}</div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">
+                    <ion-label class="product-details">
+                      <div class="ellipsisText">Pin Code</div>
+                    </ion-label>
+                  </ion-col>
+                  <ion-col size="6">
+                    <div class="ellipsisText">:{{item.zip}}</div>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="6">
+                    <a class="" fill="clear" (click)="editAddress()">Edit
+                    </a>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

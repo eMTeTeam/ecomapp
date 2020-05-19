@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MenuController, ActionSheetController, LoadingController, NavController, ModalController, AlertController } from '@ionic/angular';
 import { AccountService } from 'src/app/service/account.service';
 import { HttpClient } from '@angular/common/http';
+import { OsmLayerComponent } from 'src/app/account/address/osm-layer/osm-layer.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,7 +12,6 @@ import { Router } from '@angular/router';
 })
 export class AddressPage {
 
-  productList: any;
   addressline1: any;
   addressline2: any;
   city: any;
@@ -32,15 +32,14 @@ export class AddressPage {
     private router: Router,
     public nav: NavController) {
     this.presentLoading();
-    var curreDate = new Date();
-    var curdate = curreDate.toLocaleDateString();
   }
+
   async addAddress() {
     var dataToApi = {
       AddressLine1: this.addressline1,
       AddressLine2: this.addressline2,
       City: this.city,
-      State:this.state,
+      State: this.state,
       Country: this.country,
       Zip: eval(this.zipcode),
       Lattitude: eval(this.lattitude),
@@ -52,16 +51,36 @@ export class AddressPage {
         console.log(this.savedAddress);
       }
     )
-    let alert = await this.alertCtrl.create({
-      header: 'Success',
-      message: 'Address Added Successfully',
-      buttons: ['OK']
 
+    const alert = await this.alertCtrl.create({
+      message: 'Address Added Successfully',
+      buttons: [
+        {
+          text: 'OK',
+
+          handler: () => {
+            this.router.navigate(['/addresslist']);
+          }
+        }
+      ]
     });
-    alert.present().then(() => {
-        this.modalCtrl.dismiss();
-        this.router.navigate(['/home']);
+    await alert.present().then(() => {
     });
+  }
+
+  goBack() {
+    this.nav.navigateForward("addresslist");
+  }
+
+  async presentModal() {
+    const modal = await this.modalCtrl.create({
+      component: OsmLayerComponent
+    });
+    await modal.present();
+    let onclosed = await modal.onDidDismiss();
+    this.lattitude = onclosed.data.lat;
+    this.longitude = onclosed.data.lng;
+    console.log(this.lattitude);
   }
 
   goback() {
@@ -74,9 +93,7 @@ export class AddressPage {
       duration: 1000
     });
     await loading.present();
-
     const { role, data } = await loading.onDidDismiss();
-
     console.log('Loading dismissed!');
   }
 
@@ -128,4 +145,5 @@ export class AddressPage {
   openAccountPage() {
     this.nav.navigateForward("account");
   }
+
 }

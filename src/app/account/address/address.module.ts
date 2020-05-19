@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
+import { OsmLayerComponent } from './osm-layer/osm-layer.component';
+import { GooglePlus } from "@ionic-native/google-plus/ngx";
 import { AddressPage } from './address.page';
 
 const routes: Routes = [
@@ -21,6 +21,10 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AddressPage]
+  entryComponents: [
+    OsmLayerComponent
+  ],
+  providers: [GooglePlus],
+  declarations: [AddressPage, OsmLayerComponent]
 })
-export class AddressPageModule {}
+export class AddressPageModule { }

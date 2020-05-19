@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-const baseUrl = 'http://mitaisapi.azurewebsites.net/api/ProductCategories/v1';
+//const baseUrl = 'http://mitaisapi.azurewebsites.net/api/ProductCategories/v1';
+const baseUrl = 'http://localhost:5000/api/ProductCategories/v1';
 
 @Injectable({
   providedIn: 'root'

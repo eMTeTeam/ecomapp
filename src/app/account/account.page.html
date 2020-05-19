@@ -11,29 +11,33 @@
             </ion-button>
         </ion-buttons>
         <ion-title class="text-center">
-           Account
+            Account
         </ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
     <ion-grid>
         <ion-row style="padding:10px;">
-            <ion-button style="width:100%;" size="large" color="light"><span>MY ORDERS</span></ion-button>
+            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large" (click)="myOrders()"><span>MY
+                    ORDERS</span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
-            <ion-button style="width:100%;" size="large" color="light"><span>MY WALLET AND ORDERS</span></ion-button>
+            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large"><span>MY WALLET AND
+                    ORDERS</span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
-            <ion-button style="width:100%;" size="large" color="light" (click)="addAddress()"><span>MY ADDRESSES</span></ion-button>
+            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large" (click)="addAddress()">
+                <span>MY ADDRESSES</span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
-            <ion-button style="width:100%;" size="large" color="light" (click)="sellMyProductList()"><span>SELL MY PRODUCT</span></ion-button>
+            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large" (click)="sellMyProductList()">
+                <span>SELL MY PRODUCT</span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
-            <ion-button style="width:100%;" size="large" color="light" (click)="presentAlertConfirm()"><span>SIGN OUT</span></ion-button>
+            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large"
+                (click)="presentAlertConfirm()"><span>SIGN OUT</span></ion-button>
         </ion-row>
     </ion-grid>
-
 
 </ion-content>
 <ion-tab-bar slot="bottom">
@@ -42,12 +46,7 @@
         <ion-label>List</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="cart" (click)="openCartPage()">
-        <ion-icon name="cart"></ion-icon>
-        <ion-label>Cart</ion-label>
-    </ion-tab-button>
-
-    <ion-tab-button tab="product" (click)="openAccountPage()"  style="color:#e51d23;">
+    <ion-tab-button tab="product" (click)="openAccountPage()" style="color:#e51d23;">
         <ion-icon name="person"></ion-icon>
         <ion-label>Account</ion-label>
     </ion-tab-button>

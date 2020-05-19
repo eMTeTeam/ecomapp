@@ -4,7 +4,6 @@ import { CategoryService } from 'src/app/service/category.service';
 import { ProductService } from 'src/app/service/product.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { IonicSelectableComponent } from 'ionic-selectable';
 
 @Component({
     selector: 'app-sellmyproduct',
@@ -15,14 +14,14 @@ export class SellmyproductPage {
     productList: any;
     categoryList: any;
     currentDate: any;
+    expiryDate: any;
     searchList: any;
     products: any;
     selectedCategory: any;
     selectedProduct: any;
-    today: any;
     savedData: any = "";
-    price: string;
-    quantity:any;
+    price: any;
+    quantity: any;
     unitName: string;
 
     constructor(private menu: MenuController,
@@ -36,9 +35,6 @@ export class SellmyproductPage {
         private router: Router,
         public nav: NavController) {
         this.presentLoading();
-        var curreDate = new Date();
-        var curdate = curreDate.toLocaleDateString();
-        this.currentDate = curdate;
         this.categoryList = this.getCategories();
         this.searchList = this.productList;
     }
@@ -55,7 +51,6 @@ export class SellmyproductPage {
                     console.log(error);
                 }
             );
-
     }
 
     onSelectCategory() {
@@ -87,8 +82,9 @@ export class SellmyproductPage {
             UnitId: "ad89ae0a-44c6-4c3a-b116-2a8f1f1144f0",
             Quantity: eval(this.quantity),
             Price: eval(this.price),
-            ImageUrl: "image"
-
+            ImageUrl: "image",
+            AvailableOn: this.currentDate,
+            ExpiredOn: this.expiryDate
         };
         this.productService.saveData(dataToApi).subscribe(
             (savedreturnData) => {
@@ -96,20 +92,24 @@ export class SellmyproductPage {
                 console.log(this.savedData);
             }
         )
-        let alert = await this.alertCtrl.create({
-            header: 'Success',
+        const alert = await this.alertCtrl.create({
             message: 'Product Added Successfully',
-            buttons: ['OK']
+            buttons: [
+                {
+                    text: 'OK',
 
+                    handler: () => {
+                        this.router.navigate(['/allproductslist']);
+                    }
+                }
+            ]
         });
-        // alert.present().then(() => {
-        //     this.modalCtrl.dismiss();
-        //     this.router.navigate(['/home']);
-        // });
+        await alert.present().then(() => {
+        });
     }
 
     goback() {
-        this.nav.navigateBack("account");
+        this.nav.navigateBack("allproductslist");
     }
 
     async presentLoading() {
@@ -186,4 +186,5 @@ export class SellmyproductPage {
                 }
             );
     }
+
 }

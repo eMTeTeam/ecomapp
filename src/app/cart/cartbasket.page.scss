@@ -35,8 +35,7 @@
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        user-select: none;
-      }
+        user-select: none;      }
       
       /* Hide the browser's default checkbox */
       .container input {
@@ -56,16 +55,6 @@
         width: 18px;
         background-color: #eee;
         border-radius: 10px;
-      }
-      
-      /* On mouse-over, add a grey background color */
-      .container:hover input ~ .checkmark {
-        background-color: #ccc;
-      }
-      
-      /* When the checkbox is checked, add a blue background */
-      .container input:checked ~ .checkmark {
-        background-color: #2196F3;
       }
       
       /* Create the checkmark/indicator (hidden when not checked) */
@@ -92,6 +81,109 @@
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
       }
+
+.cart-basket ion-item .item-inner {
+   border: none;
+}
+.cart-basket .cb-card { 
+  width: 100%;
+}
+.cart-basket .icon-delete {
+  position: relative;
+  left: 55%;
+  top: -5px;
+} 
+.cart-basket .prd-name, .cart-basket .seller-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+.sc-ion-card-md-h {
+  box-shadow: 0 3px 1px -2px rgba(0,0,0,.03), 0 2px 2px 0 rgba(0,0,0,.0), 0 1px 5px 0 rgba(0,0,0,0.06);
+  -webkit-box-shadow : 0 3px 1px -2px rgba(0,0,0,.03), 0 2px 2px 0 rgba(0,0,0,.0), 0 1px 5px 0 rgba(0,0,0,0.06);
+}
+.cart-basket .card-content-md {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.cart-basket .card-content-md ion-col, .cart-basket ion-list, .cart-basket ion-card {
+  margin: 0;
+  padding: 0;
+}
+.cart-basket ion-button {
+  margin: 0;
+}
+.cart-basket .button-native {
+  padding: 0;
+}
+.cart-basket .inc-dec {
+  display: inline-flex;
+  border: 1px solid gray;
+  border-radius: 3px;
+  height: 36px;
+  float: right;
+  margin-right: 23px;
+  ion-icon {
+    font-size: 20px;
+  }
+}
+.cart-basket .cart-qty {
+  padding-top: 6px;
+}
+.btn-by-now { 
+  width: 100%;
+}
+.cart-basket ion-card {
+  background-color: white;
+}
+.ml-5 { 
+  margin-left: 5px;
+}
+.cart-basket .summary-row ion-col {
+  padding: 10px;
+}
+.cb-card {
+  -webkit-box-shadow: 1px 1px 40px -28px rgba(252,13,13,1);
+    -moz-box-shadow: 1px 1px 40px -28px rgba(252,13,13,1);
+    box-shadow: 1px 1px 40px -28px rgba(252,13,13,1);
+    background-color: white;
+    font-size: 14px;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: black;
+}
+.cb-card ion-icon {
+  color: black;
+}
+.cb-card .container {
+  margin-top: 100%;
+}
+.cb-card .price {
+  //margin-top: -10px;
+}
+.summary-row .ion-text-start b {
+  float: right;
+  margin-right: 14px;
+}
+.ion-padding {
+  padding: 5px;
+}
+.btn-primary {
+  float: right;
+  margin-right: 15px !important;
+}
+.brd-btm {
+  border-bottom: 1px solid #e8e6e6;
+  margin-bottom: 10px;
+}
+.brd-top {
+  border-top: 1px solid #e8e6e6;
+  .btn-primary {
+    margin-top: 10px;
+  }
+}
+
 
       
       

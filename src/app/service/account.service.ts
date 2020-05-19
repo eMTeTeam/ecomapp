@@ -19,4 +19,9 @@ export class AccountService {
         )
       });
   }
+
+  getAddressList() {
+   var baseUrl="http://localhost:5000/api/Address/v1"
+    return this.http.get(baseUrl);
+  }
 }

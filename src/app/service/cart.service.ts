@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface Product {
   ProductId: number;
@@ -15,10 +15,9 @@ export interface Product {
 export class CartService {
 
   cart: any;
-  productId: any; 
-  quantity: any; 
+  productId: any;
+  quantity: any;
   addressId: string;
-  //private cart = [];
   private cartItemCount = new BehaviorSubject(0);
   constructor(public http: HttpClient) { }
 
@@ -26,6 +25,7 @@ export class CartService {
     return this.cart;
   }
   addProductToBasket(basketToApi) {
+    //var basketURL = "http://mitaisapi.azurewebsites.net/api/Baskets/v1";
     var basketURL = "http://localhost:5000/api/Baskets/v1";
     return this.http.post(basketURL, basketToApi,
       {
@@ -35,85 +35,82 @@ export class CartService {
           }
         )
       });
-    //this.cartItemCount.next(this.cartItemCount.value + 1);
-    //this.cart.push(basketToApi);
   }
 
 
 
   getCartItemCount() {
+    //var basketCount = "http://mitaisapi.azurewebsites.net/api/Baskets/v1/itemCount";
     var basketCount = "http://localhost:5000/api/Baskets/v1/itemCount";
     return this.http.get(basketCount);
   }
 
   getBasketItems() {
+    //var basketItems = "http://mitaisapi.azurewebsites.net/api/Baskets/v1";
     var basketItems = "http://localhost:5000/api/Baskets/v1";
     return this.http.get(basketItems,
       {
         headers: new HttpHeaders(
           {
             "content-Type": "application/json",
-            "languageCode":"en"
+            "languageCode": "en"
           }
         )
       });
-    }
-  // getCartItemCount() {
-  //   return this.cartItemCount;
-  // }
-
-  addProduct(product) {
-    let added = false;
-    for (let p of this.cart) {
-      if (p.id === product.id) {
-        p.rating += 1;
-        added = true;
-        break;
-      }
-    }
-    if (!added) {
-      product.rating += 1;
-      this.cart.push(product);
-    }
-    this.cartItemCount.next(this.cartItemCount.value + 1);
   }
 
-  decreaseProduct(product) {
-    for (let [index, p] of this.cart.entries()) {
-      if (p.id === product.id) {
-        p.rating -= 1;
-        if (p.rating == 0) {
-          this.cart.splice(index, 1);
-        }
-      }
-    }
-    this.cartItemCount.next(this.cartItemCount.value - 1);
+  addProduct(dataToApi) {
+    var saveURL = "http://localhost:5000/api/Baskets/v1";
+    return this.http.put(saveURL, dataToApi,
+      {
+        headers: new HttpHeaders(
+          {
+            "content-Type": "application/json"
+          }
+        )
+      });
   }
 
-  removeProduct(product) {
-    for (let [index, p] of this.cart.entries()) {
-      if (p.id === product.id) {
-        this.cartItemCount.next(this.cartItemCount.value - p.rating);
-        this.cart.splice(index, 1);
-      }
-    }
+  decreaseProduct(dataToApi) {
+    var saveURL = "http://localhost:5000/api/Baskets/v1";
+    return this.http.put(saveURL, dataToApi,
+      {
+        headers: new HttpHeaders(
+          {
+            "content-Type": "application/json",
+          }
+        )
+      });
   }
 
-  buynowData(productId,quantity) {
-    //http://localhost:5000/api/Inventories/v1/buyNow?productId=0e69b5c1-efad-4e54-ae31-3a501ffdc97d&quantity=2&addressId=7d98f860-8af5-11ea-b8f7-020361373239
-    
+  removeProduct(basketId) {
+    this.http.delete("http://localhost:5000/api/Baskets/v1/?basketItemId=" + basketId).subscribe(data => { });
+  }
+
+  /*** Dont delete this Methos will be reuse */
+  buynowData(productId, quantity) {
+    // var saveURL = "http://mitaisapi.azurewebsites.net/api/Inventories/v1/buyNow?productId=";
     var saveURL = "http://localhost:5000/api/Inventories/v1/buyNow?productId=";
     return this.http.post(saveURL + productId + '&quantity=' + quantity + "&addressId=08d7ef43-e9e5-43d8-8443-c4b5a74f7195",
       {
         httpparams: new HttpParams(
           {
-            fromObject:{
-            "productId": productId,
-            "quantity":quantity,
-            "addressId":"08d7ef43-e9e5-43d8-8443-c4b5a74f7195"
+            fromObject: {
+              "productId": productId,
+              "quantity": quantity,
+              "addressId": "08d7ef43-e9e5-43d8-8443-c4b5a74f7195"
             }
           }
         )
       });
+  }
+
+  checkoutData(baseketitems) {
+    const params = new HttpParams()
+      .set('addressId', "08d7ef43-e9e5-43d8-8443-c4b5a74f7195");
+
+    // var saveURL = "http://mitaisapi.azurewebsites.net/api/Inventories/v1/buyNow?productId=";
+    var saveURL = "http://localhost:5000/api/Inventories/v1/checkouts";
+    return this.http.post(saveURL, baseketitems, { params });
   }
 }

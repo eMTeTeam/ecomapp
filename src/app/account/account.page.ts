@@ -7,50 +7,18 @@ import { MenuController, ActionSheetController, LoadingController, NavController
     styleUrls: ['account.page.scss'],
 })
 export class AccountPage {
-    productList: any;
-    categoryList: any;
-    private currentNumber = 1;
 
-    private increment() {
-        this.currentNumber++;
-    }
-
-    private decrement() {
-        this.currentNumber--;
-        if (this.currentNumber < 1) {
-            this.currentNumber = 1
-        }
-    }
     constructor(private menu: MenuController,
         public loadingController: LoadingController,
         public actionSheetController: ActionSheetController,
         public nav: NavController, public alertController: AlertController) {
         this.presentLoading();
-        this.productList = [
-            { name: "Tomoto", price: 300, imageurl: "../../assets/Vegetables.jpg" },
-            { name: "Potato", price: 500, imageurl: "../../assets/Fruits.jpg" },
-            { name: "Chicken", price: 600, imageurl: "../../assets/Flowers.jpg" },
-            { name: "Cosmetics", price: 300, imageurl: "../../assets/Cosmetics.jpg" },
-            { name: "Cloths", price: 100, imageurl: "../../assets/Cloths.jpg" },
-            { name: "Kitchen Sets", price: 100, imageurl: "../../assets/Kitchen.jpg" },
-            { name: "Foods", price: 100, imageurl: "../../assets/Foods.jpg" },
-            { name: "Meats", price: 100, imageurl: "../../assets/Meats.jpg" },
-        ];
-        this.categoryList = [
-            { name: "Vegetables", price: 300, imageurl: "../../assets/Vegetables.jpg" },
-            { name: "Fruits", price: 500, imageurl: "../../assets/Fruits.jpg" },
-            { name: "Flowers", price: 600, imageurl: "../../assets/Flowers.jpg" },
-            { name: "Cosmetics", price: 300, imageurl: "../../assets/Cosmetics.jpg" },
-            { name: "Cloths", price: 100, imageurl: "../../assets/Cloths.jpg" },
-            { name: "Kitchen Sets", price: 100, imageurl: "../../assets/Kitchen.jpg" },
-            { name: "Foods", price: 100, imageurl: "../../assets/Foods.jpg" },
-            { name: "Meats", price: 100, imageurl: "../../assets/Meats.jpg" },
-        ];
     }
 
     goback() {
         this.nav.navigateBack("home");
     }
+
     async presentLoading() {
         const loading = await this.loadingController.create({
             message: 'Loading..',
@@ -62,6 +30,7 @@ export class AccountPage {
 
         console.log('Loading dismissed!');
     }
+
     async presentActionSheet() {
         const actionSheet = await this.actionSheetController.create({
             mode: 'ios',
@@ -88,6 +57,7 @@ export class AccountPage {
         });
         await actionSheet.present();
     }
+
     slideOpts = {
         initialSlide: 0,
         speed: 400,
@@ -96,6 +66,7 @@ export class AccountPage {
     signOut() {
         this.nav.navigateForward("login");
     }
+
     async presentAlertConfirm() {
         const alert = await this.alertController.create({
             header: 'Confirm!',
@@ -122,18 +93,28 @@ export class AccountPage {
     }
 
     sellMyProductList() {
-        this.nav.navigateForward("sellmyproductlist");
+        this.nav.navigateForward("allproductslist");
     }
+
     addAddress() {
-        this.nav.navigateForward("address");
+        this.nav.navigateForward("addresslist");
     }
+
+    myOrders() {
+        this.nav.navigateForward("myorders");
+    }
+
     openListPage() {
         this.nav.navigateForward("home");
     }
+
     openCartPage() {
         this.nav.navigateForward("cart");
     }
+
     openAccountPage() {
         this.nav.navigateForward("account");
     }
+
 }
+

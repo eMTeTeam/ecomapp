@@ -2,10 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { MenuController, ActionSheetController, LoadingController, NavController, AlertController, ModalController } from '@ionic/angular';
 import { ProductdetailService } from 'src/app/service/productdetail.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationExtras } from '@angular/router';
 import { CartService } from 'src/app/service/cart.service';
-import { CartModalPage } from 'src/app/cart/cart-modal.page';
-import { BehaviorSubject } from 'rxjs';
 import { ProductService } from 'src/app/service/product.service';
 
 @Component({
@@ -16,22 +13,18 @@ import { ProductService } from 'src/app/service/product.service';
 export class SellerproductlistPage {
   cart: any;
   products: any;
-  //cartItemCount: BehaviorSubject<number>;
   cartItemCount: any;
   productList: any;
-  categoryList: any;
-  searchQuery: string;
   searchList: any;
   selectedProduct: any;
-  quantity: any;
+  quantity: number = 0;
   sortbyPrice: any;
-  today: any;
-  hideMe: boolean;
   minPrice: any;
   maxPrice: any;
   basketData: any = "";
   price: any;
   userId: any;
+
   @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
 
   constructor(private menu: MenuController,
@@ -46,17 +39,23 @@ export class SellerproductlistPage {
     private alertCtrl: AlertController,
     public nav: NavController, ) {
     this.presentLoading();
-    this.today = Date.now();
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
         this.getProductsdetail(this.selectedProduct);
-     //   this.cart = this.cartService.getCart();
-     //   this.cartItemCount = this.cartService.getCartItemCount();
+        this.cartItemCount = this.cartService.getCartItemCount();
       }
     });
     this.searchList = this.productList;
     this.cartItemCount = this.cartService.getCartItemCount();
+  }
+
+  decQuantity() {
+    this.quantity -= 1;
+  }
+
+  incQuantity() {
+    this.quantity += 1;
   }
 
   filterValue(minPrice, maxPrice) {
@@ -111,18 +110,16 @@ export class SellerproductlistPage {
     }
     return this.searchList = this.productList;
   }
+
   onSelectQuantity() {
     this.quantity = this.quantity;
     console.log(this.quantity);
-}
+  }
+
   async addToCart(item: any) {
-    //  this.cartService.addProduct(item);
-    
-    var pID : any = this.route.snapshot.paramMap.get(item.id);
     var basketToApi = {
       ProductId: item.id,
-      Quantity: eval(this.quantity)
-
+      Quantity: this.quantity
     };
     this.cartService.addProductToBasket(basketToApi).subscribe(
       (savedreturnbasketData) => {
@@ -136,19 +133,9 @@ export class SellerproductlistPage {
 
   async openCart() {
     this.animateCSS('bounceOutLeft', true);
-
-    // let modal = await this.modalCtrl.create({
-    //   component: CartModalPage,
-    //   cssClass: 'cart-modal'
-    // });
     this.nav.navigateForward("cartbasket");
     this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
     this.animateCSS('bounceInLeft');
-    // modal.onWillDismiss().then(() => {
-    //   this.fab.nativeElement.classList.remove('animated', 'bounceOutLeft')
-    //   this.animateCSS('bounceInLeft');
-    // });
-    // modal.present();
   }
 
   animateCSS(animationName, keepAnimated = false) {
@@ -168,8 +155,9 @@ export class SellerproductlistPage {
     this.menu.enable(true, 'second');
     this.menu.open('second');
   }
-  goBacktoHome() {
-    this.nav.navigateBack("home");
+
+  goBack() {
+    this.nav.navigateBack("product");
   }
 
   async presentLoading() {

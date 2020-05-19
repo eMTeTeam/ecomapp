@@ -1,9 +1,10 @@
 ﻿<ion-content>
     <ion-grid>
-        <ion-row justify-content-center>
+        <ion-row>
             <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
                 <div text-center>
-                    <h4 style="color:#f9b612;font-weight:700;">SIGN IN</h4>
+                    <h4 style="font-weight:700;">Welcome to Mitais!</h4>
+                    <h4 style="font-weight:700;">SIGN IN</h4>
                 </div>
                 <div padding>
                     <ion-item>
@@ -16,10 +17,14 @@
                     </ion-item>
                 </div>
                 <div padding>
-                    <ion-button style="--background:#f9b612!important" size="large" (click)="googleLogin('google')"
-                        routerDirection="forward" expand="block">SIGN IN</ion-button>
-                    <ion-button style="--background:#f9b612!important" expand="full" shape="round"
-                        (click)="googleLogin()">Sign in with Goolge</ion-button>
+                    <ion-button fill="clear" class="btn-primary" (click)="googleLogin('google')"
+                        routerDirection="forward">SIGN IN</ion-button>
+                    <ion-row>
+                        <p class="via-goo">Or</p>
+                    </ion-row>
+                    <ion-button fill="clear" class="btn-primary" (click)="googleLogin()">
+                        <ion-icon name="logo-google"></ion-icon> &nbsp; &nbsp; Sign in with Goolge
+                    </ion-button>
                 </div>
             </ion-col>
         </ion-row>

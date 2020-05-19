@@ -1,56 +1,66 @@
 <ion-header>
-  <ion-toolbar>
-      <!-- <ion-buttons slot="start">
-          <ion-button (click)="goback()">
-              <ion-icon name="arrow-round-back"></ion-icon>
-          </ion-button>
-      </ion-buttons>
-      <ion-buttons slot="end">
-          <ion-button (click)="presentActionSheet()">
-              <ion-icon name="cart"></ion-icon>
-          </ion-button>
-      </ion-buttons> -->
-      <ion-title class="text-center">
-          Add Address
-      </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title class="text-center">
+            Add Address
+        </ion-title>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon name="arrow-round-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div style="padding:20px;">
-    <ion-item class="productItem">
-      <ion-label position="stacked" class="productLabel">Address Line1</ion-label>
-      <ion-input [(ngModel)]="addressline1"></ion-input>
-  </ion-item>
-      <ion-item class="productItem">
-          <ion-label position="stacked" class="productLabel">Address Line2</ion-label>
-          <ion-input [(ngModel)]="addressline2"></ion-input>
-      </ion-item>
-      <ion-item class="productItem">
-        <ion-label position="stacked" class="productLabel">City</ion-label>
-        <ion-input [(ngModel)]="city"></ion-input>
-    </ion-item>
+    <div style="padding:20px;">
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Address Type</ion-label>
+            <ion-input [(ngModel)]="addresstype" placeholder="e.g Home, Office"></ion-input>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Address Line1</ion-label>
+            <ion-input [(ngModel)]="addressline1" placeholder="e.g Door No, Flat No "></ion-input>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Address Line2</ion-label>
+            <ion-input [(ngModel)]="addressline2" placeholder="e.g Street"></ion-input>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">City</ion-label>
+            <ion-input [(ngModel)]="city" placeholder="e.g Chennai"></ion-input>
+        </ion-item>
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">State</ion-label>
-            <ion-input [(ngModel)]="state"></ion-input>
+            <ion-input [(ngModel)]="state" placeholder="e.g Tamil Nadu"></ion-input>
         </ion-item>
         <ion-item class="productItem">
-          <ion-label position="stacked" class="productLabel">Country</ion-label>
-          <ion-input [(ngModel)]="country"></ion-input>
-      </ion-item>
-          <ion-item class="productItem">
-              <ion-label position="stacked" class="productLabel">Zip code</ion-label>
-              <ion-input [(ngModel)]="zipcode"></ion-input>
-          </ion-item>
-          <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Lattitude</ion-label>
-            <ion-input [(ngModel)]="lattitude"></ion-input>
+            <ion-label position="stacked" class="productLabel">Country</ion-label>
+            <ion-input [(ngModel)]="country" placeholder="e.g India"></ion-input>
         </ion-item>
-            <ion-item class="productItem">
-                <ion-label position="stacked" class="productLabel">Longitude</ion-label>
-                <ion-input [(ngModel)]="longitude"></ion-input>
-            </ion-item>
-      <ion-row style="padding:10px;">
-          <ion-button style="width:100%;--background:green;" size="large" (click)="addAddress()">SAVE</ion-button>
-      </ion-row>
-  </div>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Zip code</ion-label>
+            <ion-input [(ngModel)]="zipcode" placeholder="e.g 123456"></ion-input>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Lattitude</ion-label>
+            <ion-input [(ngModel)]="lattitude" disabled="true"></ion-input>
+        </ion-item>
+        <ion-item class="productItem">
+            <ion-label position="stacked" class="productLabel">Longitude</ion-label>
+            <ion-input [(ngModel)]="longitude" disabled="true"></ion-input>
+
+        </ion-item>
+        <div class="pin-location">
+            <button type="button" fill="clear" class="btn-primary pin-location" (click)="presentModal()">
+                Pin Location
+            </button>
+        </div>
+        <ion-row>
+            <div class="add-default">
+                <ion-checkbox color="danger"></ion-checkbox> &nbsp; &nbsp; <span>Set as Default</span>
+            </div>
+        </ion-row>
+        <ion-row>
+            <ion-button fill="clear" class="btn-primary" size="large" (click)="addAddress()">SAVE</ion-button>
+        </ion-row>
+    </div>
 </ion-content>
