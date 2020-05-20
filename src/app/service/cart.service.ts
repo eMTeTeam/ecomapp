@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { CommonapiService } from '../../app/service/commonapi.service';
 
 export interface Product {
   ProductId: number;
@@ -18,16 +19,18 @@ export class CartService {
   productId: any;
   quantity: any;
   addressId: string;
-  private cartItemCount = new BehaviorSubject(0);
-  constructor(public http: HttpClient) { }
+  controllerBaskets: string = "Baskets";
+  controllerInventories: string = "Inventories";
+  constructor(public http: HttpClient,
+    private commonapiservice: CommonapiService) { }
 
   getCart() {
     return this.cart;
   }
+
   addProductToBasket(basketToApi) {
-    //var basketURL = "http://mitaisapi.azurewebsites.net/api/Baskets/v1";
-    var basketURL = "http://localhost:5000/api/Baskets/v1";
-    return this.http.post(basketURL, basketToApi,
+    const url = this.commonapiservice.getApiURL(this.controllerBaskets, '');
+    return this.http.post(url, basketToApi,
       {
         headers: new HttpHeaders(
           {
@@ -37,18 +40,14 @@ export class CartService {
       });
   }
 
-
-
   getCartItemCount() {
-    //var basketCount = "http://mitaisapi.azurewebsites.net/api/Baskets/v1/itemCount";
-    var basketCount = "http://localhost:5000/api/Baskets/v1/itemCount";
-    return this.http.get(basketCount);
+    const url = this.commonapiservice.getApiURL(this.controllerBaskets, 'itemCount');
+    return this.http.get(url);
   }
 
   getBasketItems() {
-    //var basketItems = "http://mitaisapi.azurewebsites.net/api/Baskets/v1";
-    var basketItems = "http://localhost:5000/api/Baskets/v1";
-    return this.http.get(basketItems,
+    const url = this.commonapiservice.getApiURL(this.controllerBaskets, '');
+    return this.http.get(url,
       {
         headers: new HttpHeaders(
           {
@@ -60,8 +59,8 @@ export class CartService {
   }
 
   addProduct(dataToApi) {
-    var saveURL = "http://localhost:5000/api/Baskets/v1";
-    return this.http.put(saveURL, dataToApi,
+    const url = this.commonapiservice.getApiURL(this.controllerBaskets, '');
+    return this.http.put(url, dataToApi,
       {
         headers: new HttpHeaders(
           {
@@ -72,8 +71,8 @@ export class CartService {
   }
 
   decreaseProduct(dataToApi) {
-    var saveURL = "http://localhost:5000/api/Baskets/v1";
-    return this.http.put(saveURL, dataToApi,
+    const url = this.commonapiservice.getApiURL(this.controllerBaskets, '');
+    return this.http.put(url, dataToApi,
       {
         headers: new HttpHeaders(
           {
@@ -84,14 +83,14 @@ export class CartService {
   }
 
   removeProduct(basketId) {
-    this.http.delete("http://localhost:5000/api/Baskets/v1/?basketItemId=" + basketId).subscribe(data => { });
+    const url = this.commonapiservice.getApiURL(this.controllerBaskets, '?basketItemId=');
+    this.http.delete(url + basketId).subscribe(data => { });
   }
 
   /*** Dont delete this Methos will be reuse */
   buynowData(productId, quantity) {
-    // var saveURL = "http://mitaisapi.azurewebsites.net/api/Inventories/v1/buyNow?productId=";
-    var saveURL = "http://localhost:5000/api/Inventories/v1/buyNow?productId=";
-    return this.http.post(saveURL + productId + '&quantity=' + quantity + "&addressId=08d7ef43-e9e5-43d8-8443-c4b5a74f7195",
+    const url = this.commonapiservice.getApiURL(this.controllerInventories, 'buyNow?productId=');
+    return this.http.post(url + productId + '&quantity=' + quantity + "&addressId=08d7ef43-e9e5-43d8-8443-c4b5a74f7195",
       {
         httpparams: new HttpParams(
           {
@@ -106,11 +105,9 @@ export class CartService {
   }
 
   checkoutData(baseketitems) {
+    const url = this.commonapiservice.getApiURL(this.controllerInventories, 'checkouts');
     const params = new HttpParams()
       .set('addressId', "08d7ef43-e9e5-43d8-8443-c4b5a74f7195");
-
-    // var saveURL = "http://mitaisapi.azurewebsites.net/api/Inventories/v1/buyNow?productId=";
-    var saveURL = "http://localhost:5000/api/Inventories/v1/checkouts";
-    return this.http.post(saveURL, baseketitems, { params });
+    return this.http.post(url, baseketitems, { params });
   }
 }

@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CommonapiService } from '../../app/service/commonapi.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-
-  constructor(public http: HttpClient) { }
+  controller: string = "Address";
+  constructor(public http: HttpClient,
+    private commonapiservice: CommonapiService) { }
 
   saveAddress(dataToApi) {
-    var saveURL = "http://localhost:5000/api/Address/v1";
-    return this.http.post(saveURL, dataToApi,
+    const url = this.commonapiservice.getApiURL(this.controller, '');
+    return this.http.post(url, dataToApi,
       {
         headers: new HttpHeaders(
           {
@@ -21,7 +23,7 @@ export class AccountService {
   }
 
   getAddressList() {
-   var baseUrl="http://localhost:5000/api/Address/v1"
-    return this.http.get(baseUrl);
+    const url = this.commonapiservice.getApiURL(this.controller, '');
+    return this.http.get(url);
   }
 }

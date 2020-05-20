@@ -2,6 +2,7 @@
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { ToastController, NavController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import {CommonapiService} from '../../app/service/commonapi.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class LoginPage implements OnInit {
   public error: any;
   returnUrl: string;
   constructor(private googlePlus: GooglePlus,
+    private commonapiservice: CommonapiService,
     private route: ActivatedRoute,
     private router: Router,
     private toastController: ToastController,
@@ -30,6 +32,7 @@ export class LoginPage implements OnInit {
       .then(res => {
         console.log(res);
         this.response = res;
+        this.commonapiservice.setToken(this.response.idToken);
         this.showWelcomeToast()
           .then(response => this.navCtrl.navigateRoot(['home']));
       })

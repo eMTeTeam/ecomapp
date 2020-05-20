@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-const baseUrl = 'http://localhost:5000/api/Products/v1/byCategory';
-//const baseUrl = 'http://mitaisapi.azurewebsites.net/api/Products/v1/byCategory?categoryId=';
+import { CommonapiService } from '../../app/service/commonapi.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-
-  constructor(public http: HttpClient) { }
+  controller: string = "Products";
+  constructor(public http: HttpClient,
+    private commonapiservice: CommonapiService) { }
 
   getAllProduct(categoryId): any {
     var dataToApi = {
@@ -26,15 +25,15 @@ export class ProductService {
         }
       }
     };
+    const url = this.commonapiservice.getApiURL(this.controller, 'byCategory');
     const params = new HttpParams()
       .set('categoryId', categoryId);
-    return this.http.put(baseUrl, dataToApi, { params });
+    return this.http.put(url, dataToApi, { params });
   }
 
   saveData(dataToApi) {
-    var saveURL = "http://localhost:5000/api/Products/v1";
-    //var saveURL = "http://mitaisapi.azurewebsites.net/api/ProductCategories/v1";
-    return this.http.post(saveURL, dataToApi,
+    const url = this.commonapiservice.getApiURL(this.controller, '');
+    return this.http.post(url, dataToApi,
       {
         headers: new HttpHeaders(
           {

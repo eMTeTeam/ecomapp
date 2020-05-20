@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-//const baseUrl = 'http://mitaisapi.azurewebsites.net/api/Products/v1/search?keyWord=';
-const baseUrl = 'http://localhost:5000/api/Products/v1/search';
+import { CommonapiService } from '../../app/service/commonapi.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductdetailService {
-
-  constructor(private http: HttpClient) { }
+  controller: string = "Products";
+  constructor(private http: HttpClient,
+    private commonapiservice: CommonapiService) { }
 
   getProductdetail(keyWord): any {
     var dataToApi = {
@@ -20,9 +19,10 @@ export class ProductdetailService {
       distanceWithInKm: 100000,
       sortCategory: 0
     };
+    const url = this.commonapiservice.getApiURL(this.controller, 'search');
     const params = new HttpParams()
       .set('keyWord', keyWord);
-    return this.http.put(baseUrl, dataToApi, { params });
+    return this.http.put(url, dataToApi, { params });
   }
 
 }

@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-//const baseUrl = 'http://mitaisapi.azurewebsites.net/api/Inventories/v1/selling';
-const baseUrl = 'http://localhost:5000/api/Inventories/v1/selling';
+import { CommonapiService } from '../../app/service/commonapi.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SellmyproductlistService {
-
-  constructor(private http: HttpClient) { }
+  controllerInventories: string = "Inventories";
+  controllerProducts: string = "Products";
+  constructor(private http: HttpClient,
+    private commonapiservice: CommonapiService) { }
 
   getSellmyproductlist() {
-    return this.http.get(baseUrl);
+    const url = this.commonapiservice.getApiURL(this.controllerInventories, '');
+    return this.http.get(url);
   }
 
   getAllmyproductlist(): any {
@@ -24,28 +25,26 @@ export class SellmyproductlistService {
       distanceWithInKm: 100000,
       sortCategory: 0
     };
+    const url = this.commonapiservice.getApiURL(this.controllerProducts, 'getProducts');
     const headers = new HttpHeaders()
       .set('languageCode', "en");
-    var saveURL = "http://localhost:5000/api/Products/v1/getProducts";
-    return this.http.put(saveURL, dataToApi, { headers })
+    return this.http.put(url, dataToApi, { headers })
   }
 
   updatemyProduct(updateData): any {
+    const url = this.commonapiservice.getApiURL(this.controllerProducts, '');
     const headers = new HttpHeaders()
       .set('languageCode', "en");
-    var saveURL = "http://localhost:5000/api/Products/v1";
-    return this.http.put(saveURL, updateData, { headers })
+    return this.http.put(url, updateData, { headers })
   }
 
   approveItem(approveApi) {
-    //var approveURL ="http://mitaisapi.azurewebsites.net/api/Inventories/v1/approve";
-    var approveURL = "http://localhost:5000/api/Inventories/v1/approve";
-    return this.http.put(approveURL, approveApi);
+    const url = this.commonapiservice.getApiURL(this.controllerInventories, 'approve');
+    return this.http.put(url, approveApi);
   }
 
   rejectItem(rejectApi) {
-    // var rejectURL ="http://mitaisapi.azurewebsites.net/api/Inventories/v1/reject";
-    var rejectURL = "http://localhost:5000/api/Inventories/v1/reject";
-    return this.http.put(rejectURL, rejectApi);
+    const url = this.commonapiservice.getApiURL(this.controllerInventories, 'reject');
+    return this.http.put(url, rejectApi);
   }
 }
