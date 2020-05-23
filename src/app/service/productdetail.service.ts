@@ -14,8 +14,8 @@ export class ProductdetailService {
     var dataToApi = {
       pageIndex: 0,
       limit: 10,
-      lattitude: 12.1234,
-      longitude: 45.3345,
+      lattitude: 12.961735843534306,
+      longitude: 79.1748045757413,
       distanceWithInKm: 100000,
       sortCategory: 0
     };

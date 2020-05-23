@@ -43,7 +43,8 @@ export class AddressPage {
       Country: this.country,
       Zip: eval(this.zipcode),
       Lattitude: eval(this.lattitude),
-      Longitude: eval(this.longitude)
+      Longitude: eval(this.longitude),
+      "isDefault": true
     };
     this.accountService.saveAddress(dataToApi).subscribe(
       (savedreturnData) => {

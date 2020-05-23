@@ -94,7 +94,7 @@
                 Total Amount:
               </ion-col>
               <ion-col size="4" class="ion-text-start">
-                <b>₹ {{ getTotal()}}</b>
+                <b>₹ {{ getTotal(total)}}</b>
               </ion-col>
             </ion-row>
           </ion-card-content>
@@ -111,4 +111,12 @@
       </ion-grid>
     </ion-list>
   </div>
+  <ion-list>
+    <ion-item *ngFor="let list of addressList">
+      <ion-label>{{list.city}}</ion-label>
+      <ion-checkbox slot="start" 
+     
+      (ionChange)="checkEvent(list)"></ion-checkbox>
+    </ion-item>
+  </ion-list>
 </ion-content>

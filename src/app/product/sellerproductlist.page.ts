@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { MenuController, ActionSheetController, LoadingController, NavController, AlertController, ModalController } from '@ionic/angular';
+import { MenuController, ActionSheetController, LoadingController, ToastController, NavController, NavParams, AlertController, ModalController } from '@ionic/angular';
 import { ProductdetailService } from 'src/app/service/productdetail.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from 'src/app/service/cart.service';
@@ -17,14 +17,22 @@ export class SellerproductlistPage {
   productList: any;
   searchList: any;
   selectedProduct: any;
-  quantity: number = 0;
   sortbyPrice: any;
   minPrice: any;
   maxPrice: any;
   basketData: any = "";
-  price: any;
+  price: number;
+  //amount: number;
   userId: any;
-
+  // count: number = 0;
+  // amount: number;
+  itemId: any;
+  quantity: number = 0;
+  total: any;
+  distance1: any;
+  splitdistance: any;
+  fixedDistance1: any;
+  fixedDistance2: any;
   @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
 
   constructor(private menu: MenuController,
@@ -37,7 +45,8 @@ export class SellerproductlistPage {
     private modalCtrl: ModalController,
     public actionSheetController: ActionSheetController,
     private alertCtrl: AlertController,
-    public nav: NavController, ) {
+    public nav: NavController,
+    public toastController: ToastController) {
     this.presentLoading();
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
@@ -48,14 +57,38 @@ export class SellerproductlistPage {
     });
     this.searchList = this.productList;
     this.cartItemCount = this.cartService.getCartItemCount();
+
   }
 
-  decQuantity() {
-    this.quantity -= 1;
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Loading..',
+      duration: 1000
+    });
+    await loading.present();
+
+    const { role, data } = await loading.onDidDismiss();
+
+    console.log('Loading dismissed!');
   }
 
-  incQuantity() {
-    this.quantity += 1;
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
+  async changeQty(item, i, change, pric) {
+    let qty = item.quantity;
+    if (change < 0 && item.qty == 1) {
+      return;
+    }
+    qty = qty + change;
+    item.quantity = qty;
+    item.price = qty * pric;
+  }
+
+  onChangeQty(eve: any, item) {
+    item.quantity = eve.target.value;
+    item.price = item.quantity * item.price;
   }
 
   filterValue(minPrice, maxPrice) {
@@ -119,7 +152,7 @@ export class SellerproductlistPage {
   async addToCart(item: any) {
     var basketToApi = {
       ProductId: item.id,
-      Quantity: this.quantity
+      Quantity: eval(item.quantity)
     };
     this.cartService.addProductToBasket(basketToApi).subscribe(
       (savedreturnbasketData) => {
@@ -158,18 +191,6 @@ export class SellerproductlistPage {
 
   goBack() {
     this.nav.navigateBack("product");
-  }
-
-  async presentLoading() {
-    const loading = await this.loadingController.create({
-      message: 'Loading..',
-      duration: 1000
-    });
-    await loading.present();
-
-    const { role, data } = await loading.onDidDismiss();
-
-    console.log('Loading dismissed!');
   }
 
   async presentActionSheet() {
@@ -232,6 +253,18 @@ export class SellerproductlistPage {
     this.productdetailService.getProductdetail(this.selectedProduct)
       .subscribe(
         data => {
+
+          data.forEach((key) => {
+            key["quantity"] = 0;
+          })
+          for (let u = 0; u < data.length; u++) {
+            this.distance1 = data[u]["distance"];
+            this.splitdistance = this.distance1.toString().split(".");
+            for (let s = 0; s < this.splitdistance.length; s++) {
+              this.fixedDistance1 = this.splitdistance[0];
+            }
+            data[u]["distance"] = parseFloat(this.fixedDistance1);
+          }
           this.productList = data;
           this.searchList = data;
           console.log(data);

@@ -4,6 +4,7 @@ import { Product, CartService } from 'src/app/service/cart.service';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
+import { AccountService } from 'src/app/service/account.service';
 
 @Component({
   selector: 'app-cartbasket',
@@ -18,9 +19,12 @@ export class CartbasketPage {
   checkedList: any;
   checklist: any;
   savedData: any = "";
-  total: number = 0;
+  total: number;
   price: number = 0;
   quantity: any;
+  addressList: any;
+  addressId: any;
+  isChecked: boolean;
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -30,9 +34,11 @@ export class CartbasketPage {
     private cartService: CartService,
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
+    private accountService: AccountService,
     private router: Router,
     private route: ActivatedRoute) {
     this.cart = this.getBasketproducts();
+    this.getmyAddresslist();
     this.checklist = this.cart;
     this.masterSelected = true;
   }
@@ -41,7 +47,7 @@ export class CartbasketPage {
     for (var i = 0; i < this.cart.length; i++) {
       this.cart[i].isSelected = this.masterSelected;
     }
-    this.total = 0;
+    // this.total = 0;
     this.getCheckedItemList();
   }
 
@@ -53,12 +59,19 @@ export class CartbasketPage {
   }
 
   getCheckedItemList() {
+    this.total = 0;
     this.checkedList = [];
     for (var i = 0; i < this.cart.length; i++) {
       if (this.cart[i].isSelected)
         this.total += this.cart[i].price;
       this.checkedList.push(this.cart[i]);
     }
+    this.getTotal(this.total);
+  }
+
+  checkEvent(list: any) {
+    this.addressId=list.addressId;
+    console.log(list.addressId);
   }
 
   async checkouts() {
@@ -67,7 +80,7 @@ export class CartbasketPage {
       d.push(this.checkedList[i]["id"]);
     }
     if (d.length > 0) {
-      this.cartService.checkoutData(d)
+      this.cartService.checkoutData(d,this.addressId)
         .subscribe(
           (savedreturnData) => {
             this.savedData = JSON.stringify(savedreturnData);
@@ -142,8 +155,8 @@ export class CartbasketPage {
     this.cartService.removeProduct(p.id);
   }
 
-  getTotal() {
-    return this.total;
+  getTotal(total: number) {
+    return total;
   }
 
   close() {
@@ -228,5 +241,17 @@ export class CartbasketPage {
           console.log(error);
         }
       );
+  }
+
+  getmyAddresslist() {
+    this.accountService.getAddressList().subscribe(
+      data => {
+        this.addressList = data;
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 }

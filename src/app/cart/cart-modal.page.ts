@@ -47,9 +47,8 @@ export class CartModalPage implements OnInit {
     this.masterSelected = false;
 
     this.cart = this.getBasketproducts();
-    // this.cart = this.cartService.getBasketItems();
     this.checklist = this.cart;
-    //this.getCheckedItemList();
+
   }
 
   buttonState() {
@@ -92,12 +91,6 @@ export class CartModalPage implements OnInit {
       StatusId: "a2c85f54-621e-4110-91c3-026b36d9ce54"
 
     };
-    // this.cartService.buynowData(this.checkedList).subscribe(
-    //   (savedreturnData) => {
-    //     this.savedData = JSON.stringify(savedreturnData);
-    //     console.log(this.savedData);
-    //   }
-   // )
   }
 
   goback() {
@@ -213,7 +206,6 @@ export class CartModalPage implements OnInit {
       .subscribe(
         data => {
           this.cart = data;
-          // this.searchList = data;
           console.log(data);
         },
         error => {

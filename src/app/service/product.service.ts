@@ -7,15 +7,16 @@ import { CommonapiService } from '../../app/service/commonapi.service';
 })
 export class ProductService {
   controller: string = "Products";
+  controllerName: string = "ProductNames";
   constructor(public http: HttpClient,
     private commonapiservice: CommonapiService) { }
 
-  getAllProduct(categoryId): any {
+  getAllProductlist(categoryId): any {
     var dataToApi = {
       pageIndex: 0,
       limit: 100,
-      lattitude: 12.1234,
-      longitude: 45.3345,
+      lattitude: 12.961735843534306,
+      longitude: 79.1748045757413,
       distanceWithInKm: 100000,
       sortCategory: 0,
       filter: {
@@ -29,6 +30,16 @@ export class ProductService {
     const params = new HttpParams()
       .set('categoryId', categoryId);
     return this.http.put(url, dataToApi, { params });
+  }
+
+  getAllProduct(productName): any {
+    
+    const url = this.commonapiservice.getApiURL(this.controllerName, 'search');
+    const params = new HttpParams()
+      .set('keyWord', productName)
+      .set('pageIndex', "0" )
+      .set('limit', "100");
+    return this.http.get(url, { params });
   }
 
   saveData(dataToApi) {

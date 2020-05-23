@@ -3,6 +3,7 @@ import { MenuController, ActionSheetController, LoadingController, NavController
 import { ProductService } from 'src/app/service/product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationExtras } from '@angular/router';
+import { AccountService } from 'src/app/service/account.service';
 
 @Component({
     selector: 'app-product',
@@ -13,7 +14,14 @@ export class ProductPage {
     products: any;
     productList: any;
     searchList: any;
+    addressList: any;
+    lat: any;
+    longi: any;
     selectedCategory: any;
+    distance1: any;
+    splitdistance: any;
+    fixedDistance1: any;
+    fixedDistance2: any;
 
     constructor(private menu: MenuController,
         private route: ActivatedRoute,
@@ -23,7 +31,9 @@ export class ProductPage {
         private modalCtrl: ModalController,
         public actionSheetController: ActionSheetController,
         public alertController: AlertController,
+        private accountService: AccountService,
         public nav: NavController, ) {
+        this.addressList = this.getmyAddresslist();
         this.presentLoading();
         this.route.queryParams.subscribe(params => {
             if (this.router.getCurrentNavigation().extras.state) {
@@ -32,6 +42,7 @@ export class ProductPage {
             }
         });
         this.searchList = this.productList;
+
     }
 
     openFirst() {
@@ -118,9 +129,20 @@ export class ProductPage {
     }
 
     getProducts(id: any) {
-        this.productService.getAllProduct(this.selectedCategory)
+        this.getmyAddresslist();
+        console.log(this.addressList);
+        this.productService.getAllProductlist(this.selectedCategory)
             .subscribe(
                 data => {
+                    for (let u = 0; u < data.length; u++) {
+                        this.distance1 = data[u]["distanceRange"];
+                        this.splitdistance = this.distance1.split("-");
+                        for (let s = 0; s < this.splitdistance.length; s++) {
+                            this.fixedDistance1 = this.splitdistance[0];
+                            this.fixedDistance2 = this.splitdistance[1];
+                        }
+                        data[u]["distanceRange"] = parseFloat(this.fixedDistance1).toFixed(2) + "-" + parseFloat(this.fixedDistance2).toFixed(2);
+                    }
                     this.productList = data;
                     this.searchList = data;
                     console.log(data);
@@ -129,6 +151,18 @@ export class ProductPage {
                     console.log(error);
                 }
             );
+    }
+
+    getmyAddresslist() {
+        this.accountService.getAddressList().subscribe(
+            data => {
+                this.addressList = data;
+                console.log(data);
+            },
+            error => {
+                console.log(error);
+            }
+        );
     }
 
 }

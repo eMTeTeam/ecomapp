@@ -21,7 +21,9 @@ export class SellmyproductlistPage {
   comments: any;
   reviewData: any;
   buyerId: any;
-
+  trackByFn(index: any, item: any) {
+    return index;
+   } 
   constructor(
     private menu: MenuController,
     private route: ActivatedRoute,
@@ -38,9 +40,9 @@ export class SellmyproductlistPage {
     this.searchList = this.sellmyproductList;
     this.today = Date.now();
     this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-
+   
   }
-
+  
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');

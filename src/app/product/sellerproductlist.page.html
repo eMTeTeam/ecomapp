@@ -64,7 +64,7 @@
   </ion-list>
   <ion-list>
     <ion-row class="sell-pro-row">
-      <ion-col size="12" *ngFor="let item of searchList">
+      <ion-col size="12" *ngFor="let item of searchList; let i = index; trackBy:trackByFn">
         <ion-card class="sell-crd">
           <ion-card-content>
             <ion-row class="ion-align-items-center">
@@ -86,7 +86,7 @@
                 </ion-row>
                 <ion-row>
                   <ion-col class="dist" size="6">
-                    <ion-icon name="locate"></ion-icon><span>7Km</span>
+                    <ion-icon name="locate"></ion-icon><span>{{item.distance}} Kms</span>
                   </ion-col>
                   <ion-col size="6">
                     <div class="sell-rating">
@@ -96,11 +96,12 @@
                 </ion-row>
                 <ion-row>
                   <ion-col size="7" class="pro-qty">
-                    <ion-button fill="clear" (click)="decQuantity()">
+                    <ion-button fill="clear" (click)="changeQty(item, i, -1,item.price)">
                       <ion-icon name="md-remove"></ion-icon>
                     </ion-button>
-                    <ion-input [(ngModel)]="quantity" type="number" value="0"></ion-input>
-                    <ion-button fill="clear" (click)="incQuantity()">
+                    <ion-input type="number" value="{{item.quantity}}" (change)="onChangeQty($event,item)"></ion-input>
+
+                    <ion-button fill="clear" (click)="changeQty(item, i, 1,item.price)">
                       <ion-icon name="md-add"></ion-icon>
                     </ion-button>
                   </ion-col>

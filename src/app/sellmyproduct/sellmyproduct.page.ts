@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
     styleUrls: ['sellmyproduct.page.scss'],
 })
 export class SellmyproductPage {
+    sellmyproductList: any;
     productList: any;
     categoryList: any;
     currentDate: any;
@@ -35,12 +36,27 @@ export class SellmyproductPage {
         private router: Router,
         public nav: NavController) {
         this.presentLoading();
-        this.categoryList = this.getCategories();
+        //  this.categoryList = this.getCategories();
+        //   this.onSelectCategory();
         this.searchList = this.productList;
     }
 
     getProducts(id: any) {
-        this.productService.getAllProduct(this.categoryList.id)
+        // this.productService.getAllProduct(this.categoryList.id)
+        //     .subscribe(
+        //         data => {
+        //             this.productList = data;
+        //             this.searchList = data;
+        //             console.log(data);
+        //         },
+        //         error => {
+        //             console.log(error);
+        //         }
+        //     );
+    }
+    searchText(text) {
+        this.productService.getAllProduct(text)
+
             .subscribe(
                 data => {
                     this.productList = data;
@@ -54,31 +70,30 @@ export class SellmyproductPage {
     }
 
     onSelectCategory() {
-        console.log(this.selectedCategory);
-        this.productService.getAllProduct(this.selectedCategory.id)
+        // console.log(this.selectedCategory);
+        // this.productService.getAllProduct(this.selectedCategory.id)
 
-            .subscribe(
-                data => {
-                    this.productList = data;
-                    this.searchList = data;
-                    console.log(data);
-                },
-                error => {
-                    console.log(error);
-                }
-            );
+        //     .subscribe(
+        //         data => {
+        //             this.productList = data;
+        //             this.searchList = data;
+        //             console.log(data);
+        //         },
+        //         error => {
+        //             console.log(error);
+        //         }
+        //     );
     }
 
     onSelectProduct() {
-        this.unitName = this.selectedProduct.unitName;
         console.log(this.selectedProduct);
     }
 
     async addProduct() {
         var dataToApi = {
             ProductNameId: this.selectedProduct.productNameId,
-            CategoryId: this.selectedCategory.id,
-            Description: this.selectedProduct.productName,
+            CategoryId: this.selectedProduct.categoryId,
+            Description: this.selectedProduct.name,
             UnitId: "ad89ae0a-44c6-4c3a-b116-2a8f1f1144f0",
             Quantity: eval(this.quantity),
             Price: eval(this.price),
