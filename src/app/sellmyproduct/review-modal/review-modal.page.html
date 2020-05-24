@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Buyer Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <rating  [rate]="rate"
+                        readonly="false" 
+                        size="default"
+                        (rateChange)="onRateChange($event)">
+                  </rating>
+  <ion-label position="stacked" class="productLabel">Comments</ion-label>
+  <ion-input type="textarea" [(ngModel)]="comments"></ion-input>
+   <ion-button fill="clear" size="large" class="btn-primary" (click)="done()">Done</ion-button>
+</ion-content>

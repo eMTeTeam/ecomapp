@@ -32,6 +32,9 @@
         </ion-row>
       </ion-grid>
     </ion-list>
+    <p *ngIf="noRecords">
+      <label >Please add products to Buy</label>
+  </p>
     <ion-list>
       <ion-grid *ngFor="let p of cart" class="ion-text-wrap">
         <ion-row>
@@ -112,11 +115,10 @@
     </ion-list>
   </div>
   <ion-list>
-    <ion-item *ngFor="let list of addressList">
-      <ion-label>{{list.city}}</ion-label>
-      <ion-checkbox slot="start" 
-     
-      (ionChange)="checkEvent(list)"></ion-checkbox>
+    <ion-item class="disabled">
+      <label>Delivery Address:</label>
+      <ion-label>{{addressType}}</ion-label>
+      <ion-checkbox slot="start" [(ngModel)]="chkAddress" (ionChange)="checkEvent(list)"></ion-checkbox>
     </ion-item>
   </ion-list>
 </ion-content>

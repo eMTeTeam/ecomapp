@@ -25,6 +25,9 @@ export class CartbasketPage {
   addressList: any;
   addressId: any;
   isChecked: boolean;
+  addressType: any;
+  chkAddress: boolean = true;
+  noRecords: boolean = true;
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -47,7 +50,7 @@ export class CartbasketPage {
     for (var i = 0; i < this.cart.length; i++) {
       this.cart[i].isSelected = this.masterSelected;
     }
-    // this.total = 0;
+
     this.getCheckedItemList();
   }
 
@@ -70,7 +73,7 @@ export class CartbasketPage {
   }
 
   checkEvent(list: any) {
-    this.addressId=list.addressId;
+    this.addressId = list.addressId;
     console.log(list.addressId);
   }
 
@@ -80,7 +83,7 @@ export class CartbasketPage {
       d.push(this.checkedList[i]["id"]);
     }
     if (d.length > 0) {
-      this.cartService.checkoutData(d,this.addressId)
+      this.cartService.checkoutData(d, this.addressId)
         .subscribe(
           (savedreturnData) => {
             this.savedData = JSON.stringify(savedreturnData);
@@ -235,6 +238,9 @@ export class CartbasketPage {
       .subscribe(
         data => {
           this.cart = data;
+          if (this.cart.length > 0) {
+            this.noRecords = !this.noRecords;
+          }
           console.log(data);
         },
         error => {
@@ -246,8 +252,15 @@ export class CartbasketPage {
   getmyAddresslist() {
     this.accountService.getAddressList().subscribe(
       data => {
+
         this.addressList = data;
-        console.log(data);
+        for (let a = 0; a < this.addressList.length; a++) {
+          if (this.addressList[a]["isDefault"] == true) {
+            this.addressList = this.addressList[a];
+            this.addressId = this.addressList["addressId"];
+            this.addressType = this.addressList["addressType"];
+          }
+        }
       },
       error => {
         console.log(error);

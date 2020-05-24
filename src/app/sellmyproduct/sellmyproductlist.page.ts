@@ -5,6 +5,8 @@ import { IonSlides } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { ReviewsService } from 'src/app/service/reviews.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ReviewModalPage } from 'src/app/sellmyproduct/review-modal/review-modal.page'
+
 
 @Component({
   selector: 'app-sellmyproductlist',
@@ -13,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class SellmyproductlistPage {
   sellmyproductList: any;
+  selectedProduct: any;
   searchList: any;
   today: any;
   approvedData: any;
@@ -21,9 +24,12 @@ export class SellmyproductlistPage {
   comments: any;
   reviewData: any;
   buyerId: any;
+  otp: any;
+  resultReview: any;
+  noRecords: boolean = true;
   trackByFn(index: any, item: any) {
     return index;
-   } 
+  }
   constructor(
     private menu: MenuController,
     private route: ActivatedRoute,
@@ -33,16 +39,21 @@ export class SellmyproductlistPage {
     private reviewsService: ReviewsService,
     public actionSheetController: ActionSheetController,
     private alertCtrl: AlertController,
-    public nav: NavController
+    public nav: NavController,
+    public modalController: ModalController
   ) {
     this.presentLoading();
-    this.getSellmyproductlist();
-    this.searchList = this.sellmyproductList;
+    this.route.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
+        this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
+        this.getSellmyproductlist(this.selectedProduct);
+      }
+    });
+      this.searchList = this.sellmyproductList;
     this.today = Date.now();
     this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
-   
   }
-  
+
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
@@ -144,31 +155,42 @@ export class SellmyproductlistPage {
   }
 
   async sllerreviewAlert(item: any) {
-    const alert = await this.alertCtrl.create({
-      header: 'Buyer Rating:',
-      cssClass: 'alertstar',
-      buttons: [
-        { text: '', handler: data => { this.sllerreRating(item, 1); } },
-        { text: '', handler: data => { this.sllerreRating(item, 2); } },
-        { text: '', handler: data => { this.sllerreRating(item, 3); } },
-        { text: '', handler: data => { this.sllerreRating(item, 4); } },
-        { text: '', handler: data => { this.sllerreRating(item, 5); } }
-      ]
+    let modal = await this.modalController.create({
+      component: ReviewModalPage,
+
     });
-    await alert.present();
+    modal.onWillDismiss().then((data) => {
+
+      this.reviewData = data;
+      const mapped = Object.keys(this.reviewData).map(key => ({ type: key, value: this.reviewData[key] }));
+      for (let u = 0; u < mapped.length; u++) {
+        this.comments = mapped[0]["value"];
+        this.rating = mapped[1]["value"];
+      }
+      if (data) {
+        this.sllerreRating(item, this.rating, this.comments)
+      }
+    });
+        modal.present();
+   
   }
 
-  async sllerreRating(itemid: any, rating: any) {
+  async ratingreview(item: any, rating: any) {
+  
+  }
+
+  async sllerreRating(itemid: any, rating: any, comments: any) {
+
     var tags = ["9d82e20b-96e1-11ea-9399-020361373239"];
     var userReview = {
       TagIds: tags,
       UserId: itemid.buyerId,
-      Comments: this.comments,
+      Comments: comments,
       Rating: rating
     }
     var dataToApi = {
       InventoryItemId: itemid.id,
-      OTP: 1272,
+      OTP: 6225,
       UserReview: userReview
     };
     this.reviewsService.buyerReview(dataToApi).subscribe(
@@ -177,7 +199,6 @@ export class SellmyproductlistPage {
         console.log(this.reviewData);
       }
     )
-
     const alert = await this.alertCtrl.create({
       message: 'Order Delivered',
       buttons: [
@@ -193,7 +214,7 @@ export class SellmyproductlistPage {
     await alert.present().then(() => {
     });
   }
-
+  
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       mode: 'ios',
@@ -269,11 +290,16 @@ export class SellmyproductlistPage {
     this.nav.navigateForward("account");
   }
 
-  getSellmyproductlist() {
-    this.sellmyproductlistService.getSellmyproductlist()
+  getSellmyproductlist(id: any) {
+    this.sellmyproductlistService.getSellmyproductlist(id)
       .subscribe(
         data => {
+         
           this.sellmyproductList = data;
+          if(this.sellmyproductList.length>0)
+          {
+            this.noRecords=!this.noRecords;
+          }
           this.searchList = data;
           console.log(data);
         },

@@ -10,12 +10,12 @@ export class ProductdetailService {
   constructor(private http: HttpClient,
     private commonapiservice: CommonapiService) { }
 
-  getProductdetail(keyWord): any {
+  getProductdetail(keyWord,lati,longi): any {
     var dataToApi = {
       pageIndex: 0,
       limit: 10,
-      lattitude: 12.961735843534306,
-      longitude: 79.1748045757413,
+      lattitude: lati,
+      longitude: longi,
       distanceWithInKm: 100000,
       sortCategory: 0
     };

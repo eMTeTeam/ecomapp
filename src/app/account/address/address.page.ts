@@ -21,6 +21,9 @@ export class AddressPage {
   lattitude: any;
   longitude: any = "";
   savedAddress: any = "";
+  addressType: any;
+  defaultAddress: boolean;
+  
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -34,6 +37,10 @@ export class AddressPage {
     this.presentLoading();
   }
 
+  checkEvent(list: any) {
+  //  this.addressId=list.addressId;
+  this.defaultAddress=list.target.checked;
+  }
   async addAddress() {
     var dataToApi = {
       AddressLine1: this.addressline1,
@@ -44,7 +51,8 @@ export class AddressPage {
       Zip: eval(this.zipcode),
       Lattitude: eval(this.lattitude),
       Longitude: eval(this.longitude),
-      "isDefault": true
+      "isDefault": this.defaultAddress,
+      AddressType:this.addressType
     };
     this.accountService.saveAddress(dataToApi).subscribe(
       (savedreturnData) => {
@@ -54,7 +62,7 @@ export class AddressPage {
     )
 
     const alert = await this.alertCtrl.create({
-      message: 'Address Added Successfully',
+      message: 'My Address: ' + this.addressType +' has been saved successfully.',
       buttons: [
         {
           text: 'OK',

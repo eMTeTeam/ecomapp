@@ -113,16 +113,6 @@ export class ProductDetailPage {
     }
 
     getProductdetail(id: any) {
-        this.ProductdetailService.getProductdetail(this.selectedProduct)
-            .subscribe(
-                data => {
-                    this.productDetail = data;
-                    this.productDetail = Array.of(this.productDetail);
-                    console.log(data);
-                },
-                error => {
-                    console.log(error);
-                }
-            );
+
     }
 }

@@ -11,15 +11,17 @@ export class SellmyproductlistService {
   constructor(private http: HttpClient,
     private commonapiservice: CommonapiService) { }
 
-  getSellmyproductlist() {
-    const url = this.commonapiservice.getApiURL(this.controllerInventories, '');
-    return this.http.get(url);
+  getSellmyproductlist(productId) {
+    const params = new HttpParams()
+    .set('productId', productId);
+    const url = this.commonapiservice.getApiURL(this.controllerInventories, 'sellingByProduct');
+    return this.http.get(url, { params });
   }
 
   getAllmyproductlist(): any {
     var dataToApi = {
       pageIndex: 0,
-      limit: 10,
+      limit: 100,
       lattitude: 12.961735843534306,
       longitude: 79.1748045757413,
       distanceWithInKm: 100000,

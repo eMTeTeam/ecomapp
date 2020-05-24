@@ -24,6 +24,8 @@ export class SellmyproductPage {
     price: any;
     quantity: any;
     unitName: string;
+    maxdistance: any;
+    expectdelivery: any;
 
     constructor(private menu: MenuController,
         public loadingController: LoadingController,
@@ -36,29 +38,14 @@ export class SellmyproductPage {
         private router: Router,
         public nav: NavController) {
         this.presentLoading();
-        //  this.categoryList = this.getCategories();
-        //   this.onSelectCategory();
-        this.searchList = this.productList;
+                this.searchList = this.productList;
     }
 
-    getProducts(id: any) {
-        // this.productService.getAllProduct(this.categoryList.id)
-        //     .subscribe(
-        //         data => {
-        //             this.productList = data;
-        //             this.searchList = data;
-        //             console.log(data);
-        //         },
-        //         error => {
-        //             console.log(error);
-        //         }
-        //     );
-    }
-    searchText(text) {
-        this.productService.getAllProduct(text)
-
+    searchText(event: any) {
+        this.productService.getAllProduct(event.text)
             .subscribe(
                 data => {
+                    debugger;
                     this.productList = data;
                     this.searchList = data;
                     console.log(data);
@@ -68,23 +55,7 @@ export class SellmyproductPage {
                 }
             );
     }
-
-    onSelectCategory() {
-        // console.log(this.selectedCategory);
-        // this.productService.getAllProduct(this.selectedCategory.id)
-
-        //     .subscribe(
-        //         data => {
-        //             this.productList = data;
-        //             this.searchList = data;
-        //             console.log(data);
-        //         },
-        //         error => {
-        //             console.log(error);
-        //         }
-        //     );
-    }
-
+   
     onSelectProduct() {
         console.log(this.selectedProduct);
     }
@@ -187,19 +158,5 @@ export class SellmyproductPage {
     openAccountPage() {
         this.nav.navigateForward("account");
     }
-
-    getCategories() {
-        this.categoryService.getAllCategories()
-            .subscribe(
-                data => {
-                    this.categoryList = data;
-                    this.searchList = data;
-                    console.log(data);
-                },
-                error => {
-                    console.log(error);
-                }
-            );
-    }
-
+   
 }

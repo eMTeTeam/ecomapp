@@ -14,7 +14,7 @@
     <div style="padding:20px;">
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Address Type</ion-label>
-            <ion-input [(ngModel)]="addresstype" placeholder="e.g Home, Office"></ion-input>
+            <ion-input [(ngModel)]="addressType" placeholder="e.g Home, Office"></ion-input>
         </ion-item>
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Address Line1</ion-label>
@@ -56,7 +56,7 @@
         </div>
         <ion-row>
             <div class="add-default">
-                <ion-checkbox color="danger"></ion-checkbox> &nbsp; &nbsp; <span>Set as Default</span>
+                <ion-checkbox color="danger" [(ngModel)]="defaultAddress" (ionChange)="checkEvent($event)"></ion-checkbox> &nbsp; &nbsp; <span>Set as Default</span>
             </div>
         </ion-row>
         <ion-row>

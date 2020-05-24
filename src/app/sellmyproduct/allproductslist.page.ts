@@ -3,6 +3,7 @@ import { MenuController, ActionSheetController, LoadingController, AlertControll
 import { SellmyproductlistService } from 'src/app/service/sellmyproductlist.service';
 import { IonSlides } from '@ionic/angular';
 import { formatDate } from '@angular/common';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-allproductslist',
@@ -17,7 +18,8 @@ export class AllproductslistPage {
   rejectedData: any;
   savedData: any = "";
   price: string;
-
+  noRecords: boolean = true;
+  
   constructor(
     private menu: MenuController,
     private sellmyproductlistService: SellmyproductlistService,
@@ -52,7 +54,9 @@ export class AllproductslistPage {
   }
 
   viewProduct(item: any) {
-    this.nav.navigateForward("sellmyproductlist");
+    console.log(item);
+    let navigationExtras: NavigationExtras = { state: { selectedProduct: item.id } };
+    this.nav.navigateForward(['sellmyproductlist'], navigationExtras);
   }
 
   editProduct(item) {
@@ -192,6 +196,10 @@ export class AllproductslistPage {
     this.sellmyproductlistService.getAllmyproductlist().subscribe(
       data => {
         this.sellmyproductList = data;
+        if(this.sellmyproductList.length>0)
+        {
+          this.noRecords=!this.noRecords;
+        }
         this.searchList = data;
         console.log(data);
       },

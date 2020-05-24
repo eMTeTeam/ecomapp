@@ -29,7 +29,11 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+    <p *ngIf="noRecords">
+        <label >There is no products to Accept or Deliver</label>
+    </p>
     <ion-list>
+       
         <ion-card *ngFor="let item of searchList; let i = index; trackBy: trackByFn" class="sell-crd">
             <ion-card-content>
                 <ion-row>
@@ -79,6 +83,7 @@
                     </ion-col>
                     <ion-col size="3">
                         <P>:₹ {{item.price}}</P>
+
                     </ion-col>
                     <ion-col size="6">
                         <ion-label class="productLabel">Estimated Time of Delivery</ion-label>
@@ -140,6 +145,7 @@
                                     <p>
                                         {{item.eta}}
                                     </p>
+
                                 </div>
                                 <button class="btn-primary" *ngIf="item?.status == 'Accepted'"
                                     (click)="sllerreviewAlert(item)">Confrim Delivery</button>

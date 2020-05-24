@@ -15,6 +15,7 @@ export class MyordersPage {
   searchQuery: string;
   searchList: any;
   savedData: any = "";
+  noRecords: boolean = true;
 
   constructor(
     private menu: MenuController,
@@ -122,8 +123,11 @@ export class MyordersPage {
     this.myordersService.getAllmyorders().subscribe(
       data => {
         this.productList = data;
+        if (this.productList.length > 0) {
+          this.noRecords = !this.noRecords;
+        }
         this.searchList = data;
-              },
+      },
       error => {
         console.log(error);
       }
@@ -131,7 +135,7 @@ export class MyordersPage {
   }
 
   viewOrders(item) {
-        let navigationExtras: NavigationExtras = { state: { selectedProduct: [item] } };
+    let navigationExtras: NavigationExtras = { state: { selectedProduct: [item] } };
     this.nav.navigateForward(['myordersdetail'], navigationExtras);
   }
 

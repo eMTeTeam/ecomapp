@@ -12,6 +12,7 @@ import { NgxPrettyCheckboxModule } from 'ngx-pretty-checkbox';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { IonicRatingModule } from 'ionic4-rating';
 import { InterceptorService } from '../../src/app/service/interceptor.service';
+import { ReviewModalPageModule } from '../../src/app/sellmyproduct/review-modal/review-modal.module';
 // import { GoogleLoginProvider, FacebookLoginProvider, AuthService } from 'angularx-social-login';  
 // import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';  
 
@@ -34,7 +35,7 @@ import { InterceptorService } from '../../src/app/service/interceptor.service';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, FormsModule, IonicModule.forRoot(), AppRoutingModule,IonicRatingModule,HttpClientModule,NgxPrettyCheckboxModule,IonicSelectableModule],
+  imports: [BrowserModule, FormsModule, IonicModule.forRoot(),ReviewModalPageModule, AppRoutingModule,IonicRatingModule,HttpClientModule,NgxPrettyCheckboxModule,IonicSelectableModule],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
   providers: [
     StatusBar,

@@ -25,6 +25,9 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+    <p *ngIf="noRecords">
+        <label >There is no Orders Placed</label>
+    </p>
     <ion-list  class="order-details">
         <ion-card *ngFor="let item of selectedItem" >
             <ion-card-content>
@@ -123,11 +126,12 @@
                                     {{item.eta}}
                                 </p>                               
                                 </div>
-                                <button class="btn-primary" *ngIf="item?.status == 'Accepted'" (click)="buyerreviewAlert(item)">Add Review</button> 
+                              
                             </ion-item>
                         </ion-list>
                     </ion-col>
                 </ion-row>
+                <button class="btn-primary" *ngIf="item?.status == 'Accepted' || item?.status =='Seller Delivered'" (click)="buyerreviewAlert(item)">Add Review</button> 
             </ion-card-content>
         </ion-card>
            </ion-list>

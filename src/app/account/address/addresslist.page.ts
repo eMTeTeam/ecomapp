@@ -11,6 +11,7 @@ export class AddresslistPage {
 
   addressList: any;
   searchList: any;
+  noRecords: boolean = true;
 
   constructor(private menu: MenuController,
     private accountService: AccountService,
@@ -53,6 +54,9 @@ export class AddresslistPage {
     this.accountService.getAddressList().subscribe(
       data => {
         this.addressList = data;
+        if (this.addressList.length > 0) {
+          this.noRecords = !this.noRecords;
+        }
         this.searchList = data;
         console.log(data);
       },

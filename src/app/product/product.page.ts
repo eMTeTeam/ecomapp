@@ -22,6 +22,7 @@ export class ProductPage {
     splitdistance: any;
     fixedDistance1: any;
     fixedDistance2: any;
+    noRecords: boolean = true;
 
     constructor(private menu: MenuController,
         private route: ActivatedRoute,
@@ -33,12 +34,11 @@ export class ProductPage {
         public alertController: AlertController,
         private accountService: AccountService,
         public nav: NavController, ) {
-        this.addressList = this.getmyAddresslist();
         this.presentLoading();
         this.route.queryParams.subscribe(params => {
             if (this.router.getCurrentNavigation().extras.state) {
                 this.selectedCategory = this.router.getCurrentNavigation().extras.state.selectedCategory;
-                this.getProducts(this.selectedCategory);
+                this.getmyAddresslist(this.selectedCategory);
             }
         });
         this.searchList = this.productList;
@@ -129,9 +129,14 @@ export class ProductPage {
     }
 
     getProducts(id: any) {
-        this.getmyAddresslist();
         console.log(this.addressList);
-        this.productService.getAllProductlist(this.selectedCategory)
+        for (let a = 0; a < this.addressList.length; a++) {
+            if (this.addressList[a]["isDefault"] == true) {
+                this.lat = this.addressList[a]["lattitude"];
+                this.longi = this.addressList[a]["longitude"];
+            }
+        }
+        this.productService.getAllProductlist(this.selectedCategory, this.lat, this.longi)
             .subscribe(
                 data => {
                     for (let u = 0; u < data.length; u++) {
@@ -144,6 +149,9 @@ export class ProductPage {
                         data[u]["distanceRange"] = parseFloat(this.fixedDistance1).toFixed(2) + "-" + parseFloat(this.fixedDistance2).toFixed(2);
                     }
                     this.productList = data;
+                    if (this.productList.length > 0) {
+                        this.noRecords = !this.noRecords;
+                    }
                     this.searchList = data;
                     console.log(data);
                 },
@@ -153,16 +161,20 @@ export class ProductPage {
             );
     }
 
-    getmyAddresslist() {
+    getmyAddresslist(id: any) {
         this.accountService.getAddressList().subscribe(
             data => {
                 this.addressList = data;
                 console.log(data);
+                if (data) {
+                    this.getProducts(id);
+                }
             },
             error => {
                 console.log(error);
             }
         );
+
     }
 
 }

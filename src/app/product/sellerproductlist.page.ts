@@ -4,6 +4,7 @@ import { ProductdetailService } from 'src/app/service/productdetail.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CartService } from 'src/app/service/cart.service';
 import { ProductService } from 'src/app/service/product.service';
+import { AccountService } from 'src/app/service/account.service';
 
 @Component({
   selector: 'app-sellerproductlist',
@@ -28,6 +29,9 @@ export class SellerproductlistPage {
   // amount: number;
   itemId: any;
   quantity: number = 0;
+  addressList: any;
+  lat: any;
+  longi: any;
   total: any;
   distance1: any;
   splitdistance: any;
@@ -45,13 +49,14 @@ export class SellerproductlistPage {
     private modalCtrl: ModalController,
     public actionSheetController: ActionSheetController,
     private alertCtrl: AlertController,
+    private accountService: AccountService,
     public nav: NavController,
     public toastController: ToastController) {
     this.presentLoading();
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
-        this.getProductsdetail(this.selectedProduct);
+        this.getmyAddresslist(this.selectedProduct);
         this.cartItemCount = this.cartService.getCartItemCount();
       }
     });
@@ -250,7 +255,13 @@ export class SellerproductlistPage {
   }
 
   getProductsdetail(id: any) {
-    this.productdetailService.getProductdetail(this.selectedProduct)
+    for (let a = 0; a < this.addressList.length; a++) {
+      if (this.addressList[a]["isDefault"] == true) {
+        this.lat = this.addressList[a]["lattitude"];
+        this.longi = this.addressList[a]["longitude"];
+      }
+    }
+    this.productdetailService.getProductdetail(this.selectedProduct, this.lat, this.longi)
       .subscribe(
         data => {
 
@@ -303,5 +314,21 @@ export class SellerproductlistPage {
       ]
     });
     await alert.present();
+  }
+
+  getmyAddresslist(id: any) {
+    this.accountService.getAddressList().subscribe(
+      data => {
+        this.addressList = data;
+        console.log(data);
+        if (data) {
+          this.getProductsdetail(id);
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
+
   }
 }

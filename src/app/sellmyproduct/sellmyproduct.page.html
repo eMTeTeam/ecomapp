@@ -13,23 +13,12 @@
 <ion-content>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
     <div style="padding:20px;">
-        <!-- <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Product Category</ion-label>
-            <ion-select [(ngModel)]="selectedCategory" (ionChange)="onSelectCategory();"
-                placeholder="Select Product Category">
-                <ion-select-option [value]="item" *ngFor="let item of categoryList">{{item.name}}</ion-select-option>
-            </ion-select>
-        </ion-item> -->
-        <ion-item class="productItem" >
+        <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Products</ion-label>
-            <ion-select [(ngModel)]="selectedProduct" (ionChange)="onSelectProduct();"
-                placeholder="Select Products">
-                <ion-select-option [value]="item" *ngFor="let item of productList">{{item.name}}</ion-select-option>
-            </ion-select>
-            <!-- <ionic-selectable item-content [(ngModel)]="selectedProduct" (ngModelChange)="onSelectProduct();"
-                itemTextField="productName" [items]="productList" *ngFor="let list of productList" [canSearch]="true" placeholder="Select Products">
-                {{item.name}}
-            </ionic-selectable> -->
+            <ionic-selectable item-content [(ngModel)]="selectedProduct" itemTextField="name"
+                (ngModelChange)="onSelectProduct();" [items]="searchList" [canSearch]="true"
+                (onSearch)="searchText($event)" placeholder="Select Products">
+            </ionic-selectable>
         </ion-item>
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Images upload</ion-label>
@@ -55,6 +44,32 @@
             <ion-label position="stacked" class="productLabel">Cost per kg</ion-label>
             <ion-input [(ngModel)]="price"></ion-input>
         </ion-item>
+        <ion-row>
+            <ion-col col-6 style="width: 70%;">
+                <ion-item class="productItem">
+                    <ion-label position="stacked" class="productLabel">Max Distance Cover:</ion-label>
+                    <ion-input [(ngModel)]="maxdistance" placeholder="e.g 5 Kms"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col col-6>
+                <ion-item class="productItem">
+                    <ion-label position="stacked" class="productLabel">Kilometers</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-6>
+                <ion-item class="productItem" style="width: 70%;">
+                    <ion-label position="stacked" class="productLabel">Expect Delivery products in Days:</ion-label>
+                    <ion-input [(ngModel)]="expectdelivery" placeholder="e.g 2 Days"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col col-6>
+                <ion-item class="productItem">
+                    <ion-label position="stacked" class="productLabel">Days</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
         <ion-row style="padding:10px;">
             <ion-button fill="clear" size="large" class="btn-primary" (click)="addProduct()">SAVE</ion-button>
         </ion-row>

@@ -17,7 +17,7 @@
             </ion-button>
         </ion-buttons>
         <ion-title class="text-center">
-            All Products
+            My Inventory
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -29,6 +29,9 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+    <p *ngIf="noRecords">
+        <label >There is no products available</label>
+    </p>
     <ion-list class="product">
         <ion-row class="mr-10">
             <ion-col class="product-col" size="12" *ngFor="let item of searchList">

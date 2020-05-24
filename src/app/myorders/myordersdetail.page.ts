@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuController, ActionSheetController, LoadingController, AlertController, NavController } from '@ionic/angular';
+import { MenuController, ActionSheetController, LoadingController, ModalController, AlertController, NavController } from '@ionic/angular';
 import { ReviewsService } from 'src/app/service/reviews.service';
 import { IonSlides } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ReviewModalPage } from 'src/app/sellmyproduct/review-modal/review-modal.page'
 
 @Component({
   selector: 'app-myordersdetail',
@@ -18,6 +19,8 @@ export class MyordersdetailPage {
   comments: any;
   reviewData: any;
   selectedItem: any;
+  rating: any;
+  noRecords: boolean = true;
 
   constructor(
     private menu: MenuController,
@@ -27,7 +30,8 @@ export class MyordersdetailPage {
     public loadingController: LoadingController,
     public actionSheetController: ActionSheetController,
     private alertCtrl: AlertController,
-    public nav: NavController
+    public nav: NavController,
+    public modalController: ModalController
   ) {
     var curreDate = new Date();
     var curdate = curreDate.toLocaleDateString();
@@ -38,7 +42,11 @@ export class MyordersdetailPage {
       }
     });
     this.presentLoading();
+    // if (this.selectedItem.length > 0) {
+    //   this.noRecords = !this.noRecords;
+    // }
     this.searchList = this.selectedItem;
+
   }
 
   openFirst() {
@@ -140,15 +148,35 @@ export class MyordersdetailPage {
   openAccountPage() {
     this.nav.navigateForward("account");
   }
+  async buyerreviewAlert(item: any) {
+    let modal = await this.modalController.create({
+      component: ReviewModalPage,
 
-  async buyerComments() {
+    });
+    modal.onWillDismiss().then((data) => {
+
+      this.reviewData = data;
+      const mapped = Object.keys(this.reviewData).map(key => ({ type: key, value: this.reviewData[key] }));
+      for (let u = 0; u < mapped.length; u++) {
+        this.comments = mapped[0]["value"];
+        this.rating = mapped[1]["value"];
+      }
+      if (data) {
+        this.buyerComments(item, this.rating, this.comments)
+      }
+    });
+
+    modal.present();
+
+  }
+  async buyerComments(item: any, rating: any, comments: any) {
     {
       var tags = ["9d82e20b-96e1-11ea-9399-020361373239"];
       var dataToApi = {
         TagIds: tags,
-        UserId: "Karthik",
-        Comments: this.comments,
-        Rating: eval(this.rate)
+        UserId: item.sellerId,
+        Comments: comments,
+        Rating: rating
       };
       this.reviewsService.sellerReview(dataToApi).subscribe(
         (savedreturnData) => {
