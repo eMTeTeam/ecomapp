@@ -25,6 +25,7 @@ export class SellerproductlistPage {
   price: number;
   //amount: number;
   userId: any;
+  loading:any;
   // count: number = 0;
   // amount: number;
   itemId: any;
@@ -37,6 +38,8 @@ export class SellerproductlistPage {
   splitdistance: any;
   fixedDistance1: any;
   fixedDistance2: any;
+  basePrice: number;
+  qty: number = 0;
   @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
 
   constructor(private menu: MenuController,
@@ -57,22 +60,34 @@ export class SellerproductlistPage {
       if (this.router.getCurrentNavigation().extras.state) {
         this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
         this.getmyAddresslist(this.selectedProduct);
-        this.cartItemCount = this.cartService.getCartItemCount();
+        this.bindCartItemcount();
+      //  this.cartItemCount = this.cartService.getCartItemCount();
+
       }
     });
     this.searchList = this.productList;
-    this.cartItemCount = this.cartService.getCartItemCount();
+    
+  //  this.cartItemCount = this.cartService.getCartItemCount();
+    
 
   }
+//   ngOnInit() {
+//     // Let's navigate from TabsPage to Page1
+//     this.onViewWillEnter();
+//  }
+
+  ionViewWillEnter() {
+    this.cartService.getCartItemCount();
+}
 
   async presentLoading() {
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       message: 'Loading..',
       duration: 1000
     });
-    await loading.present();
+    await this.loading.present();
 
-    const { role, data } = await loading.onDidDismiss();
+    const { role, data } = await this.loading.onDidDismiss();
 
     console.log('Loading dismissed!');
   }
@@ -81,19 +96,26 @@ export class SellerproductlistPage {
     return index;
   }
 
-  async changeQty(item, i, change, pric) {
-    let qty = item.quantity;
+  async changeQty(item, i, change) {
+    this.qty = item.quantity;
     if (change < 0 && item.qty == 1) {
       return;
     }
-    qty = qty + change;
-    item.quantity = qty;
-    item.price = qty * pric;
+    if (change == 1) {
+      this.qty = item.quantity++
+    }
+    if (change == -1) {
+      this.qty = item.quantity--
+    }
+    this.qty = item.quantity;
+    item.quantity = this.qty;
+    item.price = this.qty * item.basePrice;
   }
 
   onChangeQty(eve: any, item) {
     item.quantity = eve.target.value;
-    item.price = item.quantity * item.price;
+    this.qty = item.quantity;
+    item.price = item.quantity * item.basePrice;
   }
 
   filterValue(minPrice, maxPrice) {
@@ -155,6 +177,8 @@ export class SellerproductlistPage {
   }
 
   async addToCart(item: any) {
+   // this.cartItemCount =this.cartItemCount + 1;
+   this.presentLoading();
     var basketToApi = {
       ProductId: item.id,
       Quantity: eval(item.quantity)
@@ -162,13 +186,25 @@ export class SellerproductlistPage {
     this.cartService.addProductToBasket(basketToApi).subscribe(
       (savedreturnbasketData) => {
         this.basketData = JSON.stringify(savedreturnbasketData);
+        this.bindCartItemcount();
         console.log(this.basketData);
       }
     )
-    this.cartItemCount = this.cartService.getCartItemCount();
-    this.animateCSS('tada');
-  }
 
+    //this.presentLoading();
+   // this.cartItemCount = this.cartService.getCartItemCount();
+    this.animateCSS('tada');
+    //return this.cartItemCount;
+  
+  }
+async bindCartItemcount()
+{
+  this.cartService.getCartItemCount().subscribe(
+    data => {
+      this.cartItemCount=data;
+      this.loading.onDidDismiss();
+      });
+}
   async openCart() {
     this.animateCSS('bounceOutLeft', true);
     this.nav.navigateForward("cartbasket");
@@ -267,6 +303,7 @@ export class SellerproductlistPage {
 
           data.forEach((key) => {
             key["quantity"] = 0;
+            key["basePrice"] = key["price"];
           })
           for (let u = 0; u < data.length; u++) {
             this.distance1 = data[u]["distance"];

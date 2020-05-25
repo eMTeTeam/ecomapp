@@ -32,11 +32,11 @@
         </ion-row>
       </ion-grid>
     </ion-list>
-    <p *ngIf="noRecords">
+    <!-- <p *ngIf="noRecords">
       <label >Please add products to Buy</label>
-  </p>
+  </p> -->
     <ion-list>
-      <ion-grid *ngFor="let p of cart" class="ion-text-wrap">
+      <ion-grid *ngFor="let p of cart; let i = index" class="ion-text-wrap">
         <ion-row>
           <ion-card class="cb-card">
             <ion-card-content>

@@ -20,14 +20,17 @@ export class CartbasketPage {
   checklist: any;
   savedData: any = "";
   total: number;
+  loading:any;
   price: number = 0;
-  quantity: any;
+  quantity: number;
+  basePrice: number;
+  qty: number;
   addressList: any;
   addressId: any;
   isChecked: boolean;
   addressType: any;
   chkAddress: boolean = true;
-  noRecords: boolean = true;
+  noRecords: boolean = false;
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -127,6 +130,7 @@ export class CartbasketPage {
   }
 
   decreaseCartItem(p) {
+    this.presentLoading();
     var dataToApi = {
       BasketItemId: p.id,
       Quantity: 1,
@@ -136,13 +140,16 @@ export class CartbasketPage {
       (savedreturnData) => {
         this.savedData = JSON.stringify(savedreturnData);
         console.log(this.savedData);
+        this.getBasketproducts();
+        this.getCheckedItemList();
       }
     )
   }
 
-  increaseCartItem(p) {
+  increaseCartItem(item) {
+    this.presentLoading();
     var dataToApi = {
-      BasketItemId: p.id,
+      BasketItemId: item.id,
       Quantity: 1,
       UpdateAction: 0
     };
@@ -150,6 +157,8 @@ export class CartbasketPage {
       (savedreturnData) => {
         this.savedData = JSON.stringify(savedreturnData);
         console.log(this.savedData);
+        this.getBasketproducts();
+        this.getCheckedItemList();
       }
     )
   }
@@ -167,12 +176,12 @@ export class CartbasketPage {
   }
 
   async presentLoading() {
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       message: 'Loading..',
       duration: 1000
     });
-    await loading.present();
-    const { role, data } = await loading.onDidDismiss();
+    await this.loading.present();
+    const { role, data } = await this.loading.onDidDismiss();
     console.log('Loading dismissed!');
   }
 
@@ -237,11 +246,16 @@ export class CartbasketPage {
     this.cartService.getBasketItems()
       .subscribe(
         data => {
+
           this.cart = data;
+          this.cart.forEach((key) => {
+            key["basePrice"] = key["price"];
+          })
           if (this.cart.length > 0) {
             this.noRecords = !this.noRecords;
           }
           console.log(data);
+          this.loading.onDidDismiss();
         },
         error => {
           console.log(error);

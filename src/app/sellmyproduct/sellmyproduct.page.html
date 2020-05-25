@@ -11,7 +11,7 @@
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
+    <!-- <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar> -->
     <div style="padding:20px;">
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Products</ion-label>
@@ -58,8 +58,8 @@
             </ion-col>
         </ion-row>
         <ion-row>
-            <ion-col col-6>
-                <ion-item class="productItem" style="width: 70%;">
+            <ion-col col-6 style="width: 70%;">
+                <ion-item class="productItem" >
                     <ion-label position="stacked" class="productLabel">Expect Delivery products in Days:</ion-label>
                     <ion-input [(ngModel)]="expectdelivery" placeholder="e.g 2 Days"></ion-input>
                 </ion-item>

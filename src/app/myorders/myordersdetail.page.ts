@@ -20,7 +20,7 @@ export class MyordersdetailPage {
   reviewData: any;
   selectedItem: any;
   rating: any;
-  noRecords: boolean = true;
+  noRecords: boolean = false;
 
   constructor(
     private menu: MenuController,
@@ -151,7 +151,7 @@ export class MyordersdetailPage {
   async buyerreviewAlert(item: any) {
     let modal = await this.modalController.create({
       component: ReviewModalPage,
-
+      cssClass: 'my-custom-modal-css'
     });
     modal.onWillDismiss().then((data) => {
 

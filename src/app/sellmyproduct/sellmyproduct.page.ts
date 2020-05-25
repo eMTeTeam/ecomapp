@@ -26,6 +26,7 @@ export class SellmyproductPage {
     unitName: string;
     maxdistance: any;
     expectdelivery: any;
+    loading: any;
 
     constructor(private menu: MenuController,
         public loadingController: LoadingController,
@@ -61,6 +62,7 @@ export class SellmyproductPage {
     }
 
     async addProduct() {
+        this.presentLoading();
         var dataToApi = {
             ProductNameId: this.selectedProduct.productNameId,
             CategoryId: this.selectedProduct.categoryId,
@@ -75,6 +77,7 @@ export class SellmyproductPage {
         this.productService.saveData(dataToApi).subscribe(
             (savedreturnData) => {
                 this.savedData = JSON.stringify(savedreturnData);
+               
                 console.log(this.savedData);
             }
         )
@@ -91,6 +94,8 @@ export class SellmyproductPage {
             ]
         });
         await alert.present().then(() => {
+            
+             this.loading.onDidDismiss();
         });
     }
 
@@ -99,13 +104,13 @@ export class SellmyproductPage {
     }
 
     async presentLoading() {
-        const loading = await this.loadingController.create({
+        this.loading = await this.loadingController.create({
             message: 'Loading..',
             duration: 1000
         });
-        await loading.present();
+        await this.loading.present();
 
-        const { role, data } = await loading.onDidDismiss();
+        const { role, data } = await this.loading.onDidDismiss();
 
         console.log('Loading dismissed!');
     }

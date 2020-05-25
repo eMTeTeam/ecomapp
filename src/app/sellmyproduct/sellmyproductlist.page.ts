@@ -26,7 +26,9 @@ export class SellmyproductlistPage {
   buyerId: any;
   otp: any;
   resultReview: any;
-  noRecords: boolean = true;
+  noRecords: boolean = false;
+  buttonDisabled: boolean = true;
+  confirmDisabled: boolean = true;
   trackByFn(index: any, item: any) {
     return index;
   }
@@ -49,9 +51,10 @@ export class SellmyproductlistPage {
         this.getSellmyproductlist(this.selectedProduct);
       }
     });
-      this.searchList = this.sellmyproductList;
-    this.today = Date.now();
-    this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.searchList = this.sellmyproductList;
+    
+   this.today = Date.now();
+  //  this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
   openFirst() {
@@ -59,6 +62,24 @@ export class SellmyproductlistPage {
     this.menu.open('first');
   }
 
+  changeProductAvailableDate(date) {
+    this.today = date;
+    this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.buttonDisabled = false;
+
+    console.log(date);
+}
+onOtp(eve: any) {
+  this.otp=eve.target.value;
+  if(this.otp!="")
+  {
+  this.confirmDisabled = false;
+  }
+  else
+  {
+    this.confirmDisabled = true;
+  }
+}
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Loading..',
@@ -157,7 +178,7 @@ export class SellmyproductlistPage {
   async sllerreviewAlert(item: any) {
     let modal = await this.modalController.create({
       component: ReviewModalPage,
-
+      cssClass: 'my-custom-modal-css'
     });
     modal.onWillDismiss().then((data) => {
 
@@ -171,12 +192,12 @@ export class SellmyproductlistPage {
         this.sllerreRating(item, this.rating, this.comments)
       }
     });
-        modal.present();
-   
+    modal.present();
+
   }
 
   async ratingreview(item: any, rating: any) {
-  
+
   }
 
   async sllerreRating(itemid: any, rating: any, comments: any) {
@@ -190,7 +211,7 @@ export class SellmyproductlistPage {
     }
     var dataToApi = {
       InventoryItemId: itemid.id,
-      OTP: 6225,
+      OTP: eval(this.otp),
       UserReview: userReview
     };
     this.reviewsService.buyerReview(dataToApi).subscribe(
@@ -214,7 +235,7 @@ export class SellmyproductlistPage {
     await alert.present().then(() => {
     });
   }
-  
+
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       mode: 'ios',
@@ -294,12 +315,14 @@ export class SellmyproductlistPage {
     this.sellmyproductlistService.getSellmyproductlist(id)
       .subscribe(
         data => {
-         
+
           this.sellmyproductList = data;
-          if(this.sellmyproductList.length>0)
-          {
-            this.noRecords=!this.noRecords;
-          }
+          // if (this.sellmyproductList.length > 0) {
+          //   this.noRecords = !this.noRecords;
+          // }
+          this.sellmyproductList.forEach((key) => {
+            key["today"] = '';
+          })
           this.searchList = data;
           console.log(data);
         },

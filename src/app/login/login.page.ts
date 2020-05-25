@@ -14,6 +14,7 @@ export class LoginPage implements OnInit {
    public response: any;
   public error: any;
   returnUrl: string;
+  userName: string;
   constructor(private googlePlus: GooglePlus,
     private commonapiservice: CommonapiService,
     private route: ActivatedRoute,
@@ -33,6 +34,8 @@ export class LoginPage implements OnInit {
       .then(res => {
         console.log(res);
         this.response = res;
+        this.userName=this.response.displayName;
+        sessionStorage.setItem('loggedUser', this.userName);
         this.commonapiservice.setToken(this.response.idToken);
         this.showWelcomeToast()
           .then(response => this.navCtrl.navigateRoot(['home']));

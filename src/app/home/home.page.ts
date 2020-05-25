@@ -12,7 +12,7 @@ import { NavigationExtras } from '@angular/router';
 export class HomePage {
     categoryList: any;
     searchList: any;
-
+    userDisplayName = '';
     constructor(private menu: MenuController,
         private categoryService: CategoryService,
         public loadingController: LoadingController,
@@ -21,6 +21,7 @@ export class HomePage {
         this.presentLoading();
         this.getCategories();
         this.searchList = this.categoryList;
+        this.userDisplayName = sessionStorage.getItem('loggedUser');
     }
 
     openFirst() {

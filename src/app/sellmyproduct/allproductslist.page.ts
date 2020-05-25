@@ -19,7 +19,8 @@ export class AllproductslistPage {
   savedData: any = "";
   price: string;
   noRecords: boolean = true;
-  
+  loading: any;
+
   constructor(
     private menu: MenuController,
     private sellmyproductlistService: SellmyproductlistService,
@@ -28,7 +29,6 @@ export class AllproductslistPage {
     private alertCtrl: AlertController,
     public nav: NavController
   ) {
-    this.presentLoading();
     this.allMyproductlist();
     this.searchList = this.sellmyproductList;
     this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
@@ -40,12 +40,12 @@ export class AllproductslistPage {
   }
 
   async presentLoading() {
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       message: 'Loading..',
       duration: 1000
     });
-    await loading.present();
-    const { role, data } = await loading.onDidDismiss();
+    await this.loading.present();
+    const { role, data } = await this.loading.onDidDismiss();
     console.log('Loading dismissed!');
   }
 
@@ -193,14 +193,15 @@ export class AllproductslistPage {
   }
 
   allMyproductlist() {
+    this.presentLoading();
     this.sellmyproductlistService.getAllmyproductlist().subscribe(
       data => {
         this.sellmyproductList = data;
-        if(this.sellmyproductList.length>0)
-        {
-          this.noRecords=!this.noRecords;
+        if (this.sellmyproductList.length > 0) {
+          this.noRecords = !this.noRecords;
         }
         this.searchList = data;
+        this.loading.onDidDismiss();
         console.log(data);
       },
       error => {

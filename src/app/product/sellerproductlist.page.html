@@ -20,7 +20,7 @@
     </ion-buttons>
     <ion-fab class="cart" vertical="top" horizontal="end" slot="end">
       <ion-fab-button (click)="openCart()" fill="clear" color="danger" #cart>
-        <div class="cart-length">{{cartItemCount | async}}</div>
+        <div class="cart-length">{{cartItemCount}}</div>
         <ion-icon name="cart" class="cart-icon"></ion-icon>
       </ion-fab-button>
     </ion-fab>
@@ -81,16 +81,12 @@
                     <p class="seller-name">Seller: {{item.userId}}</p>
                   </ion-col>
                   <ion-col size="4">
-                    <p class="prd-price"> <b>₹ {{item.price}}</b> </p>
+                    <p class="prd-price"> <b>₹ {{item.price}}/Kg</b> </p>
                   </ion-col>
                 </ion-row>
                 <ion-row>
                   <ion-col class="dist" size="6">
                     <ion-icon name="locate"></ion-icon><span>{{item.distance}} Kms</span>
-                  </ion-col>
-                  <br/>
-                  <ion-col class="dist" size="6">
-                    <ion-icon>Expected Delivery:</ion-icon><span>2 Days</span>
                   </ion-col>
                   <ion-col size="6">
                     <div class="sell-rating">
@@ -100,18 +96,22 @@
                 </ion-row>
                 <ion-row>
                   <ion-col size="7" class="pro-qty">
-                    <ion-button fill="clear" (click)="changeQty(item, i, -1,item.price)">
+                    <ion-button fill="clear" (click)="changeQty(item, i, -1)">
                       <ion-icon name="md-remove"></ion-icon>
                     </ion-button>
                     <ion-input type="number" value="{{item.quantity}}" (change)="onChangeQty($event,item)"></ion-input>
 
-                    <ion-button fill="clear" (click)="changeQty(item, i, 1,item.price)">
+                    <ion-button fill="clear" (click)="changeQty(item, i, 1)">
                       <ion-icon name="md-add"></ion-icon>
                     </ion-button>
                   </ion-col>
                   <ion-col size="5">
                     <ion-button class="btn-primary" fill="clear" (click)="addToCart(item)">Add
                     </ion-button>
+                  </ion-col>
+                  <br />
+                  <ion-col size="12">
+                    <p class="seller-name">Expected Delivery In: 2 Days</p>
                   </ion-col>
                 </ion-row>
               </ion-col>
