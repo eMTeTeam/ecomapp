@@ -3,7 +3,8 @@ import { MenuController, ActionSheetController, LoadingController, NavController
 import { CategoryService } from 'src/app/service/category.service';
 import { ProductService } from 'src/app/service/product.service';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Validators, FormControl, FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 @Component({
     selector: 'app-sellmyproduct',
@@ -13,8 +14,17 @@ import { Router } from '@angular/router';
 export class SellmyproductPage {
     sellmyproductList: any;
     productList: any;
+    editProductList: any;
+    editPrice: any;
+    editProduct: any;
+    editAvailableon: any;
+    editExpiryOn: any;
+    editQuantity: any;
+    editMaxdistancecover: any;
+    editExpectdeliveryIn: any;
     categoryList: any;
     currentDate: any;
+    editExpiryDate: any;
     expiryDate: any;
     searchList: any;
     products: any;
@@ -27,19 +37,56 @@ export class SellmyproductPage {
     maxdistance: any;
     expectdelivery: any;
     loading: any;
-
+    ishidden = false;
+    ishiddenedit = true;
+    sellmyproduct: FormGroup;
+    // productData = { "selectedProduct": "", 
+    // "filefield": "", 
+    // "currentDate": "", 
+    // "expiryDate": "",
+    // "quantity": "", 
+    // "price": ""};
     constructor(private menu: MenuController,
         public loadingController: LoadingController,
+        private formBuilder: FormBuilder,
         private categoryService: CategoryService,
         public httpClient: HttpClient,
         private productService: ProductService,
         public actionSheetController: ActionSheetController,
         private modalCtrl: ModalController,
         private alertCtrl: AlertController,
+        private route: ActivatedRoute,
         private router: Router,
         public nav: NavController) {
         this.presentLoading();
-                this.searchList = this.productList;
+
+        this.route.queryParams.subscribe(params => {
+            if (this.router.getCurrentNavigation().extras.state) {
+                this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
+                if (this.selectedProduct == "" || this.selectedProduct == undefined) {
+                    this.ishiddenedit = true;
+
+                }
+                else {
+                    this.ishiddenedit = false;
+                    this.ishidden = true;
+                }
+
+                this.editProductList = this.getEditproductlist(this.selectedProduct);
+                this.currentDate = new Date().toISOString();
+                this.editExpiryDate = new Date().toISOString();
+                //  this.editPrice=this.editProductList.price;
+            }
+        });
+        this.searchList = this.productList;
+        // this.sellmyproduct = new FormGroup({
+        //     selectedProduct: new FormControl('', [Validators.required]),
+        //     filefield: new FormControl('', [Validators.required]),
+        //     currentDate: new FormControl('', [Validators.required]),
+        //     expiryDate: new FormControl('', [Validators.required]),
+        //     quantity: new FormControl('', [Validators.required]),
+        //     price: new FormControl('', [Validators.required]),
+        // });
     }
 
     searchText(event: any) {
@@ -56,9 +103,24 @@ export class SellmyproductPage {
                 }
             );
     }
-   
+
     onSelectProduct() {
         console.log(this.selectedProduct);
+    }
+
+    uploadFile(event) {
+        let file = event.target.files[0];
+        console.log(file);
+        const formData = new FormData();
+        formData.append('FormFile', file);
+        formData.get('FormFile');
+        this.productService.saveImage(formData).subscribe(
+            (savedreturnData) => {
+                this.savedData = JSON.stringify(savedreturnData);
+                console.log(this.savedData);
+            }
+        )
+
     }
 
     async addProduct() {
@@ -77,7 +139,7 @@ export class SellmyproductPage {
         this.productService.saveData(dataToApi).subscribe(
             (savedreturnData) => {
                 this.savedData = JSON.stringify(savedreturnData);
-               
+
                 console.log(this.savedData);
             }
         )
@@ -94,8 +156,42 @@ export class SellmyproductPage {
             ]
         });
         await alert.present().then(() => {
-            
-             this.loading.onDidDismiss();
+
+            this.loading.onDidDismiss();
+        });
+    }
+
+    async updateProduct() {
+        this.presentLoading();
+        var dataToApi = {
+            Id: this.selectedProduct,
+            Price: eval(this.editPrice),
+            ImageUrl: "Image",
+            Quantity: eval(this.editQuantity)
+
+        };
+        this.productService.updateProduct(dataToApi).subscribe(
+            (savedreturnData) => {
+                this.savedData = JSON.stringify(savedreturnData);
+
+                console.log("Updated Product", this.savedData);
+            }
+        )
+        const alert = await this.alertCtrl.create({
+            message: 'Product Updated Successfully',
+            buttons: [
+                {
+                    text: 'OK',
+
+                    handler: () => {
+                        this.router.navigate(['/allproductslist']);
+                    }
+                }
+            ]
+        });
+        await alert.present().then(() => {
+
+            this.loading.onDidDismiss();
         });
     }
 
@@ -149,6 +245,11 @@ export class SellmyproductPage {
     };
 
     changeProductAvailableDate(date) {
+        this.editAvailableon = date;
+        console.log(date);
+    }
+    changeProductExpiryDate(date) {
+        this.editExpiryDate = date;
         console.log(date);
     }
 
@@ -163,5 +264,20 @@ export class SellmyproductPage {
     openAccountPage() {
         this.nav.navigateForward("account");
     }
-   
+    getEditproductlist(id: any) {
+        this.productService.getEditProduct(id)
+            .subscribe(
+                data => {
+
+                    this.editProductList = data;
+                    this.editPrice = this.editProductList.price;
+                    this.editProduct = this.editProductList.name;
+                    this.editQuantity = this.editProductList.quantity;
+                    //   this.editAvailableon=this.currentDate;
+                },
+                error => {
+                    console.log(error);
+                }
+            );
+    }
 }

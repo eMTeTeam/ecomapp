@@ -19,7 +19,7 @@
       </ion-button>
     </ion-buttons>
     <ion-fab class="cart" vertical="top" horizontal="end" slot="end">
-      <ion-fab-button (click)="openCart()" fill="clear" color="danger" #cart>
+      <ion-fab-button [disabled]="openCartDisabled" (click)="openCart()" fill="clear" color="danger" #cart>
         <div class="cart-length">{{cartItemCount}}</div>
         <ion-icon name="cart" class="cart-icon"></ion-icon>
       </ion-fab-button>
@@ -78,7 +78,7 @@
               <ion-col size="8">
                 <ion-row>
                   <ion-col size="8">
-                    <p class="seller-name">Seller: {{item.userId}}</p>
+                    <p class="seller-name">Seller: {{item.user.firstName}}</p>
                   </ion-col>
                   <ion-col size="4">
                     <p class="prd-price"> <b>₹ {{item.price}}/Kg</b> </p>
@@ -106,7 +106,7 @@
                     </ion-button>
                   </ion-col>
                   <ion-col size="5">
-                    <ion-button class="btn-primary" fill="clear" (click)="addToCart(item)">Add
+                    <ion-button class="btn-primary" fill="clear" [disabled]="addToCartDisabled" (click)="addToCart(item)">Add
                     </ion-button>
                   </ion-col>
                   <br />

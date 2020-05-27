@@ -24,8 +24,8 @@ export class SellerproductlistPage {
   basketData: any = "";
   price: number;
   //amount: number;
-  userId: any;
-  loading:any;
+  firstName: any;
+  loading: any;
   // count: number = 0;
   // amount: number;
   itemId: any;
@@ -40,6 +40,8 @@ export class SellerproductlistPage {
   fixedDistance2: any;
   basePrice: number;
   qty: number = 0;
+  addToCartDisabled: boolean = true;
+  openCartDisabled: boolean = true;
   @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
 
   constructor(private menu: MenuController,
@@ -61,24 +63,24 @@ export class SellerproductlistPage {
         this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
         this.getmyAddresslist(this.selectedProduct);
         this.bindCartItemcount();
-      //  this.cartItemCount = this.cartService.getCartItemCount();
+        //  this.cartItemCount = this.cartService.getCartItemCount();
 
       }
     });
     this.searchList = this.productList;
-    
-  //  this.cartItemCount = this.cartService.getCartItemCount();
-    
+
+    //  this.cartItemCount = this.cartService.getCartItemCount();
+
 
   }
-//   ngOnInit() {
-//     // Let's navigate from TabsPage to Page1
-//     this.onViewWillEnter();
-//  }
+  //   ngOnInit() {
+  //     // Let's navigate from TabsPage to Page1
+  //     this.onViewWillEnter();
+  //  }
 
   ionViewWillEnter() {
     this.cartService.getCartItemCount();
-}
+  }
 
   async presentLoading() {
     this.loading = await this.loadingController.create({
@@ -110,12 +112,24 @@ export class SellerproductlistPage {
     this.qty = item.quantity;
     item.quantity = this.qty;
     item.price = this.qty * item.basePrice;
+    if (item.quantity > 0) {
+      this.addToCartDisabled = false;
+    }
+    else {
+      this.addToCartDisabled = true;
+    }
   }
 
   onChangeQty(eve: any, item) {
     item.quantity = eve.target.value;
     this.qty = item.quantity;
     item.price = item.quantity * item.basePrice;
+    if (item.quantity > 0) {
+      this.addToCartDisabled = false;
+    }
+    else {
+      this.addToCartDisabled = true;
+    }
   }
 
   filterValue(minPrice, maxPrice) {
@@ -149,10 +163,10 @@ export class SellerproductlistPage {
       case "Seller Name":
         {
           this.productList = this.productList.sort(function (low, high) {
-            if (low.userId < high.userId) {
+            if (low.firstName < high.firstName) {
               return -1;
             }
-            else if (low.userId > high.userId) {
+            else if (low.firstName > high.firstName) {
               return 1;
             }
             else {
@@ -177,8 +191,8 @@ export class SellerproductlistPage {
   }
 
   async addToCart(item: any) {
-   // this.cartItemCount =this.cartItemCount + 1;
-   this.presentLoading();
+    // this.cartItemCount =this.cartItemCount + 1;
+    this.presentLoading();
     var basketToApi = {
       ProductId: item.id,
       Quantity: eval(item.quantity)
@@ -188,23 +202,30 @@ export class SellerproductlistPage {
         this.basketData = JSON.stringify(savedreturnbasketData);
         this.bindCartItemcount();
         console.log(this.basketData);
+        this.openCartDisabled = false;
       }
     )
 
     //this.presentLoading();
-   // this.cartItemCount = this.cartService.getCartItemCount();
+    // this.cartItemCount = this.cartService.getCartItemCount();
     this.animateCSS('tada');
     //return this.cartItemCount;
-  
+
   }
-async bindCartItemcount()
-{
-  this.cartService.getCartItemCount().subscribe(
-    data => {
-      this.cartItemCount=data;
-      this.loading.onDidDismiss();
+  async bindCartItemcount() {
+    this.cartService.getCartItemCount().subscribe(
+      data => {
+        this.cartItemCount = data;
+        if (this.cartItemCount > 0) {
+          this.openCartDisabled = false;
+        }
+        else {
+          this.openCartDisabled = true;
+        }
+        this.loading.onDidDismiss();
       });
-}
+   
+  }
   async openCart() {
     this.animateCSS('bounceOutLeft', true);
     this.nav.navigateForward("cartbasket");

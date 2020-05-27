@@ -20,7 +20,7 @@ export class CartbasketPage {
   checklist: any;
   savedData: any = "";
   total: number;
-  loading:any;
+  loading: any;
   price: number = 0;
   quantity: number;
   basePrice: number;
@@ -47,14 +47,17 @@ export class CartbasketPage {
     this.getmyAddresslist();
     this.checklist = this.cart;
     this.masterSelected = true;
+   // this.checkUncheckAll();
   }
 
   checkUncheckAll() {
-    for (var i = 0; i < this.cart.length; i++) {
-      this.cart[i].isSelected = this.masterSelected;
+    if (this.cart.length > 0) {
+      for (var i = 0; i < this.cart.length; i++) {
+        this.cart[i].isSelected = this.masterSelected;
+      }
+      this.getCheckedItemList();
     }
 
-    this.getCheckedItemList();
   }
 
   isAllSelected() {
@@ -164,7 +167,15 @@ export class CartbasketPage {
   }
 
   removeCartItem(p) {
-    this.cartService.removeProduct(p.id);
+    this.presentLoading();
+    this.cartService.removeProduct(p.id).subscribe(
+      (savedreturnData) => {
+        this.savedData = JSON.stringify(savedreturnData);
+        console.log(this.savedData);
+        this.getBasketproducts();
+        this.getCheckedItemList();
+      }
+    )
   }
 
   getTotal(total: number) {
@@ -253,6 +264,11 @@ export class CartbasketPage {
           })
           if (this.cart.length > 0) {
             this.noRecords = !this.noRecords;
+            this.checkUncheckAll();
+          }
+          else
+          {
+            this.nav.navigateBack("sellerproductlist");
           }
           console.log(data);
           this.loading.onDidDismiss();

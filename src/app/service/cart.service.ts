@@ -22,7 +22,9 @@ export class CartService {
   controllerBaskets: string = "Baskets";
   controllerInventories: string = "Inventories";
   constructor(public http: HttpClient,
-    private commonapiservice: CommonapiService) { }
+    private commonapiservice: CommonapiService,
+    
+    ) { }
 
   getCart() {
     return this.cart;
@@ -84,7 +86,7 @@ export class CartService {
 
   removeProduct(basketId) {
     const url = this.commonapiservice.getApiURL(this.controllerBaskets, '?basketItemId=');
-    this.http.delete(url + basketId).subscribe(data => { });
+   return this.http.delete(url + basketId);    
   }
 
   /*** Dont delete this Methos will be reuse */

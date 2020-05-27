@@ -46,6 +46,7 @@ export class MyordersdetailPage {
     //   this.noRecords = !this.noRecords;
     // }
     this.searchList = this.selectedItem;
+    console.log(this.searchList);
 
   }
 

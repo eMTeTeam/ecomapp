@@ -15,6 +15,7 @@ export class LoginPage implements OnInit {
   public error: any;
   returnUrl: string;
   userName: string;
+  
   constructor(private googlePlus: GooglePlus,
     private commonapiservice: CommonapiService,
     private route: ActivatedRoute,
@@ -24,10 +25,19 @@ export class LoginPage implements OnInit {
        ) { }
 
   ngOnInit() {
+   // var angular: any;
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     console.log('URL:', this.returnUrl);
+    //var app = angular.module('app', ['googleplus']);
+
+    // app.config(['GooglePlusProvider', function(GooglePlusProvider) {
+    //      GooglePlusProvider.init({
+    //         clientId: '437128387301-ctap3juk31ldh9t6bidu792t2gqu2n95.apps.googleusercontent.com',
+    //         apiKey: 'IYm1ph8oiObxqPSr1MuXyJBP'
+    //      });
+    // }]);
   }
-  
+   
   googleLogin = () => {
     const options: any = {};
     this.googlePlus.login(options)

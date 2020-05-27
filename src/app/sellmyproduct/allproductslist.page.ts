@@ -4,6 +4,8 @@ import { SellmyproductlistService } from 'src/app/service/sellmyproductlist.serv
 import { IonSlides } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { NavigationExtras } from '@angular/router';
+import { AccountService } from 'src/app/service/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-allproductslist',
@@ -20,6 +22,7 @@ export class AllproductslistPage {
   price: string;
   noRecords: boolean = true;
   loading: any;
+  addressList: any;
 
   constructor(
     private menu: MenuController,
@@ -27,7 +30,9 @@ export class AllproductslistPage {
     public loadingController: LoadingController,
     public actionSheetController: ActionSheetController,
     private alertCtrl: AlertController,
-    public nav: NavController
+    public nav: NavController,
+    private router: Router,
+    private accountService: AccountService
   ) {
     this.allMyproductlist();
     this.searchList = this.sellmyproductList;
@@ -49,8 +54,9 @@ export class AllproductslistPage {
     console.log('Loading dismissed!');
   }
 
-  addNewProduct() {
-    this.nav.navigateForward("sellmyproduct");
+  async addNewProduct() {
+    // this.nav.navigateForward("sellmyproduct");
+    this.getmyAddresslist();
   }
 
   viewProduct(item: any) {
@@ -60,9 +66,42 @@ export class AllproductslistPage {
   }
 
   editProduct(item) {
+    //  console.log(item);
+    let navigationExtras: NavigationExtras = { state: { selectedProduct: item.id } };
+    this.nav.navigateForward(['sellmyproduct'], navigationExtras);
+  }
+  async getmyAddresslist() {
+    this.accountService.getAddressList().subscribe(
+      async data => {
+        this.addressList = data;
+        console.log(data);
+        if (this.addressList.length > 0) {
+          this.nav.navigateForward("sellmyproduct");
+        }
+        else {
+
+          const alert = this.alertCtrl.create({
+            message: 'Please add Address before add products',
+            buttons: [
+              {
+                text: 'OK',
+
+                handler: () => {
+                  this.router.navigate(['/address']);
+                }
+              }
+            ]
+          });
+          await (await alert).present().then(() => {
+          });
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
 
   }
-
   approve(item: any) {
     var approveApi = {
       InventoryItemId: item.id,
