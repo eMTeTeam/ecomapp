@@ -16,7 +16,7 @@ export class MyordersPage {
   searchList: any;
   savedData: any = "";
   noRecords: boolean = true;
-
+  loading:any;
   constructor(
     private menu: MenuController,
     private myordersService: MyordersService,
@@ -29,19 +29,22 @@ export class MyordersPage {
     this.allMyproductlist();
     this.searchList = this.productList;
   }
-
+  ionViewWillEnter() {
+    this.presentLoading();
+    this.allMyproductlist();
+  }
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
   }
 
   async presentLoading() {
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       message: 'Loading..',
       duration: 1000
     });
-    await loading.present();
-    const { role, data } = await loading.onDidDismiss();
+    await this.loading.present();
+    const { role, data } = await this.loading.onDidDismiss();
     console.log('Loading dismissed!');
   }
 
@@ -127,6 +130,7 @@ export class MyordersPage {
           this.noRecords = !this.noRecords;
         }
         this.searchList = data;
+        this.loading.onDidDismiss();
       },
       error => {
         console.log(error);

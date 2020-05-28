@@ -25,9 +25,9 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
-    <p *ngIf="noRecords">
+    <!-- <p *ngIf="noRecords">
         <label >There is no Orders Placed</label>
-    </p>
+    </p> -->
     <ion-list class="product">
         <ion-row class="mr-10">
             <ion-col class="product-col" size="12" *ngFor="let item of searchList">

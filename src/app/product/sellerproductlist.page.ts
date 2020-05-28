@@ -113,10 +113,11 @@ export class SellerproductlistPage {
     item.quantity = this.qty;
     item.price = this.qty * item.basePrice;
     if (item.quantity > 0) {
-      this.addToCartDisabled = false;
+      item.addToCartDisabled = false;
     }
     else {
-      this.addToCartDisabled = true;
+      item.addToCartDisabled = true;
+      item.price=item.basePrice;
     }
   }
 
@@ -125,10 +126,11 @@ export class SellerproductlistPage {
     this.qty = item.quantity;
     item.price = item.quantity * item.basePrice;
     if (item.quantity > 0) {
-      this.addToCartDisabled = false;
+      item.addToCartDisabled = false;
     }
     else {
-      this.addToCartDisabled = true;
+      item.addToCartDisabled = true;
+      item.price=item.basePrice;
     }
   }
 

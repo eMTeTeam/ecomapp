@@ -23,7 +23,7 @@ export class AddressPage {
   savedAddress: any = "";
   addressType: any;
   defaultAddress: boolean;
-  
+  loading:any;
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -42,6 +42,7 @@ export class AddressPage {
   this.defaultAddress=list.target.checked;
   }
   async addAddress() {
+    this.presentLoading();
     var dataToApi = {
       AddressLine1: this.addressline1,
       AddressLine2: this.addressline2,
@@ -74,6 +75,7 @@ export class AddressPage {
       ]
     });
     await alert.present().then(() => {
+      this.loading.onDidDismiss();
     });
   }
 
@@ -97,12 +99,12 @@ export class AddressPage {
   }
 
   async presentLoading() {
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       message: 'Loading..',
       duration: 1000
     });
-    await loading.present();
-    const { role, data } = await loading.onDidDismiss();
+    await this.loading.present();
+    const { role, data } = await this.loading.onDidDismiss();
     console.log('Loading dismissed!');
   }
 

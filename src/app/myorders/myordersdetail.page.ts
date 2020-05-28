@@ -5,6 +5,7 @@ import { IonSlides } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewModalPage } from 'src/app/sellmyproduct/review-modal/review-modal.page'
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-myordersdetail',
@@ -172,17 +173,31 @@ export class MyordersdetailPage {
   }
   async buyerComments(item: any, rating: any, comments: any) {
     {
-      var tags = ["9d82e20b-96e1-11ea-9399-020361373239"];
+      var tags = ["672d96c1-9859-43e2-b579-80362171841c"];
       var dataToApi = {
         TagIds: tags,
-        UserId: item.sellerId,
+        UserId: item.seller.userId,
         Comments: comments,
         Rating: rating
       };
       this.reviewsService.sellerReview(dataToApi).subscribe(
-        (savedreturnData) => {
+       async (savedreturnData) => {
           this.reviewData = JSON.stringify(savedreturnData);
           console.log(this.reviewData);
+          const alert = await this.alertCtrl.create({
+            message: 'Reviewed Successfully',
+            buttons: [
+              {
+                text: 'OK',
+      
+                handler: () => {
+                  this.router.navigate(['/myorders']);
+                }
+              }
+            ]
+          });
+          await alert.present().then(() => {
+          });
         }
       )
     }

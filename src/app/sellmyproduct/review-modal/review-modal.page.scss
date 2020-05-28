@@ -1,0 +1,20 @@
+.rating-modal-header {
+    ion-title {
+        color: black;
+        font-family: sans-serif; 
+        font-size: 18px;
+    }
+}
+.rating-modal-body {
+    ion-row {
+        padding: 15px;
+    }
+    .btn-primary {
+        width: 100%;
+    }
+    ion-textarea {
+        border: 1px solid gray;
+        height: 200px;
+    }
+
+}

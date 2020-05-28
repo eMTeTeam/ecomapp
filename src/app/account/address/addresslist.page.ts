@@ -12,6 +12,7 @@ export class AddresslistPage {
   addressList: any;
   searchList: any;
   noRecords: boolean = true;
+  loading:any;
 
   constructor(private menu: MenuController,
     private accountService: AccountService,
@@ -27,14 +28,17 @@ export class AddresslistPage {
     this.menu.enable(true, 'first');
     this.menu.open('first');
   }
-
+  ionViewWillEnter() {
+    this.presentLoading();
+    this.getmyAddresslist();
+  }
   async presentLoading() {
-    const loading = await this.loadingController.create({
+    this.loading = await this.loadingController.create({
       message: 'Loading..',
       duration: 1000
     });
-    await loading.present();
-    const { role, data } = await loading.onDidDismiss();
+    await this.loading.present();
+    const { role, data } = await this.loading.onDidDismiss();
     console.log('Loading dismissed!');
   }
 
@@ -58,6 +62,7 @@ export class AddresslistPage {
           this.noRecords = !this.noRecords;
         }
         this.searchList = data;
+        this.loading.onDidDismiss();
         console.log(data);
       },
       error => {

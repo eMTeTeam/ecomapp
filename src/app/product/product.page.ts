@@ -161,13 +161,30 @@ export class ProductPage {
             );
     }
 
-    getmyAddresslist(id: any) {
+    async getmyAddresslist(id: any) {
         this.accountService.getAddressList().subscribe(
-            data => {
+            async data => {
                 this.addressList = data;
                 console.log(data);
-                if (data) {
+                if (this.addressList.length>0) {
                     this.getProducts(id);
+                }
+                else
+                {
+                    const alert = this.alertController.create({
+                        message: 'Please add Address before view products',
+                        buttons: [
+                          {
+                            text: 'OK',
+            
+                            handler: () => {
+                              this.router.navigate(['/address']);
+                            }
+                          }
+                        ]
+                      });
+                      await (await alert).present().then(() => {
+                      });
                 }
             },
             error => {

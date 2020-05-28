@@ -53,7 +53,8 @@
 
 //
 
-  $btncolor: #FF0000;
+  //$btncolor: #00bceb;
+  $btncolor: #fc0d0d;
   $bgcolor:#f9f8f8;
 
 ion-content, .sc-ion-label-md-s h2, .sc-ion-label-md-s p ,.sc-ion-label-md-s, app-address ion-item  {
@@ -98,16 +99,34 @@ ion-content, .sc-ion-label-md-s h2, .sc-ion-label-md-s p ,.sc-ion-label-md-s, ap
       }
 }
 
-.alertstar{
-    button{
-         width: 40px;
-         margin: 0 !important;
-         background-image:url("../src/assets/icon/star.png");
-         background-repeat: no-repeat;
-         background-position: center;
-         color:white !important;
+ion-chip {
+    background-color: #ffcbcb;
+    border-radius: 3px;
+    margin: 0;
+    float: right;
+    height: 27px;
+
+    ion-label , a  { 
+        color: $btncolor !important;
     }
-    .alert-button-group{padding:0; margin-top: 10px; flex-direction: row; justify-content: space-around;}
-    border-radius: 12px;
-    .alert-wrapper{border-radius: 12px;}
 }
+
+.my-custom-modal-css .modal-wrapper {
+    // height: 50%;
+    // width: 70%;
+    // top: 50%;
+    // position: absolute; 
+    // display: block;  
+    --width:90%;
+    --height: 60%;
+    --border-radius: 10px;
+    padding: 10px;
+ }
+
+ .btn-fb {
+    border: 1px solid #3453c4;
+    background-color: #3453c4;
+    border-radius: 3px;
+    color: white;
+}
+

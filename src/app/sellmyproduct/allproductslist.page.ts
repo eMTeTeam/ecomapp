@@ -39,6 +39,10 @@ export class AllproductslistPage {
     this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
+  ionViewWillEnter() {
+    this.presentLoading();
+    this.allMyproductlist();
+  }
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
@@ -154,7 +158,7 @@ export class AllproductslistPage {
     )
   }
 
-  goBack() {
+  goback() {
     this.nav.navigateForward("account");
   }
 
@@ -232,7 +236,7 @@ export class AllproductslistPage {
   }
 
   allMyproductlist() {
-    this.presentLoading();
+
     this.sellmyproductlistService.getAllmyproductlist().subscribe(
       data => {
         this.sellmyproductList = data;

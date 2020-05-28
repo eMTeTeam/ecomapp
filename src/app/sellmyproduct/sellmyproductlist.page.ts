@@ -29,6 +29,7 @@ export class SellmyproductlistPage {
   noRecords: boolean = false;
   buttonDisabled: boolean = true;
   confirmDisabled: boolean = true;
+  productName: any;
   trackByFn(index: any, item: any) {
     return index;
   }
@@ -52,9 +53,9 @@ export class SellmyproductlistPage {
       }
     });
     this.searchList = this.sellmyproductList;
-    
-   this.today = Date.now();
-  //  this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+
+    this.today = Date.now();
+    this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
   }
 
   openFirst() {
@@ -68,18 +69,16 @@ export class SellmyproductlistPage {
     this.buttonDisabled = false;
 
     console.log(date);
-}
-onOtp(eve: any) {
-  this.otp=eve.target.value;
-  if(this.otp!="")
-  {
-  this.confirmDisabled = false;
   }
-  else
-  {
-    this.confirmDisabled = true;
+  onOtp(eve: any) {
+    this.otp = eve.target.value;
+    if (this.otp != "") {
+      this.confirmDisabled = false;
+    }
+    else {
+      this.confirmDisabled = true;
+    }
   }
-}
   async presentLoading() {
     const loading = await this.loadingController.create({
       message: 'Loading..',
@@ -188,7 +187,7 @@ onOtp(eve: any) {
         this.comments = mapped[0]["value"];
         this.rating = mapped[1]["value"];
       }
-      if (data) {
+      if (data != "" || data != null) {
         this.sllerreRating(item, this.rating, this.comments)
       }
     });
@@ -202,10 +201,10 @@ onOtp(eve: any) {
 
   async sllerreRating(itemid: any, rating: any, comments: any) {
 
-    var tags = ["9d82e20b-96e1-11ea-9399-020361373239"];
+    var tags = ["672d96c1-9859-43e2-b579-80362171841c"];
     var userReview = {
       TagIds: tags,
-      UserId: itemid.buyerId,
+      UserId: itemid.buyer.userId,
       Comments: comments,
       Rating: rating
     }
@@ -324,6 +323,7 @@ onOtp(eve: any) {
             key["today"] = '';
           })
           this.searchList = data;
+          this.productName = this.searchList[0].productName;
           console.log(data);
         },
         error => {

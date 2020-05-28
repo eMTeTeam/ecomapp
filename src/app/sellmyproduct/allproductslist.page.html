@@ -10,9 +10,8 @@
 <ion-router-outlet main></ion-router-outlet>
 <ion-header>
     <ion-toolbar>
-
         <ion-buttons slot="start">
-            <ion-button (click)="goBack()">
+            <ion-button (click)="goback()">
                 <ion-icon name="arrow-round-back"></ion-icon>
             </ion-button>
         </ion-buttons>
@@ -29,10 +28,6 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
-    <p *ngIf="noRecords">
-        <label >There is no products available</label>
-    </p>
-
     <ion-list class="product">
         <ion-row class="mr-10">
             <ion-col class="product-col" size="12" *ngFor="let item of searchList">
@@ -60,7 +55,7 @@
                                         </ion-label>
                                     </ion-col>
                                     <ion-col size="6">
-                                        <div class="ellipsisText">:{{item.price}}/Kg</div>
+                                        <div class="ellipsisText">:₹ {{item.price}}/Kg</div>
                                     </ion-col>
                                 </ion-row>
                                 <ion-row>
@@ -73,14 +68,22 @@
                                         <div class="ellipsisText">:{{item.quantity}}</div>
                                     </ion-col>
                                 </ion-row>
-                                <ion-row>
+                                <ion-row class="action">
                                     <ion-col size="6">
-                                        <a class="" fill="clear" (click)="viewProduct(item)">View
-                                        </a>
+                                        <ion-chip>
+                                            <ion-label color="primary">
+                                                <a class="" fill="clear" (click)="viewProduct(item)">View
+                                                </a>
+                                            </ion-label>
+                                        </ion-chip>
                                     </ion-col>
                                     <ion-col size="6">
-                                        <a class="" fill="clear" (click)="editProduct(item)">Edit
-                                        </a>
+                                        <ion-chip>
+                                            <ion-label color="primary">
+                                                <a class="" fill="clear" (click)="editProduct(item)">Edit
+                                                </a>
+                                            </ion-label>
+                                        </ion-chip>
                                     </ion-col>
                                 </ion-row>
                             </ion-col>

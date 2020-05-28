@@ -90,7 +90,7 @@
                   </ion-col>
                   <ion-col size="6">
                     <div class="sell-rating">
-                      4.2 <ion-icon name="star"></ion-icon>
+                      {{item.rating}}<ion-icon name="star"></ion-icon> ({{item.numberOfRatings}})
                     </div>
                   </ion-col>
                 </ion-row>
@@ -106,7 +106,7 @@
                     </ion-button>
                   </ion-col>
                   <ion-col size="5">
-                    <ion-button class="btn-primary" fill="clear" [disabled]="addToCartDisabled" (click)="addToCart(item)">Add
+                    <ion-button class="btn-primary" fill="clear" *ngIf="item.quantity>0" [disabled]="item.addToCartDisabled" (click)="addToCart(item)">Add
                     </ion-button>
                   </ion-col>
                   <br />

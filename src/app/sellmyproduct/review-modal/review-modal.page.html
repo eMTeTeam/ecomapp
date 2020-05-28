@@ -1,10 +1,10 @@
-<ion-header>
+<ion-header class="rating-modal-header">
   <ion-toolbar>
     <ion-title>Buyer Review</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="rating-modal-body">
   <ion-row>
     <ion-col>
   <ion-label position="stacked" class="productLabel">Rating:</ion-label>
@@ -15,7 +15,8 @@
                   </rating>
                   <br/>
   <ion-label position="stacked" class="productLabel">Comments</ion-label>
-  <ion-input type="textarea" [(ngModel)]="comments"></ion-input>
+  <!-- <ion-input type="textarea" [(ngModel)]="comments"></ion-input> -->
+  <ion-textarea  [(ngModel)]="comments"></ion-textarea>
 </ion-col>
 </ion-row>
 <ion-row>
