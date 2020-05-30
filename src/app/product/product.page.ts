@@ -172,10 +172,12 @@ export class ProductPage {
                 else
                 {
                     const alert = this.alertController.create({
+                        header: 'Request!',
                         message: 'Please add Address before view products',
+                        mode: 'ios',
                         buttons: [
                           {
-                            text: 'OK',
+                            text: 'Okay',
             
                             handler: () => {
                               this.router.navigate(['/address']);

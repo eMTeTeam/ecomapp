@@ -23,11 +23,8 @@ export class SellerproductlistPage {
   maxPrice: any;
   basketData: any = "";
   price: number;
-  //amount: number;
   firstName: any;
   loading: any;
-  // count: number = 0;
-  // amount: number;
   itemId: any;
   quantity: number = 0;
   addressList: any;
@@ -63,20 +60,10 @@ export class SellerproductlistPage {
         this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
         this.getmyAddresslist(this.selectedProduct);
         this.bindCartItemcount();
-        //  this.cartItemCount = this.cartService.getCartItemCount();
-
       }
     });
     this.searchList = this.productList;
-
-    //  this.cartItemCount = this.cartService.getCartItemCount();
-
-
   }
-  //   ngOnInit() {
-  //     // Let's navigate from TabsPage to Page1
-  //     this.onViewWillEnter();
-  //  }
 
   ionViewWillEnter() {
     this.cartService.getCartItemCount();
@@ -117,7 +104,7 @@ export class SellerproductlistPage {
     }
     else {
       item.addToCartDisabled = true;
-      item.price=item.basePrice;
+      item.price = item.basePrice;
     }
   }
 
@@ -130,7 +117,7 @@ export class SellerproductlistPage {
     }
     else {
       item.addToCartDisabled = true;
-      item.price=item.basePrice;
+      item.price = item.basePrice;
     }
   }
 
@@ -193,7 +180,6 @@ export class SellerproductlistPage {
   }
 
   async addToCart(item: any) {
-    // this.cartItemCount =this.cartItemCount + 1;
     this.presentLoading();
     var basketToApi = {
       ProductId: item.id,
@@ -207,13 +193,10 @@ export class SellerproductlistPage {
         this.openCartDisabled = false;
       }
     )
-
-    //this.presentLoading();
-    // this.cartItemCount = this.cartService.getCartItemCount();
     this.animateCSS('tada');
-    //return this.cartItemCount;
-
+    
   }
+  
   async bindCartItemcount() {
     this.cartService.getCartItemCount().subscribe(
       data => {
@@ -226,7 +209,7 @@ export class SellerproductlistPage {
         }
         this.loading.onDidDismiss();
       });
-   
+
   }
   async openCart() {
     this.animateCSS('bounceOutLeft', true);

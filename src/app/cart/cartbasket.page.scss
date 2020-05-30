@@ -189,6 +189,20 @@
   opacity:0.6;         //This grays it out to look disabled
 }
 
+.icon-delete ion-icon { 
+  font-size: 14px;
+}
+.price {
+  margin-top: 8px;
+}
+
+.address {
+  background-color: red;
+  --background-checked: red;
+  --border-color-checked: red;
+}
+
+
 
       
       

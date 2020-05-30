@@ -38,14 +38,10 @@ export class SellmyproductPage {
     expectdelivery: any;
     loading: any;
     ishidden = false;
+    ishiddentitle = false;
     ishiddenedit = true;
+    ishiddentitleedit = true;
     sellmyproduct: FormGroup;
-    // productData = { "selectedProduct": "", 
-    // "filefield": "", 
-    // "currentDate": "", 
-    // "expiryDate": "",
-    // "quantity": "", 
-    // "price": ""};
     constructor(private menu: MenuController,
         public loadingController: LoadingController,
         private formBuilder: FormBuilder,
@@ -65,28 +61,21 @@ export class SellmyproductPage {
                 this.selectedProduct = this.router.getCurrentNavigation().extras.state.selectedProduct;
                 if (this.selectedProduct == "" || this.selectedProduct == undefined) {
                     this.ishiddenedit = true;
-
+                    this.ishiddentitleedit = true;
                 }
                 else {
                     this.ishiddenedit = false;
+                    this.ishiddentitleedit = false;
                     this.ishidden = true;
+                    this.ishiddentitle = true;
                 }
 
                 this.editProductList = this.getEditproductlist(this.selectedProduct);
                 this.currentDate = new Date().toISOString();
                 this.editExpiryDate = new Date().toISOString();
-                //  this.editPrice=this.editProductList.price;
             }
         });
         this.searchList = this.productList;
-        // this.sellmyproduct = new FormGroup({
-        //     selectedProduct: new FormControl('', [Validators.required]),
-        //     filefield: new FormControl('', [Validators.required]),
-        //     currentDate: new FormControl('', [Validators.required]),
-        //     expiryDate: new FormControl('', [Validators.required]),
-        //     quantity: new FormControl('', [Validators.required]),
-        //     price: new FormControl('', [Validators.required]),
-        // });
     }
 
     searchText(event: any) {
@@ -144,10 +133,12 @@ export class SellmyproductPage {
             }
         )
         const alert = await this.alertCtrl.create({
+            header: 'Confirm!',
             message: 'Product Added Successfully',
+            mode: 'ios',
             buttons: [
                 {
-                    text: 'OK',
+                    text: 'Okay',
 
                     handler: () => {
                         this.router.navigate(['/allproductslist']);
@@ -178,10 +169,12 @@ export class SellmyproductPage {
             }
         )
         const alert = await this.alertCtrl.create({
+            header: 'Confirm!',
             message: 'Product Updated Successfully',
+            mode: 'ios',
             buttons: [
                 {
-                    text: 'OK',
+                    text: 'Okay',
 
                     handler: () => {
                         this.router.navigate(['/allproductslist']);
@@ -273,7 +266,6 @@ export class SellmyproductPage {
                     this.editPrice = this.editProductList.price;
                     this.editProduct = this.editProductList.name;
                     this.editQuantity = this.editProductList.quantity;
-                    //   this.editAvailableon=this.currentDate;
                 },
                 error => {
                     console.log(error);

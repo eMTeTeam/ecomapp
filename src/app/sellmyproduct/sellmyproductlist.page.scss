@@ -133,9 +133,6 @@
         margin-top: .2rem;
     }
     .stepper {
-        /* padding: 0 1.5rem;
-        padding: 1.5rem;
-        margin: 1em -1.5rem; */
         overflow-x: hidden;
         overflow-y: auto;
         counter-reset: section;
@@ -158,10 +155,7 @@
     }
     .btn-primary { 
         height: 30px;
-       /*  position: relative;
-        top: 32px;
-        right: 115px; */
-    }
+       }
     .aprv-rej ion-button {
         width: 100%;
     }  

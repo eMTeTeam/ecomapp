@@ -12,9 +12,9 @@
     <ion-toolbar>
         <ion-buttons slot="start">
             <ion-button (click)="goBack()">
-              <ion-icon name="arrow-round-back"></ion-icon>
+                <ion-icon name="arrow-round-back"></ion-icon>
             </ion-button>
-          </ion-buttons>
+        </ion-buttons>
         <ion-title class="text-center">
             My Orders Detail
         </ion-title>
@@ -25,18 +25,16 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
-    <!-- <p *ngIf="noRecords">
-        <label >There is no Orders Placed</label>
-    </p> -->
-    <ion-list  class="order-details">
-        <ion-card *ngFor="let item of selectedItem" >
+    <ion-list class="order-details">
+        <ion-card *ngFor="let item of selectedItem">
             <ion-card-content>
                 <ion-row>
                     <ion-col size="4">
-                        <ion-item lines="none" mode="ios" >
-                        <ion-thumbnail slot="end">
-                            <img src="../../assets/products/vegetables/{{item.productName}}.jpg" style="border-radius:50%;">
-                        </ion-thumbnail>
+                        <ion-item lines="none" mode="ios">
+                            <ion-thumbnail slot="end">
+                                <img src="../../assets/products/vegetables/{{item.productName}}.jpg"
+                                    style="border-radius:50%;">
+                            </ion-thumbnail>
                         </ion-item>
                     </ion-col>
                     <ion-col size="8">
@@ -72,7 +70,7 @@
                             <ion-col size="7">
                                 <p>: {{item.eta | date}}</p>
                             </ion-col>
-                        </ion-row>  
+                        </ion-row>
                     </ion-col>
                 </ion-row>
                 <ion-row>
@@ -97,8 +95,12 @@
                 </ion-row>
                 <ion-row class="status" *ngIf="item?.status == 'Accepted' || item?.status == 'Approval Pending'">
                     <ion-col size="12" class="satus-link">
-                        <span  *ngIf="!show"><ion-icon name="arrow-down"></ion-icon></span>
-                        <span *ngIf="show"><ion-icon name="arrow-up"></ion-icon></span>
+                        <span *ngIf="!show">
+                            <ion-icon name="arrow-down"></ion-icon>
+                        </span>
+                        <span *ngIf="show">
+                            <ion-icon name="arrow-up"></ion-icon>
+                        </span>
                         <a class="" (click)="show = !show">
                             View Order Status
                         </a>
@@ -114,37 +116,37 @@
                                     </p>
                                 </div>
                             </ion-item>
-                            <ion-item class="active" [class.active]="item?.status =='Accepted' || item?.status =='Seller Delivered'">
+                            <ion-item class="active"
+                                [class.active]="item?.status =='Accepted' || item?.status =='Seller Delivered'">
                                 <div style="height:100px;">
                                     <span class="circle">2</span>
                                     <span class="label">Order Confrim</span>
                                     <p>
-                                        10.10AM, 15th May 2020
+                                        {{item.eta}}
                                     </p>
                                     <p> Track Order</p>
                                 </div>
                             </ion-item>
                             <ion-item>
                                 <div style="height:100px;">
-                                <span class="circle">3</span>
-                                <span class="label">Delivered</span> <br/>
-                                <p>
-                                    {{item.eta}}
-                                </p>                               
+                                    <span class="circle">3</span>
+                                    <span class="label">Delivered</span> <br />
+                                    <p>
+                                        {{item.eta}}
+                                    </p>
                                 </div>
-                              
+
                             </ion-item>
                         </ion-list>
                     </ion-col>
                 </ion-row>
-              
             </ion-card-content>
             <ion-row>
                 <ion-col class="ion-align-self-center">
-            <button class="btn-primary" fill="clear" size="medium" *ngIf="item?.status =='Seller Delivered'" (click)="buyerreviewAlert(item)">Add Review</button> 
-        </ion-col>
-    </ion-row>
+                    <button class="btn-primary" fill="clear" size="medium" *ngIf="item?.status =='Seller Delivered'"
+                        (click)="buyerreviewAlert(item)">Add Review</button>
+                </ion-col>
+            </ion-row>
         </ion-card>
-    
-           </ion-list>
+    </ion-list>
 </ion-content>

@@ -31,6 +31,7 @@ export class CartbasketPage {
   addressType: any;
   chkAddress: boolean = true;
   noRecords: boolean = false;
+  buyNowDisabled = false;
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -47,7 +48,6 @@ export class CartbasketPage {
     this.getmyAddresslist();
     this.checklist = this.cart;
     this.masterSelected = true;
-   // this.checkUncheckAll();
   }
 
   checkUncheckAll() {
@@ -76,6 +76,13 @@ export class CartbasketPage {
       this.checkedList.push(this.cart[i]);
     }
     this.getTotal(this.total);
+    if (this.total > 0) {
+      this.buyNowDisabled = false;
+
+    }
+    else {
+      this.buyNowDisabled = true;
+    }
   }
 
   checkEvent(list: any) {
@@ -101,10 +108,12 @@ export class CartbasketPage {
       console.log("No items selected");
     }
     const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
       message: 'Order Placed Successfully',
+      mode: 'ios',
       buttons: [
         {
-          text: 'OK',
+          text: 'Okay',
 
           handler: () => {
             this.router.navigate(['/myorders']);
@@ -266,8 +275,7 @@ export class CartbasketPage {
             this.noRecords = !this.noRecords;
             this.checkUncheckAll();
           }
-          else
-          {
+          else {
             this.nav.navigateBack("sellerproductlist");
           }
           console.log(data);

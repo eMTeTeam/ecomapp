@@ -5,15 +5,18 @@
                 <ion-icon name="arrow-round-back"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="text-center">
+        <ion-title class="text-center" [hidden]=ishiddentitle>
             Add Products
+        </ion-title>
+        <ion-title class="text-center" [hidden]=ishiddentitleedit>
+            Edit Products
         </ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
     <!-- <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar> -->
     <div style="padding:20px;" [hidden]=ishidden>
-                <ion-item class="productItem">
+        <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Products</ion-label>
             <ionic-selectable item-content [(ngModel)]="selectedProduct" itemTextField="name"
                 (ngModelChange)="onSelectProduct();" [items]="searchList" [canSearch]="true"
@@ -71,16 +74,13 @@
             </ion-col>
         </ion-row>
         <ion-row style="padding:10px;">
-            <ion-button fill="clear"  size="large" class="btn-primary" (click)="addProduct()">SAVE</ion-button>
+            <ion-button fill="clear" size="large" class="btn-primary" (click)="addProduct()">SAVE</ion-button>
         </ion-row>
-    
+
     </div>
     <div style="padding:20px;" [hidden]=ishiddenedit>
         <ion-item class="productItem">
             <ion-label position="stacked" class="productLabel">Products</ion-label>
-            <!-- <ionic-selectable item-content [(ngModel)]="selectedProduct" itemTextField="name" [items]="searchList"
-                placeholder="Select Products">{{editProduct}}
-            </ionic-selectable> -->
             <ion-input [disabled]="true">{{editProduct}}</ion-input>
         </ion-item>
         <ion-item class="productItem">
@@ -134,7 +134,7 @@
             </ion-col>
         </ion-row>
         <ion-row style="padding:10px;">
-            <ion-button fill="clear" size="large" class="btn-primary" (click)="updateProduct()">Edit</ion-button>
+            <ion-button fill="clear" size="large" class="btn-primary" (click)="updateProduct()">Save</ion-button>
         </ion-row>
     </div>
 </ion-content>

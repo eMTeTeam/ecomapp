@@ -43,9 +43,6 @@ export class MyordersdetailPage {
       }
     });
     this.presentLoading();
-    // if (this.selectedItem.length > 0) {
-    //   this.noRecords = !this.noRecords;
-    // }
     this.searchList = this.selectedItem;
     console.log(this.searchList);
 
@@ -181,15 +178,17 @@ export class MyordersdetailPage {
         Rating: rating
       };
       this.reviewsService.sellerReview(dataToApi).subscribe(
-       async (savedreturnData) => {
+        async (savedreturnData) => {
           this.reviewData = JSON.stringify(savedreturnData);
           console.log(this.reviewData);
           const alert = await this.alertCtrl.create({
+            header: 'Confirm!',
             message: 'Reviewed Successfully',
+            mode: 'ios',
             buttons: [
               {
-                text: 'OK',
-      
+                text: 'Okay',
+
                 handler: () => {
                   this.router.navigate(['/myorders']);
                 }

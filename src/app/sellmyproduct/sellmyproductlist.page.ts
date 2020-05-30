@@ -106,10 +106,12 @@ export class SellmyproductlistPage {
     )
 
     const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
       message: 'Order Approved',
+      mode: 'ios',
       buttons: [
         {
-          text: 'OK',
+          text: 'Okay',
 
           handler: () => {
             this.router.navigate(['/allproductslist']);
@@ -159,10 +161,12 @@ export class SellmyproductlistPage {
       }
     )
     const alert = await this.alertCtrl.create({
+      header: 'Rejection!',
       message: 'Order Rejected',
+      mode: 'ios',
       buttons: [
         {
-          text: 'OK',
+          text: 'Okay',
 
           handler: () => {
             this.router.navigate(['/allproductslist']);
@@ -201,7 +205,7 @@ export class SellmyproductlistPage {
 
   async sllerreRating(itemid: any, rating: any, comments: any) {
 
-    var tags = ["672d96c1-9859-43e2-b579-80362171841c"];
+    var tags = ["5091a747-4feb-486b-bb64-d73acff50b58"];
     var userReview = {
       TagIds: tags,
       UserId: itemid.buyer.userId,
@@ -220,10 +224,12 @@ export class SellmyproductlistPage {
       }
     )
     const alert = await this.alertCtrl.create({
+      header: 'Confirm!',
       message: 'Order Delivered',
+      mode: 'ios',
       buttons: [
         {
-          text: 'OK',
+          text: 'Okay',
 
           handler: () => {
             this.router.navigate(['/allproductslist']);
@@ -316,9 +322,6 @@ export class SellmyproductlistPage {
         data => {
 
           this.sellmyproductList = data;
-          // if (this.sellmyproductList.length > 0) {
-          //   this.noRecords = !this.noRecords;
-          // }
           this.sellmyproductList.forEach((key) => {
             key["today"] = '';
           })

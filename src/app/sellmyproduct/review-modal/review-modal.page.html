@@ -7,21 +7,17 @@
 <ion-content class="rating-modal-body">
   <ion-row>
     <ion-col>
-  <ion-label position="stacked" class="productLabel">Rating:</ion-label>
-  <rating  [rate]="rate"
-                        readonly="false" 
-                        size="default"
-                        (rateChange)="onRateChange($event)">
-                  </rating>
-                  <br/>
-  <ion-label position="stacked" class="productLabel">Comments</ion-label>
-  <!-- <ion-input type="textarea" [(ngModel)]="comments"></ion-input> -->
-  <ion-textarea  [(ngModel)]="comments"></ion-textarea>
-</ion-col>
-</ion-row>
-<ion-row>
-  <ion-col class="ion-align-self-center">
-   <ion-button fill="clear" size="medium" class="btn-primary" (click)="done()">Submit</ion-button>
-  </ion-col>
-</ion-row>
+      <ion-label position="stacked" class="productLabel">Rating:</ion-label>
+      <rating [rate]="rate" readonly="false" size="default" (rateChange)="onRateChange($event)">
+      </rating>
+      <br />
+      <ion-label position="stacked" class="productLabel">Comments</ion-label>
+      <ion-textarea [(ngModel)]="comments"></ion-textarea>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="ion-align-self-center">
+      <ion-button fill="clear" size="medium" class="btn-primary" (click)="done()">Submit</ion-button>
+    </ion-col>
+  </ion-row>
 </ion-content>

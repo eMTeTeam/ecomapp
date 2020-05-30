@@ -23,7 +23,7 @@ export class AddressPage {
   savedAddress: any = "";
   addressType: any;
   defaultAddress: boolean;
-  loading:any;
+  loading: any;
 
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
@@ -38,8 +38,7 @@ export class AddressPage {
   }
 
   checkEvent(list: any) {
-  //  this.addressId=list.addressId;
-  this.defaultAddress=list.target.checked;
+    this.defaultAddress = list.target.checked;
   }
   async addAddress() {
     this.presentLoading();
@@ -53,7 +52,7 @@ export class AddressPage {
       Lattitude: eval(this.lattitude),
       Longitude: eval(this.longitude),
       "isDefault": this.defaultAddress,
-      AddressType:this.addressType
+      AddressType: this.addressType
     };
     this.accountService.saveAddress(dataToApi).subscribe(
       (savedreturnData) => {
@@ -63,10 +62,12 @@ export class AddressPage {
     )
 
     const alert = await this.alertCtrl.create({
-      message: 'My Address: ' + this.addressType +' has been saved successfully.',
+      header: 'Confirm!',
+      message: 'My Address: ' + this.addressType + ' has been saved successfully.',
+      mode: 'ios',
       buttons: [
         {
-          text: 'OK',
+          text: 'Okay',
 
           handler: () => {
             this.router.navigate(['/addresslist']);

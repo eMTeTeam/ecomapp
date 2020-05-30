@@ -15,7 +15,6 @@
   }
   .head-title { font-size: 17px;}
   .cart-length {
-    //color: var(--ion-color-primary);
     position: absolute;
     top: 9px;
     left: 11px;
@@ -26,24 +25,6 @@
     font-family: sans-serif;
   }
 
-  // .prompt_alert .alert-message{
-  //   text-align: right;
-  // }
-  // .prompt_alert .alert-input{
-  //   border-bottom: none!important;
-  //     caret-color: #F58282;
-  // }
-  // .prompt_alert .alert-input-group:before {
-  //     content: '#';
-  //     display: inline-block;
-  //     float: right;
-  //     line-height: 3.5;
-  //     color: black;
-  // }
-  // .prompt_alert .alert-input-wrapper {
-  //     display: flex;
-  //     padding-right: 3px;
-  // }
   .sell-crd {
     color: #000000;
     margin-top: 0;
@@ -70,26 +51,16 @@
       color: #000000;
     }
     ion-input { 
-      //border-bottom: 0.5px solid gainsboro;
-     // height: 25px;
+    
     }
     ion-button{
-      //height: 25px;
       padding: 0;
       margin: 0;
     }
   }
   .sell-pro .btn-primary {
-    //margin-left: 30%;
-    //margin-top: 10px;
-    float: right;
+     float: right;
   }
- /*.sell-pro .sell-crd:nth-child(n){
-    margin-left: 0px;
-  }
-  .sell-pro .sell-crd:nth-child(2n+1){
-    margin-right: 0px;
-  } */
   
   .sell-pro .sell-pro-row .sell-rating{
     font-size: 15px;

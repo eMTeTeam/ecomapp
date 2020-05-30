@@ -59,7 +59,6 @@ export class AllproductslistPage {
   }
 
   async addNewProduct() {
-    // this.nav.navigateForward("sellmyproduct");
     this.getmyAddresslist();
   }
 
@@ -70,7 +69,6 @@ export class AllproductslistPage {
   }
 
   editProduct(item) {
-    //  console.log(item);
     let navigationExtras: NavigationExtras = { state: { selectedProduct: item.id } };
     this.nav.navigateForward(['sellmyproduct'], navigationExtras);
   }
@@ -85,10 +83,12 @@ export class AllproductslistPage {
         else {
 
           const alert = this.alertCtrl.create({
+            header: 'Request!',
             message: 'Please add Address before add products',
+            mode: 'ios',
             buttons: [
               {
-                text: 'OK',
+                text: 'Okay',
 
                 handler: () => {
                   this.router.navigate(['/address']);
