@@ -6,10 +6,10 @@
             </ion-button>
         </ion-buttons>
         <ion-title class="text-center" [hidden]=ishiddentitle>
-            Add Products
+            Add Product
         </ion-title>
         <ion-title class="text-center" [hidden]=ishiddentitleedit>
-            Edit Products
+            Edit {{editProduct}}
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -17,14 +17,14 @@
     <!-- <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar> -->
     <div style="padding:20px;" [hidden]=ishidden>
         <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Products</ion-label>
+            <ion-label position="stacked" class="productLabel">Search Product</ion-label>
             <ionic-selectable item-content [(ngModel)]="selectedProduct" itemTextField="name"
                 (ngModelChange)="onSelectProduct();" [items]="searchList" [canSearch]="true"
-                (onSearch)="searchText($event)" placeholder="Select Products">
+                (onSearch)="searchText($event)" placeholder="Choose Product">
             </ionic-selectable>
         </ion-item>
         <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Images upload</ion-label>
+            <ion-label position="stacked" class="productLabel">Upload Product Image</ion-label>
             <ion-input style="margin-top:20px;margin-bottom:10px;" type="file" (change)="uploadFile($event)"
                 value="upload" name="filefield" multiple="multiple"></ion-input>
         </ion-item>
@@ -42,11 +42,20 @@
             <ion-label position="stacked" class="productLabel">Quantity</ion-label>
             <ion-input [(ngModel)]="quantity" type="number"></ion-input>
         </ion-item>
-
-        <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Cost per kg</ion-label>
-            <ion-input [(ngModel)]="price" type="number"></ion-input>
-        </ion-item>
+        <ion-row>
+            <ion-col col-6 style="width: 70%;">
+                <ion-item class="productItem">
+                    <ion-label position="stacked" class="productLabel">Cost</ion-label>
+                    <ion-input [(ngModel)]="price" type="number"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col col-6>
+                <ion-item class="productItem">
+                    <ion-label position="stacked" class="productLabel"> / {{unitName}}</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+       
         <ion-row>
             <ion-col col-6 style="width: 70%;">
                 <ion-item class="productItem">
@@ -80,7 +89,7 @@
     </div>
     <div style="padding:20px;" [hidden]=ishiddenedit>
         <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Products</ion-label>
+            <ion-label position="stacked" class="productLabel">Product</ion-label>
             <ion-input [disabled]="true">{{editProduct}}</ion-input>
         </ion-item>
         <ion-item class="productItem">
@@ -102,11 +111,20 @@
             <ion-label position="stacked" class="productLabel">Quantity</ion-label>
             <ion-input [(ngModel)]="editQuantity"></ion-input>
         </ion-item>
-
-        <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Cost per kg</ion-label>
-            <ion-input [(ngModel)]="editPrice"></ion-input>
-        </ion-item>
+        <ion-row>
+            <ion-col col-6 style="width: 70%;">
+                <ion-item class="productItem">
+                    <ion-label position="stacked" class="productLabel">Cost</ion-label>
+                    <ion-input [(ngModel)]="editPrice"></ion-input>
+                </ion-item>
+            </ion-col>
+            <ion-col col-6>
+                <ion-item class="productItem">
+                    <ion-label position="stacked" class="productLabel"> / {{unitName}}</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+       
         <ion-row>
             <ion-col col-6 style="width: 70%;">
                 <ion-item class="productItem">

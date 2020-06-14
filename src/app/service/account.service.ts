@@ -7,6 +7,7 @@ import { CommonapiService } from '../../app/service/commonapi.service';
 })
 export class AccountService {
   controller: string = "Address";
+  usercontroller: string = "Users";
   constructor(public http: HttpClient,
     private commonapiservice: CommonapiService) { }
 
@@ -24,6 +25,10 @@ export class AccountService {
 
   getAddressList() {
     const url = this.commonapiservice.getApiURL(this.controller, '');
+    return this.http.get(url);
+  }
+  getProfile() {
+    const url = this.commonapiservice.getApiURL(this.usercontroller, '');
     return this.http.get(url);
   }
 }

@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MenuController, ActionSheetController, LoadingController, AlertController, NavController } from '@ionic/angular';
 import { AccountService } from 'src/app/service/account.service';
 
 @Component({
-  selector: 'app-addresslist',
-  templateUrl: './addresslist.page.html',
-  styleUrls: ['./addresslist.page.scss'],
+  selector: 'app-userprofile',
+  templateUrl: './userprofile.page.html',
+  styleUrls: ['./userprofile.page.scss'],
 })
-export class AddresslistPage {
+export class UserprofilePage {
 
-  addressList: any;
   searchList: any;
   noRecords: boolean = true;
   loading: any;
-  isDefault: any;
+  firstName: any;
+  isFarmer: any;
+  lastName: any;
+  emailId: any;
+  mobileNumber: any;
 
   constructor(private menu: MenuController,
     private accountService: AccountService,
@@ -21,17 +24,16 @@ export class AddresslistPage {
     public actionSheetController: ActionSheetController,
     public nav: NavController) {
     this.presentLoading();
-    this.getmyAddresslist();
-    this.searchList = this.addressList;
-  }
 
+    this.searchList = this.getmyprofile();
+  }
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
   }
   ionViewWillEnter() {
     this.presentLoading();
-    this.getmyAddresslist();
+    this.getmyprofile();
   }
   async presentLoading() {
     this.loading = await this.loadingController.create({
@@ -43,34 +45,20 @@ export class AddresslistPage {
     console.log('Loading dismissed!');
   }
 
-  addNewAddress() {
-    this.nav.navigateForward("address");
-  }
-
   goBack() {
-    this.nav.navigateForward("account");
+    this.nav.navigateForward("home");
   }
 
-  editAddress() {
-
-  }
-
-  getmyAddresslist() {
-    this.accountService.getAddressList().subscribe(
+  getmyprofile() {
+    this.accountService.getProfile().subscribe(
       data => {
-        this.addressList = data;
-        if (this.addressList.length > 0) {
-          this.noRecords = !this.noRecords;
-          for (let u = 0; u < this.addressList.length; u++) {
-            this.isDefault = this.addressList[u]["isDefault"];
-            if (this.isDefault == true) {
-              this.addressList[u]["isDefault"] = "Default";
-
-            }
-          }
-        }
         this.searchList = data;
-        this.loading.onDidDismiss();
+        this.firstName = this.searchList.firstName;
+        this.lastName = this.searchList.lastName;
+        this.isFarmer = this.searchList.isFarmer;
+        this.emailId = this.searchList.emailId;
+        this.mobileNumber = this.searchList.mobileNumber;
+        //  this.loading.onDidDismiss();
         console.log(data);
       },
       error => {

@@ -126,10 +126,12 @@ export class MyordersPage {
     this.myordersService.getAllmyorders().subscribe(
       data => {
         this.productList = data;
+		console.log(data);
         if (this.productList.length > 0) {
           this.noRecords = !this.noRecords;
         }
         this.searchList = data;
+		
         this.loading.onDidDismiss();
       },
       error => {

@@ -39,6 +39,7 @@ export class SellerproductlistPage {
   qty: number = 0;
   addToCartDisabled: boolean = true;
   openCartDisabled: boolean = true;
+  sortOrder: number;
   @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
 
   constructor(private menu: MenuController,
@@ -134,44 +135,47 @@ export class SellerproductlistPage {
 
   sort() {
     switch (this.sortbyPrice) {
-      case "Show Low to High Price":
+      case "Price Low to High":
         {
-          this.productList = this.productList.sort((low, high) => low.price - high.price);
+          this.sortOrder = 1;
           break;
         }
 
-      case "Show High to Low Price":
+      case "Price High to Low":
         {
-          this.productList = this.productList.sort((low, high) => high.price - low.price);
+          this.sortOrder = 2;
           break;
         }
-      case "Custom Price Range":
+
+      case "Distance Low to High":
         {
+          this.sortOrder = 3;
           break;
         }
-      case "Seller Name":
+
+      case "Distance High to Low":
         {
-          this.productList = this.productList.sort(function (low, high) {
-            if (low.firstName < high.firstName) {
-              return -1;
-            }
-            else if (low.firstName > high.firstName) {
-              return 1;
-            }
-            else {
-              return 0;
-            }
-          })
+          this.sortOrder = 4;
+          break;
+        }
+      case "Rating Low to High":
+        {
+          this.sortOrder = 5;
+          break;
+        }
+      case "Rating High to Low":
+        {
+          this.sortOrder = 6;
           break;
         }
 
       default: {
-        this.productList = this.productList.sort((low, high) => low.price - high.price);
+        this.sortOrder = 0;
         break;
       }
 
     }
-    return this.searchList = this.productList;
+    this.getProductsdetail(this.selectedProduct, 0, 0, this.sortOrder);
   }
 
   onSelectQuantity() {
@@ -194,9 +198,9 @@ export class SellerproductlistPage {
       }
     )
     this.animateCSS('tada');
-    
+
   }
-  
+
   async bindCartItemcount() {
     this.cartService.getCartItemCount().subscribe(
       data => {
@@ -296,14 +300,24 @@ export class SellerproductlistPage {
     this.nav.navigateForward("cart");
   }
 
-  getProductsdetail(id: any) {
+  getProductsdetail(id: any, min: any, max: any, sort: number) {
+    if (min == 0 && max == 0) {
+      min = 0;
+      max = 10000;
+    }
+    var filter = {
+      "priceFilter": {
+        "minPrice": eval(min),
+        "maxPrice": eval(max)
+      }
+    }
     for (let a = 0; a < this.addressList.length; a++) {
       if (this.addressList[a]["isDefault"] == true) {
         this.lat = this.addressList[a]["lattitude"];
         this.longi = this.addressList[a]["longitude"];
       }
     }
-    this.productdetailService.getProductdetail(this.selectedProduct, this.lat, this.longi)
+    this.productdetailService.getProductdetail(this.selectedProduct, this.lat, this.longi, filter, sort)
       .subscribe(
         data => {
 
@@ -352,7 +366,7 @@ export class SellerproductlistPage {
           }
         }, {
           text: 'Apply',
-          handler: (mmValue) => this.filterValue(mmValue.min, mmValue.max)
+          handler: (mmValue) => this.getProductsdetail(this.selectedProduct, mmValue.min, mmValue.max, 0)
         }
       ]
     });
@@ -365,7 +379,7 @@ export class SellerproductlistPage {
         this.addressList = data;
         console.log(data);
         if (data) {
-          this.getProductsdetail(id);
+          this.getProductsdetail(id, 0, 0, 0);
         }
       },
       error => {

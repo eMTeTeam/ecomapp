@@ -18,6 +18,11 @@
                 <ion-icon name="arrow-round-back"></ion-icon>
             </ion-button>
         </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-button (click)="presentActionSheet()">
+                <ion-icon name="cart"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title class="text-center">
             Products
         </ion-title>
@@ -28,70 +33,52 @@
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
-    <p *ngIf="noRecords">
-        <label >There is no products available</label>
-    </p>
     <ion-list>
         <ion-row class="mr-10">
-            <ion-col class="product-col" size="6" *ngFor="let item of searchList">
-                <ion-card class="product-card" (click)="goToProductDetail(item)">
-                    <ion-card-content>
-                        <ion-row>
-                            <ion-col size="9">
-                                <ion-item lines="none" mode="ios">
-                                    <ion-thumbnail slot="start" style="height:90px;width:90px;">
-                                        <img src="../../assets/products/vegetables/{{item.productName}}.jpg"
-                                            style="border-radius:50%;">
-                                    </ion-thumbnail>
-                                </ion-item>
-                            </ion-col>
-                            <ion-col size="3">
-                                <ion-item lines="none" mode="ios" class="btn-heart-item">
-                                    <ion-buttons slot="end" class="btn-heart">
-                                        <ion-button style="" (click)="item.isFavourite=!item.isFavourite">
-                                            <ion-icon class="icon-heart" *ngIf="item.isFavourite" name="heart">
-                                            </ion-icon>
-                                            <ion-icon class="icon-heart" *ngIf="!item.isFavourite" name="heart-empty">
-                                            </ion-icon>
-                                        </ion-button>
-                                    </ion-buttons>
-                                </ion-item>
-                            </ion-col>
+            <ion-list class="product-card">
+                <ion-item class="product-col" size="12" *ngFor="let item of searchList" (click)="goToProductDetail(item)">
+                    <ion-row >
+                        <ion-col size="4">
                             <ion-item lines="none" mode="ios">
+                                <ion-thumbnail slot="start" style="height:75px;width:75px;">
+                                    <img src="../../assets/products/vegetables/{{item.productName}}.jpg"
+                                        style="border-radius:50%;">
+                                </ion-thumbnail>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="8">
+                            <ion-row>
+                                <ion-col size="8">
+                                    <ion-label class="product-details">
+                                        <div class="ellipsisText global-product-name">{{item.productName}}</div>
+                                    </ion-label>
+                                </ion-col>
+                                <ion-col size="4">
+                                    <ion-item lines="none" mode="ios" class="btn-heart-item">
+                                        <ion-buttons slot="end" class="btn-heart">
+                                            <ion-button (click)="item.isFavourite=!item.isFavourite">
+                                                <ion-icon class="icon-heart" *ngIf="item.isFavourite" name="heart">
+                                                </ion-icon>
+                                                <ion-icon class="icon-heart" *ngIf="!item.isFavourite"
+                                                    name="heart-empty"></ion-icon>
+                                            </ion-button>
+                                        </ion-buttons>
+                                    </ion-item>
+                                </ion-col>
                                 <ion-col size="12">
                                     <ion-label class="product-details">
-                                        <div class="ellipsisText">{{item.productName}}</div>
-                                        <h2 class="ellipsisText">Price: ₹ {{item.priceRange}}/Kg</h2>
+                                        <h2 class="ellipsisText">Price : ₹ {{item.priceRange}} / Kg</h2>
                                         <div class="dist-range">
                                             <ion-icon name="locate"></ion-icon>
                                             <p>{{item.distanceRange}} Kms</p>
                                         </div>
                                     </ion-label>
                                 </ion-col>
-                            </ion-item>
-                        </ion-row>
-                    </ion-card-content>
-                </ion-card>
-            </ion-col>
+                            </ion-row>
+                        </ion-col>
+                    </ion-row>
+                </ion-item>
+            </ion-list>
         </ion-row>
     </ion-list>
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button style="--background:#3453c4">
-            <ion-icon name="arrow-dropup"></ion-icon>
-        </ion-fab-button>
-        <ion-fab-list side="top">
-            <ion-fab-button>
-                <ion-icon name="logo-vimeo"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-button>
-                <ion-icon name="logo-facebook"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-button>
-                <ion-icon name="logo-instagram"></ion-icon>
-            </ion-fab-button>
-            <ion-fab-button>
-                <ion-icon name="logo-twitter"></ion-icon>
-            </ion-fab-button>
-        </ion-fab-list>
-    </ion-fab>
 </ion-content>

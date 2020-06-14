@@ -1,0 +1,106 @@
+.user-list {
+    font-size: 14px;
+    font-family: sans-serif;
+    color: black;
+
+    .user-card {
+        .card-content-md ion-col, ion-col {
+            margin: 0;
+            padding: 0;
+        }
+        .ellipsisText { 
+            font-size: 17px;
+        }
+        .edit-icon {
+            font-size: 26px;
+            float: right;
+            color: red;
+        }
+        ion-item-divider { 
+            color: black;
+            margin-bottom: 10px;
+
+            ion-col {
+                margin-bottom: 10px !important;
+            }
+        }
+    }
+}
+
+.btn-primary {
+    width: 94%;
+    margin-left: 3%;
+    margin-top: 20px;
+}
+
+.logo-row {
+    padding-top: 50px;
+    padding-bottom: 20px;
+  }
+
+.user-profile{
+    ion-row { 
+        width: 100%;
+    }
+    .user-pic {
+        padding: 0;
+
+        img { 
+            width: 100%;
+        }
+    }
+    .user-name{
+        position: absolute;
+        top: 200px;
+        left: 15px;
+        background-color: transparent !important
+    } 
+    .user-email {
+        margin-left: -6px;
+    }
+    .overall-rating {
+        .orall-head {
+            font-weight: bold;
+            font-size: 16px;
+            margin-left: 4px;
+        }
+        ion-icon {
+            float: right;
+        }
+        .orall-rat-num {
+            font-size: 30px;
+            font-weight: bold;
+        }
+        .rating-star {
+            margin-right: 105px;
+            font-size: 25px;
+        }
+        .prog-span {
+            position: relative;
+            top: 10px;
+            left: -14px;
+        }
+        .total-rating { 
+            margin-top: 12px;
+        }
+
+    }
+    .indv-review {
+        .review-user-pic {
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;        
+        }
+        .rated-user{
+            position: relative;
+            top: -15px;
+            margin-left: 10px;
+        }
+        .more-icon { 
+            margin-top: 10px;
+            float: right;
+            font-size: 20;
+        }
+
+    } 
+}

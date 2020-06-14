@@ -18,6 +18,10 @@ const routes: Routes = [
   { path: 'myordersdetail', loadChildren: () => import('./myorders/myordersdetail.module').then(m => m.MyordersdetailPageModule) },
   { path: 'addresslist', loadChildren: () => import('./account/address/addresslist.module').then(m => m.AddresslistPageModule) },
   { path: 'review-modal', loadChildren: () => import('./sellmyproduct/review-modal/review-modal.module').then(m => m.ReviewModalPageModule) },
+  { path: 'received', loadChildren: () => import('./notifications/received.module').then(m => m.ReceivedPageModule) },
+  { path: 'userprofile', loadChildren: () => import('./account/userprofile/userprofile.module').then(m => m.UserprofilePageModule) },
+
+
 
 ];
 

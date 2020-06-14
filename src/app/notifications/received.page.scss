@@ -1,0 +1,34 @@
+.inbox-list {
+    font-size: 14px;
+    font-family: sans-serif;
+    color: black;
+
+    .inbox-card {
+        .card-content-md ion-col, ion-col {
+            margin: 0;
+            padding: 0;
+        }
+        .ellipsisText { 
+            font-size: 17px;
+        }
+        .edit-icon {
+            font-size: 26px;
+            float: right;
+            color: red;
+        }
+        ion-item-divider { 
+            color: black;
+            margin-bottom: 10px;
+
+            ion-col {
+                margin-bottom: 10px !important;
+            }
+        }
+    }
+}
+
+.btn-primary {
+    width: 94%;
+    margin-left: 3%;
+    margin-top: 20px;
+}

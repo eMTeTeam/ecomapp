@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
       .then(res => {
         console.log(res);
         this.response = res;
-        this.userName = this.response.displayName;
+        this.userName = this.response.givenName;
         sessionStorage.setItem('loggedUser', this.userName);
         this.commonapiservice.setToken(this.response.idToken);
         this.showWelcomeToast()

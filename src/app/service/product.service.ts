@@ -18,12 +18,11 @@ export class ProductService {
       limit: 100,
       lattitude: lati,
       longitude: longi,
-      distanceWithInKm: 100000,
       sortCategory: 0,
       filter: {
         priceFilter: {
           minPric: 0,
-          maxPrice: 0
+          maxPrice: 1000
         }
       }
     };
@@ -47,6 +46,10 @@ export class ProductService {
       .set('keyWord', productName)
       .set('pageIndex', "0")
       .set('limit', "100");
+    const headers = new HttpHeaders()
+      .append('languageCode', "en")
+      .append('countryCode', "in");
+    //  const options = new new RequestOptions({ headers: headers, params: params });
     return this.http.get(url, { params });
   }
 
@@ -84,7 +87,7 @@ export class ProductService {
         headers: new HttpHeaders(
           {
             "content-Type": "multipart/form-data",
-          //  "accept": "application/json"
+            //  "accept": "application/json"
           }
         )
       });

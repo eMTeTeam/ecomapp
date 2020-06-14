@@ -45,6 +45,15 @@
         ion-label {
             font-weight: bold;
         }
+        .otp-ip {
+            border: 1px solid gray;
+            width: 70px;
+            height: 25px;
+            margin: 2px;
+        }
+        .otp-section {
+            display: inline-flex;
+        }
     }
     
 }
@@ -155,6 +164,8 @@
     }
     .btn-primary { 
         height: 30px;
+        float: right;
+        margin-right: 17px;
        }
     .aprv-rej ion-button {
         width: 100%;

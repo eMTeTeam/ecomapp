@@ -44,7 +44,7 @@ export class MyordersdetailPage {
     });
     this.presentLoading();
     this.searchList = this.selectedItem;
-    console.log(this.searchList);
+    console.log( this.selectedItem);
 
   }
 

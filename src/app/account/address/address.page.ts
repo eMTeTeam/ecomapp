@@ -22,7 +22,7 @@ export class AddressPage {
   longitude: any = "";
   savedAddress: any = "";
   addressType: any;
-  defaultAddress: boolean;
+  defaultAddress: boolean=true;
   loading: any;
 
   constructor(private menu: MenuController,
@@ -63,7 +63,7 @@ export class AddressPage {
 
     const alert = await this.alertCtrl.create({
       header: 'Confirm!',
-      message: 'My Address: ' + this.addressType + ' has been saved successfully.',
+      message: this.addressType + ' has been saved successfully.',
       mode: 'ios',
       buttons: [
         {

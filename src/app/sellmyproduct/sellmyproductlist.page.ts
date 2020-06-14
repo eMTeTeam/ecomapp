@@ -30,6 +30,8 @@ export class SellmyproductlistPage {
   buttonDisabled: boolean = true;
   confirmDisabled: boolean = true;
   productName: any;
+  eta: any;
+  etaReadable:any;
   trackByFn(index: any, item: any) {
     return index;
   }
@@ -54,8 +56,8 @@ export class SellmyproductlistPage {
     });
     this.searchList = this.sellmyproductList;
 
-    this.today = Date.now();
-    this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+    this.eta = Date.now();
+    this.eta = formatDate(new Date(), 'yyyy-MM-dd H:mm a', 'en');
   }
 
   openFirst() {
@@ -64,11 +66,11 @@ export class SellmyproductlistPage {
   }
 
   changeProductAvailableDate(date) {
-    this.today = date;
-    this.today = formatDate(new Date(), 'yyyy-MM-dd', 'en');
+   this.today = formatDate(new Date(), 'yyyy-MM-dd H:mm a', 'en');
     this.buttonDisabled = false;
-
-    console.log(date);
+    this.eta = date;//formatDate(date, 'yyyy-MM-dd H:mm a', 'en');
+    this.etaReadable=formatDate(date, 'yyyy-MM-dd H:mm a', 'en');
+    console.log(this.eta);
   }
   onOtp(eve: any) {
     this.otp = eve.target.value;
@@ -96,7 +98,7 @@ export class SellmyproductlistPage {
   async approve(item: any) {
     var approveApi = {
       InventoryItemId: item.id,
-      ETA: this.today
+      ETA: this.eta
     };
     this.sellmyproductlistService.approveItem(approveApi).subscribe(
       (savedreturnapprovedItem) => {
@@ -107,7 +109,7 @@ export class SellmyproductlistPage {
 
     const alert = await this.alertCtrl.create({
       header: 'Confirm!',
-      message: 'Order Approved',
+      message: 'You have accepeted the ' + this.productName + ' to ' + item.buyer.firstName + '. Delivery ETA : ' + this.etaReadable,
       mode: 'ios',
       buttons: [
         {
@@ -177,7 +179,9 @@ export class SellmyproductlistPage {
     await alert.present().then(() => {
     });
   }
-
+  gotoNextField(nextElement) {
+    nextElement.setFocus();
+  }
   async sllerreviewAlert(item: any) {
     let modal = await this.modalController.create({
       component: ReviewModalPage,
@@ -225,7 +229,7 @@ export class SellmyproductlistPage {
     )
     const alert = await this.alertCtrl.create({
       header: 'Confirm!',
-      message: 'Order Delivered',
+      message: 'Product has been delivered and make sure you received the money. MITAIS is not responsible for sending money.',
       mode: 'ios',
       buttons: [
         {

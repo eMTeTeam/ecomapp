@@ -7,27 +7,31 @@
         </ion-buttons>
 
         <ion-title class="text-center">
-            Account
+            My Profile
         </ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
     <ion-grid>
         <ion-row style="padding:10px;">
-            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large" (click)="myOrders()"><span>MY
+            <ion-button style="width:100%; text-align: left;" fill="clear" class="btn-primary" size="large" (click)="myProfile()"><span>
+                   PROFILE</span></ion-button>
+        </ion-row>
+        <ion-row style="padding:10px;">
+            <ion-button style="width:100%; text-align: left;" fill="clear" class="btn-primary" size="large" (click)="myOrders()"><span>
                     ORDERS</span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
-            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large"><span>MY WALLET AND
+            <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large"><span> WALLET AND
                     ORDERS</span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
             <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large" (click)="addAddress()">
-                <span>MY ADDRESSES</span></ion-button>
+                <span> ADDRESSES </span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
             <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large" (click)="sellMyProductList()">
-                <span>SELL MY PRODUCT</span></ion-button>
+                <span>SELL PRODUCT  </span></ion-button>
         </ion-row>
         <ion-row style="padding:10px;">
             <ion-button style="width:100%;" fill="clear" class="btn-primary" size="large"
@@ -44,6 +48,6 @@
 
     <ion-tab-button tab="product" (click)="openAccountPage()" style="color:#e51d23;">
         <ion-icon name="person"></ion-icon>
-        <ion-label>Account</ion-label>
+        <ion-label>My Profile</ion-label>
     </ion-tab-button>
 </ion-tab-bar>

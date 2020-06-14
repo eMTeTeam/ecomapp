@@ -115,6 +115,8 @@ export class AccountPage {
     openAccountPage() {
         this.nav.navigateForward("account");
     }
-
+    myProfile() {
+        this.nav.navigateForward("userprofile");
+    }
 }
 

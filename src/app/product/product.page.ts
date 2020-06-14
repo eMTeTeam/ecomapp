@@ -146,7 +146,7 @@ export class ProductPage {
                             this.fixedDistance1 = this.splitdistance[0];
                             this.fixedDistance2 = this.splitdistance[1];
                         }
-                        data[u]["distanceRange"] = parseFloat(this.fixedDistance1).toFixed(2) + "-" + parseFloat(this.fixedDistance2).toFixed(2);
+                        data[u]["distanceRange"] = parseFloat(this.fixedDistance1).toFixed(2) + " - " + parseFloat(this.fixedDistance2).toFixed(2);
                     }
                     this.productList = data;
                     if (this.productList.length > 0) {

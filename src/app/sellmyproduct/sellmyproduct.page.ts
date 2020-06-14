@@ -34,6 +34,7 @@ export class SellmyproductPage {
     price: any;
     quantity: any;
     unitName: string;
+    unitId:any;
     maxdistance: any;
     expectdelivery: any;
     loading: any;
@@ -62,6 +63,7 @@ export class SellmyproductPage {
                 if (this.selectedProduct == "" || this.selectedProduct == undefined) {
                     this.ishiddenedit = true;
                     this.ishiddentitleedit = true;
+                   
                 }
                 else {
                     this.ishiddenedit = false;
@@ -71,10 +73,12 @@ export class SellmyproductPage {
                 }
 
                 this.editProductList = this.getEditproductlist(this.selectedProduct);
-                this.currentDate = new Date().toISOString();
-                this.editExpiryDate = new Date().toISOString();
+
+                // this.currentDate = new Date().toISOString();
+                // this.editExpiryDate = new Date().toISOString();
             }
         });
+       
         this.searchList = this.productList;
     }
 
@@ -95,6 +99,17 @@ export class SellmyproductPage {
 
     onSelectProduct() {
         console.log(this.selectedProduct);
+        if(this.selectedProduct.unitName=="Gram")
+        {
+            this.unitName = "Kg";
+        }
+        else if(this.selectedProduct.unitName=="MilliLitre")
+        {
+            this.unitName = "Li";
+        }
+        this.unitId=this.selectedProduct.unitId;
+        this.currentDate=new Date().toISOString();
+        this.expiryDate = new Date(new Date().getTime()+(924606010)).toISOString();
     }
 
     uploadFile(event) {
@@ -118,12 +133,13 @@ export class SellmyproductPage {
             ProductNameId: this.selectedProduct.productNameId,
             CategoryId: this.selectedProduct.categoryId,
             Description: this.selectedProduct.name,
-            UnitId: "ad89ae0a-44c6-4c3a-b116-2a8f1f1144f0",
+            UnitId: this.unitId,
             Quantity: eval(this.quantity),
             Price: eval(this.price),
             ImageUrl: "image",
             AvailableOn: this.currentDate,
-            ExpiredOn: this.expiryDate
+            ExpiredOn: this.expiryDate,
+            Distance: this.maxdistance
         };
         this.productService.saveData(dataToApi).subscribe(
             (savedreturnData) => {
@@ -134,7 +150,7 @@ export class SellmyproductPage {
         )
         const alert = await this.alertCtrl.create({
             header: 'Confirm!',
-            message: 'Product Added Successfully',
+            message: 'Product ' + this.selectedProduct.name + ' Added Successfully',
             mode: 'ios',
             buttons: [
                 {
@@ -170,7 +186,7 @@ export class SellmyproductPage {
         )
         const alert = await this.alertCtrl.create({
             header: 'Confirm!',
-            message: 'Product Updated Successfully',
+            message: 'Product ' + this.editProduct +  ' Updated Successfully',
             mode: 'ios',
             buttons: [
                 {

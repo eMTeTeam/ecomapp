@@ -38,26 +38,25 @@
     <ion-item lines="none" mode="ios">
       <ion-row class="ion-align-items-center">
         <ion-col size="6">
-          <ion-label>
-            <ion-icon name="funnel">
-              <ion-select [(ngModel)]="sortbyPrice" (ionChange)="sort();" placeholder="Sort By">
-                <ion-select-option [value]="Low" value="Low">Show Low to High Price</ion-select-option>
-                <ion-select-option [value]="High" value="High">Show High to Low Price</ion-select-option>
-                <ion-select-option [value]="High" value="High">Seller Name</ion-select-option>
-              </ion-select>
-            </ion-icon> Sort
-          </ion-label>
+          <ion-button>
+            <ion-icon name="arrow-round-down"> </ion-icon> &nbsp; &nbsp; Sort
+            <ion-select [(ngModel)]="sortbyPrice" (ionChange)="sort();">
+              <ion-select-option value="None">None</ion-select-option>
+              <ion-select-option value="Price Low to High">Price Low to High</ion-select-option>
+              <ion-select-option value="Price High to Low">Price High to Low</ion-select-option>
+              <ion-select-option value="Distance Low to High">Distance Low to High</ion-select-option>
+              <ion-select-option value="Distance High to Low">Distance High to Low</ion-select-option>
+              <ion-select-option value="Rating Low to High">Rating Low to High</ion-select-option>
+              <ion-select-option value="Rating High to Low">Rating High to Low</ion-select-option>
+            </ion-select>
+          </ion-button>
         </ion-col>
         <ion-col size="6">
-          <ion-label>
-            <ion-icon name="arrow-round-down">
-              <ion-fab-button (click)="filterAlert()">
-                <ion-label class="productLabel">Price Range</ion-label>
-                <ion-input [(ngModel)]="minPrice"></ion-input>
-                <ion-input [(ngModel)]="maxPrice"></ion-input>
-              </ion-fab-button>
-            </ion-icon> Filter
-          </ion-label>
+          <ion-button name="arrow-round-down" (click)="filterAlert()">
+            <ion-input [(ngModel)]="minPrice"></ion-input>
+            <ion-input [(ngModel)]="maxPrice"></ion-input>
+            <ion-icon name="funnel"> </ion-icon> &nbsp; &nbsp; Filter
+          </ion-button>
         </ion-col>
       </ion-row>
     </ion-item>
@@ -78,10 +77,10 @@
               <ion-col size="8">
                 <ion-row>
                   <ion-col size="8">
-                    <p class="seller-name">Seller: {{item.user.firstName}}</p>
+                    <p class="seller-name">Seller : {{item.user.firstName}}</p>
                   </ion-col>
                   <ion-col size="4">
-                    <p class="prd-price"> <b>₹ {{item.price}}/Kg</b> </p>
+                    <p class="prd-price"> <b>₹ {{item.price}} / Kg</b> </p>
                   </ion-col>
                 </ion-row>
                 <ion-row>
@@ -106,12 +105,13 @@
                     </ion-button>
                   </ion-col>
                   <ion-col size="5">
-                    <ion-button class="btn-primary" fill="clear" *ngIf="item.quantity>0" [disabled]="item.addToCartDisabled" (click)="addToCart(item)">Add
+                    <ion-button class="btn-primary" fill="clear" *ngIf="item.quantity>0"
+                      [disabled]="item.addToCartDisabled" (click)="addToCart(item)">Add
                     </ion-button>
                   </ion-col>
                   <br />
                   <ion-col size="12">
-                    <p class="seller-name">Expected Delivery In: 2 Days</p>
+                    <p class="seller-name">Expected Delivery : 2 Days</p>
                   </ion-col>
                 </ion-row>
               </ion-col>
@@ -121,25 +121,4 @@
       </ion-col>
     </ion-row>
   </ion-list>
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button style="--background:#3453c4">
-      <ion-icon name="ios-funnel"></ion-icon>
-    </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button (click)="filterAlert()">
-        <ion-icon name="ios-funnel"></ion-icon>
-        <ion-label class="productLabel">Price Range</ion-label>
-        <ion-input [(ngModel)]="minPrice"></ion-input>
-        <ion-input [(ngModel)]="maxPrice"></ion-input>
-      </ion-fab-button>
-      <ion-fab-button>
-        <ion-icon name="funnel"></ion-icon>
-        <ion-select [(ngModel)]="sortbyPrice" (ionChange)="sort();" placeholder="Sort By">
-          <ion-select-option [value]="Low" value="Low">Show Low to High Price</ion-select-option>
-          <ion-select-option [value]="High" value="High">Show High to Low Price</ion-select-option>
-          <ion-select-option [value]="High" value="High">Seller Name</ion-select-option>
-        </ion-select>
-      </ion-fab-button>
-    </ion-fab-list>
-  </ion-fab>
 </ion-content>

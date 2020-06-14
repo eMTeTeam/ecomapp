@@ -21,8 +21,9 @@
     padding-left: 0;
     padding-right: 0;
 }
-.product-card .product-details {     
+.product-card .product-details:first {     
     margin: 0;
+    padding-top: 15px;
  }
 .product .product-card {
     background-color: white;
@@ -48,6 +49,7 @@
 }
 .product .btn-heart-item {
     float: right;
+    height: 32px;
 }
 .product .card-content-md ion-col, .product ion-col {
     margin: 0;
@@ -68,4 +70,15 @@
 }
 .mr-10 {
     margin-right: 10px;
+}
+.product-col  {
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.product-col ion-row:first-child{
+    margin-bottom: 5px;
+}
+.global-product-name {
+    font-size: 18px;
+    color: red;
 }

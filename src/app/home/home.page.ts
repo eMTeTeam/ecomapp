@@ -121,6 +121,10 @@ export class HomePage {
         this.nav.navigateForward("account");
     }
 
+    openNotification() {
+        this.nav.navigateForward("received");
+    }
+
     getCategories() {
         this.categoryService.getAllCategories()
             .subscribe(

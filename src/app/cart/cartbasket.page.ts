@@ -292,6 +292,7 @@ export class CartbasketPage {
       data => {
 
         this.addressList = data;
+		 console.log(data);
         for (let a = 0; a < this.addressList.length; a++) {
           if (this.addressList[a]["isDefault"] == true) {
             this.addressList = this.addressList[a];

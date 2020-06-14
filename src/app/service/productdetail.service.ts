@@ -10,14 +10,30 @@ export class ProductdetailService {
   constructor(private http: HttpClient,
     private commonapiservice: CommonapiService) { }
 
-  getProductdetail(keyWord,lati,longi): any {
+  getProductdetail(keyWord,lati,longi,filter,sort): any {
+    // var dataToApi = {
+    //   pageIndex: 0,
+    //   limit: 100,
+    //   lattitude: lati,
+    //   longitude: longi,
+    //   distanceWithInKm: 100000,
+    //   sortCategory: 0,
+    //   filterPrice
+    // };
     var dataToApi = {
       pageIndex: 0,
-      limit: 10,
+      limit: 100,
       lattitude: lati,
       longitude: longi,
       distanceWithInKm: 100000,
-      sortCategory: 0
+      sortCategory: sort,
+      filter
+      // "filter": {
+      //   "priceFilter": {
+      //     "minPrice": 0,
+      //     "maxPrice": 80
+      //   }
+      // }
     };
     const url = this.commonapiservice.getApiURL(this.controller, 'search');
     const params = new HttpParams()
