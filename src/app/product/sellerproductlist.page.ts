@@ -40,6 +40,9 @@ export class SellerproductlistPage {
   addToCartDisabled: boolean = true;
   openCartDisabled: boolean = true;
   sortOrder: number;
+  ishiddennorecords = true;
+  ishidden = true;
+  unitName: any;
   @ViewChild('cart', { static: false, read: ElementRef }) fab: ElementRef;
 
   constructor(private menu: MenuController,
@@ -332,9 +335,18 @@ export class SellerproductlistPage {
               this.fixedDistance1 = this.splitdistance[0];
             }
             data[u]["distance"] = parseFloat(this.fixedDistance1);
+            this.unitName = data[u]["unitName"];
+            if (this.unitName == "Gram") {
+              data[u]["unitName"] = "Kg";
+            }
+            else if (this.unitName == "MilliLitre") {
+              data[u]["unitName"] = "Litre";
+            }
           }
+
           this.productList = data;
           this.searchList = data;
+
           console.log(data);
         },
         error => {

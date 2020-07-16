@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Message</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="notific">
+    <ion-row class="notific-header">
+      <ion-item-divider style="padding: 0;">
+        <ion-col size="2">
+            <p class="user-pic">P</p>
+        </ion-col>
+        <ion-col size="9">
+            <p class="header">{{header}}</p>
+            <p class="date">16/06/2020 : 11:11</p>
+        </ion-col>
+        <ion-col size="1" class="note-trash">
+          <ion-icon name="trash"></ion-icon>
+        </ion-col>
+      </ion-item-divider>
+    </ion-row>
+    
+    <ion-row>
+        <p class="note-content">{{message}}
+        </p>
+        <button class="btn-primary" (click)="close()">Close</button>
+    </ion-row>
+</ion-content>

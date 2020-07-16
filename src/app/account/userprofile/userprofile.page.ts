@@ -10,6 +10,7 @@ import { AccountService } from 'src/app/service/account.service';
 export class UserprofilePage {
 
   searchList: any;
+  reviewlist: any;
   noRecords: boolean = true;
   loading: any;
   firstName: any;
@@ -17,7 +18,14 @@ export class UserprofilePage {
   lastName: any;
   emailId: any;
   mobileNumber: any;
-
+  rating: number;
+  comments: any;
+  reviewedBy: any;
+  reviewDate: any;
+  totaluserRating: number;
+  userId: any;
+  averageRating: any;
+  sumRating: number = 0;
   constructor(private menu: MenuController,
     private accountService: AccountService,
     public loadingController: LoadingController,
@@ -58,8 +66,32 @@ export class UserprofilePage {
         this.isFarmer = this.searchList.isFarmer;
         this.emailId = this.searchList.emailId;
         this.mobileNumber = this.searchList.mobileNumber;
+        this.userId = this.searchList.userId;
         //  this.loading.onDidDismiss();
         console.log(data);
+        this.getmyreviews(this.userId);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  getmyreviews(userId) {
+    this.accountService.getReviews(userId).subscribe(
+      data => {
+        //  this.loading.onDidDismiss();
+        debugger;
+        console.log("Review" + data);
+        this.reviewlist = data;
+        for (let i = 0; i < this.reviewlist.length; i++) {
+          this.sumRating = + this.sumRating + this.reviewlist[i].rating;
+        }
+        this.totaluserRating = this.reviewlist.length;
+        if (this.averageRating == undefined || this.averageRating == 0) {
+          this.averageRating = this.sumRating / this.totaluserRating;
+          this.averageRating = parseFloat(this.averageRating).toFixed(0);
+        }
       },
       error => {
         console.log(error);

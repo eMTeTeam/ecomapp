@@ -32,7 +32,7 @@ export class CartbasketPage {
   chkAddress: boolean = true;
   noRecords: boolean = false;
   buyNowDisabled = false;
-
+  unitName: any;
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
     public actionSheetController: ActionSheetController,
@@ -274,6 +274,15 @@ export class CartbasketPage {
           if (this.cart.length > 0) {
             this.noRecords = !this.noRecords;
             this.checkUncheckAll();
+            for (let u = 0; u < this.cart.length; u++) {
+              this.unitName = this.cart[u]["unitName"];
+              if (this.unitName == "Gram") {
+                this.cart[u]["unitName"] = "Kg";
+              }
+              else if (this.unitName == "MilliLitre") {
+                this.cart[u]["unitName"] = "Litre";
+              }
+            }
           }
           else {
             this.nav.navigateBack("sellerproductlist");

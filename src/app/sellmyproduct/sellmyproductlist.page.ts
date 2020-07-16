@@ -25,13 +25,20 @@ export class SellmyproductlistPage {
   reviewData: any;
   buyerId: any;
   otp: any;
+  otp1: any;
+  otp2: any;
+  otp3: any;
+  otp4: any;
   resultReview: any;
-  noRecords: boolean = false;
   buttonDisabled: boolean = true;
   confirmDisabled: boolean = true;
   productName: any;
   eta: any;
-  etaReadable:any;
+  ishiddennorecords = false;
+  ishidden = false;
+  etaReadable: any;
+  unitName:any;
+  tagID:any;
   trackByFn(index: any, item: any) {
     return index;
   }
@@ -66,14 +73,26 @@ export class SellmyproductlistPage {
   }
 
   changeProductAvailableDate(date) {
-   this.today = formatDate(new Date(), 'yyyy-MM-dd H:mm a', 'en');
+    this.today = formatDate(new Date(), 'yyyy-MM-dd H:mm a', 'en');
     this.buttonDisabled = false;
     this.eta = date;//formatDate(date, 'yyyy-MM-dd H:mm a', 'en');
-    this.etaReadable=formatDate(date, 'yyyy-MM-dd H:mm a', 'en');
+    this.etaReadable = formatDate(date, 'yyyy-MM-dd H:mm a', 'en');
     console.log(this.eta);
   }
-  onOtp(eve: any) {
-    this.otp = eve.target.value;
+  onOtp(eve: any, i) {
+    if (i == 1) {
+      this.otp1 = eve.target.value;
+    }
+    if (i == 2) {
+      this.otp2 = eve.target.value;
+    }
+    if (i == 3) {
+      this.otp3 = eve.target.value;
+    }
+    if (i == 4) {
+      this.otp4 = eve.target.value;
+    }
+    this.otp = this.otp1 + this.otp2 + this.otp3 + this.otp4;
     if (this.otp != "") {
       this.confirmDisabled = false;
     }
@@ -195,8 +214,13 @@ export class SellmyproductlistPage {
         this.comments = mapped[0]["value"];
         this.rating = mapped[1]["value"];
       }
+      this.rating = this.rating.split(",");
+      for (let s = 0; s < this.rating.length; s++) {
+          this.tagID = this.rating[0];
+          this.rating = this.rating[1];
+      }
       if (data != "" || data != null) {
-        this.sllerreRating(item, this.rating, this.comments)
+        this.sllerreRating(item, this.rating, this.comments,this.tagID)
       }
     });
     modal.present();
@@ -207,14 +231,14 @@ export class SellmyproductlistPage {
 
   }
 
-  async sllerreRating(itemid: any, rating: any, comments: any) {
+  async sllerreRating(itemid: any, rating: any, comments: any, tagID: any) {
 
-    var tags = ["5091a747-4feb-486b-bb64-d73acff50b58"];
+    var tags = [tagID];
     var userReview = {
       TagIds: tags,
       UserId: itemid.buyer.userId,
       Comments: comments,
-      Rating: rating
+      Rating: eval(rating)
     }
     var dataToApi = {
       InventoryItemId: itemid.id,
@@ -330,7 +354,25 @@ export class SellmyproductlistPage {
             key["today"] = '';
           })
           this.searchList = data;
-          this.productName = this.searchList[0].productName;
+          if (this.searchList.length == 0) {
+            this.ishiddennorecords = false;
+            this.ishidden=true;
+            this.productName ="";
+          }
+          else {
+            this.ishidden=false;
+            this.ishiddennorecords = true;
+            for (let u = 0; u < this.searchList.length; u++) {
+              this.unitName = this.searchList[u]["unitName"];
+              if (this.unitName == "Gram") {
+                this.searchList[u]["unitName"] = "Kg";
+              }
+              else if (this.unitName == "MilliLitre") {
+                this.searchList[u]["unitName"] = "Litre";
+              }
+            }
+            this.productName = this.searchList[0].productName;
+          }
           console.log(data);
         },
         error => {

@@ -22,7 +22,10 @@ export class MyordersdetailPage {
   selectedItem: any;
   rating: any;
   noRecords: boolean = false;
-
+  ishiddennorecords = true;
+  ishidden = true;
+  unitName: any;
+  tagID:any;
   constructor(
     private menu: MenuController,
     private route: ActivatedRoute,
@@ -40,11 +43,19 @@ export class MyordersdetailPage {
     this.route.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.selectedItem = this.router.getCurrentNavigation().extras.state.selectedProduct;
+        this.unitName = this.selectedItem.unitName;
+        if (this.unitName == "Gram") {
+          this.selectedItem.unitName = "Kg";
+        }
+        else if (this.unitName == "MilliLitre") {
+          this.selectedItem.unitName = "Litre";
+        }
+        console.log(this.selectedItem);
       }
     });
     this.presentLoading();
     this.searchList = this.selectedItem;
-    console.log( this.selectedItem);
+    console.log(this.selectedItem);
 
   }
 
@@ -160,22 +171,27 @@ export class MyordersdetailPage {
         this.comments = mapped[0]["value"];
         this.rating = mapped[1]["value"];
       }
+      this.rating = this.rating.split(",");
+      for (let s = 0; s < this.rating.length; s++) {
+          this.tagID = this.rating[0];
+          this.rating = this.rating[1];
+      }
       if (data) {
-        this.buyerComments(item, this.rating, this.comments)
+        this.buyerComments(item, this.rating, this.comments,this.tagID)
       }
     });
 
     modal.present();
 
   }
-  async buyerComments(item: any, rating: any, comments: any) {
+  async buyerComments(item: any, rating: any, comments: any, tagID: any) {
     {
-      var tags = ["672d96c1-9859-43e2-b579-80362171841c"];
+      var tags = [tagID];
       var dataToApi = {
         TagIds: tags,
         UserId: item.seller.userId,
         Comments: comments,
-        Rating: rating
+        Rating: eval(rating)
       };
       this.reviewsService.sellerReview(dataToApi).subscribe(
         async (savedreturnData) => {

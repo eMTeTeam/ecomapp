@@ -1,0 +1,50 @@
+.notific {
+    
+    .notific-header{
+        margin-top: 4px;
+        margin-left: 15px;
+        margin-right: 15px;
+        ion-col {
+            padding: 0;
+        }
+        .user-pic {
+            border: 1px solid red;
+            border-radius: 50px;
+            height: 40px;
+            width: 40px;
+            padding-top: 10px;
+            padding-left: 14px;
+            font-size: 17px;
+            font-weight: bold;
+            color: #fff;
+            background-color: red;
+        }
+        .header, .date {
+            margin: 0;
+            color: black;
+        }
+        .date { 
+            font-size: 12px;
+        }
+        .header { 
+            font-weight: bold;
+        }
+        .note-trash ion-icon {
+            font-size: 20px;
+            color: red;
+            float: right;
+        }
+    }
+    .note-content {
+        margin-top: 15px;
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-bottom: 50px;
+    }
+    .btn-primary {
+        width: 100%;
+        margin-left: 15px;
+        margin-right: 15px;
+        height: 30px;
+    }
+}

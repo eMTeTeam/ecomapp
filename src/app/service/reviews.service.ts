@@ -23,6 +23,11 @@ export class ReviewsService {
       });
   }
 
+  sellerReviewtags() {
+    const url = this.commonapiservice.getApiURL(this.controllerReviews, 'sellerRatingTags');
+    return this.http.get(url);
+  }
+
   buyerReview(dataToApi) {
     const url = this.commonapiservice.getApiURL(this.controllerInventories, 'sellerDelivered');
     return this.http.put(url, dataToApi,

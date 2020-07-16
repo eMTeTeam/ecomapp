@@ -23,3 +23,7 @@ span {
   top: -3px;;
 }
 }
+.required:after {
+  content:" *";
+  color: red;
+}

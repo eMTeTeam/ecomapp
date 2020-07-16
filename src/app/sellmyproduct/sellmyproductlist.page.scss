@@ -20,13 +20,14 @@
         }
 
         ion-thumbnail{
-            height: 40px;
-            width: 40px;
+            height: 91px;
+            width: 100px;
             padding: 0;
             margin: 0;
         }
         .prd-byer-name {
             font-weight: bold;
+            text-align: center;
         }
         ion-datetime{ 
             font-size: 14px;
@@ -53,6 +54,13 @@
         }
         .otp-section {
             display: inline-flex;
+        }
+        .qty-rs {
+            border: 1px solid rgb(189, 188, 188);
+            text-align: center;
+            padding: 5px !important;
+            width: 45%;
+            font-weight: bold;
         }
     }
     
@@ -166,10 +174,27 @@
         height: 30px;
         float: right;
         margin-right: 17px;
+        width: 94%;
        }
     .aprv-rej ion-button {
         width: 100%;
     }  
     
 }
+
+.nodata-found {
+    padding-top: 30px;
+    div {
+        text-align: center;
+        font-size: 14px;
+        color:black;
+    }
+}
+
+.cmplt-del { 
+    text-transform: none;
+    margin-top: 0px;
+    margin-top: 10px !important;
+}
+
 

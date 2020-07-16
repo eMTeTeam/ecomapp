@@ -14,6 +14,8 @@ export class AddresslistPage {
   noRecords: boolean = true;
   loading: any;
   isDefault: any;
+  ishiddennorecords = true;
+  ishidden = true;
 
   constructor(private menu: MenuController,
     private accountService: AccountService,
@@ -59,16 +61,25 @@ export class AddresslistPage {
     this.accountService.getAddressList().subscribe(
       data => {
         this.addressList = data;
-        if (this.addressList.length > 0) {
-          this.noRecords = !this.noRecords;
-          for (let u = 0; u < this.addressList.length; u++) {
-            this.isDefault = this.addressList[u]["isDefault"];
-            if (this.isDefault == true) {
-              this.addressList[u]["isDefault"] = "Default";
-
+        if (this.addressList.length == 0) {
+          this.ishiddennorecords = false;
+          this.ishidden=true;
+        }
+        else {
+          this.ishidden=false;
+          this.ishiddennorecords = true;
+          if (this.addressList.length > 0) {
+            this.noRecords = !this.noRecords;
+            for (let u = 0; u < this.addressList.length; u++) {
+              this.isDefault = this.addressList[u]["isDefault"];
+              if (this.isDefault == true) {
+                this.addressList[u]["isDefault"] = "Default";
+  
+              }
             }
           }
         }
+      
         this.searchList = data;
         this.loading.onDidDismiss();
         console.log(data);

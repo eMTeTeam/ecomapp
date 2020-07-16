@@ -1,0 +1,46 @@
+.notific {
+    ion-item { 
+        margin-right: 20px;
+    }
+    .notific-header{
+        border-bottom: 0.5px solid #d8d4d4;
+        width: 100%;
+        ion-col {
+            padding: 0;
+        }
+        .user-pic {
+            border: 1px solid red;
+            border-radius: 50px;
+            height: 40px;
+            width: 40px;
+            padding-top: 10px;
+            padding-left: 14px;
+            font-size: 17px;
+            font-weight: bold;
+            color: #fff;
+            background-color: red;
+        }
+        .header, .date {
+            margin: 0;
+            color: black;
+        }
+        .header { 
+            margin-top: 9%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .date {
+            margin-top: 50%;
+            float: right;
+        }
+        .cont { 
+            margin: 0;
+            font-size: 14px;
+            color: gray;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+    }
+}

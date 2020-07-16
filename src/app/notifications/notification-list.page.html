@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goback()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Notifications</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list class="notific" *ngFor="let item of searchList">
+    <ion-item lines="none">
+      <ion-row class="notific-header">
+        <ion-col size="2">
+          <p class="user-pic">P</p>
+        </ion-col>
+        <ion-col size="8" (click)="openNotification(item)">
+          <p class="header">{{item.fromUser.firstName}}</p>
+          <p class="cont">{{item.message}}</p>
+        </ion-col>
+        <ion-col size="2" class="note-trash">
+          <p class="date">11:11</p>
+        </ion-col>
+      </ion-row>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

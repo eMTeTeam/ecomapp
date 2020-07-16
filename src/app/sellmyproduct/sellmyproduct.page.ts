@@ -34,7 +34,7 @@ export class SellmyproductPage {
     price: any;
     quantity: any;
     unitName: string;
-    unitId:any;
+    unitId: any;
     maxdistance: any;
     expectdelivery: any;
     loading: any;
@@ -43,6 +43,7 @@ export class SellmyproductPage {
     ishiddenedit = true;
     ishiddentitleedit = true;
     sellmyproduct: FormGroup;
+    fileUrl: any;
     constructor(private menu: MenuController,
         public loadingController: LoadingController,
         private formBuilder: FormBuilder,
@@ -63,7 +64,7 @@ export class SellmyproductPage {
                 if (this.selectedProduct == "" || this.selectedProduct == undefined) {
                     this.ishiddenedit = true;
                     this.ishiddentitleedit = true;
-                   
+
                 }
                 else {
                     this.ishiddenedit = false;
@@ -78,7 +79,7 @@ export class SellmyproductPage {
                 // this.editExpiryDate = new Date().toISOString();
             }
         });
-       
+
         this.searchList = this.productList;
     }
 
@@ -99,17 +100,15 @@ export class SellmyproductPage {
 
     onSelectProduct() {
         console.log(this.selectedProduct);
-        if(this.selectedProduct.unitName=="Gram")
-        {
+        if (this.selectedProduct.unitName == "Gram") {
             this.unitName = "Kg";
         }
-        else if(this.selectedProduct.unitName=="MilliLitre")
-        {
-            this.unitName = "Li";
+        else if (this.selectedProduct.unitName == "MilliLitre") {
+            this.unitName = "Litre";
         }
-        this.unitId=this.selectedProduct.unitId;
-        this.currentDate=new Date().toISOString();
-        this.expiryDate = new Date(new Date().getTime()+(924606010)).toISOString();
+        this.unitId = this.selectedProduct.unitId;
+        this.currentDate = new Date().toISOString();
+        this.expiryDate = new Date(new Date().getTime() + (924606010)).toISOString();
     }
 
     uploadFile(event) {
@@ -120,52 +119,93 @@ export class SellmyproductPage {
         formData.get('FormFile');
         this.productService.saveImage(formData).subscribe(
             (savedreturnData) => {
-                this.savedData = JSON.stringify(savedreturnData);
-                console.log(this.savedData);
+                this.savedData = savedreturnData;
+                this.fileUrl = this.savedData.fileUrl;
+                console.log(savedreturnData);
             }
         )
 
     }
 
     async addProduct() {
+        let count = 0;
+        let errString = '';
+        if (this.selectedProduct == undefined || this.selectedProduct.name == '') {
+            count = 1;
+            errString = errString + ' \n ' + "Product";
+        }
+        if (this.quantity == undefined || this.quantity == '') {
+            count = 1;
+            errString = errString + ' \n ' + "Quantity";
+        }
+        if (this.price == undefined || this.price == '') {
+            errString = errString + ' \n ' + "Price ";
+            count = 1;
+        }
+        if (this.currentDate == undefined || this.currentDate == '') {
+            errString = errString + ' \n ' + "AvailableDate ";
+            count = 1;
+        }
+       
         this.presentLoading();
-        var dataToApi = {
-            ProductNameId: this.selectedProduct.productNameId,
-            CategoryId: this.selectedProduct.categoryId,
-            Description: this.selectedProduct.name,
-            UnitId: this.unitId,
-            Quantity: eval(this.quantity),
-            Price: eval(this.price),
-            ImageUrl: "image",
-            AvailableOn: this.currentDate,
-            ExpiredOn: this.expiryDate,
-            Distance: this.maxdistance
-        };
-        this.productService.saveData(dataToApi).subscribe(
-            (savedreturnData) => {
-                this.savedData = JSON.stringify(savedreturnData);
+        if (count == 0) {
+            var dataToApi = {
+                ProductNameId: this.selectedProduct.productNameId,
+                CategoryId: this.selectedProduct.categoryId,
+                Description: this.selectedProduct.name,
+                UnitId: this.unitId,
+                Quantity: eval(this.quantity),
+                Price: eval(this.price),
+                ImageUrl: this.fileUrl,
+                AvailableOn: this.currentDate,
+                ExpiredOn: this.expiryDate,
+                Distance: this.maxdistance
+            };
+            this.productService.saveData(dataToApi).subscribe(
+                (savedreturnData) => {
+                    this.savedData = JSON.stringify(savedreturnData);
 
-                console.log(this.savedData);
-            }
-        )
-        const alert = await this.alertCtrl.create({
-            header: 'Confirm!',
-            message: 'Product ' + this.selectedProduct.name + ' Added Successfully',
-            mode: 'ios',
-            buttons: [
-                {
-                    text: 'Okay',
-
-                    handler: () => {
-                        this.router.navigate(['/allproductslist']);
-                    }
+                    console.log(this.savedData);
                 }
-            ]
-        });
-        await alert.present().then(() => {
+            )
+            const alert = await this.alertCtrl.create({
+                header: 'Confirm!',
+                message: 'Product ' + this.selectedProduct.name + ' Added Successfully',
+                mode: 'ios',
+                buttons: [
+                    {
+                        text: 'Okay',
 
-            this.loading.onDidDismiss();
-        });
+                        handler: () => {
+                            this.router.navigate(['/allproductslist']);
+                        }
+                    }
+                ]
+            });
+            await alert.present().then(() => {
+
+                this.loading.onDidDismiss();
+            });
+        }
+        else if (count == 1) {
+            const alert = await this.alertCtrl.create({
+                header: 'Error!',
+                message: 'Please enter the following fields' + '\n' + errString,
+                mode: 'ios',
+                buttons: [
+                    {
+                        text: 'Okay',
+
+                        handler: () => {
+                            // this.router.navigate(['/addresslist']);
+                        }
+                    }
+                ]
+            });
+            await alert.present().then(() => {
+                // this.loading.onDidDismiss();
+            });
+        }
     }
 
     async updateProduct() {
@@ -186,7 +226,7 @@ export class SellmyproductPage {
         )
         const alert = await this.alertCtrl.create({
             header: 'Confirm!',
-            message: 'Product ' + this.editProduct +  ' Updated Successfully',
+            message: 'Product ' + this.editProduct + ' Updated Successfully',
             mode: 'ios',
             buttons: [
                 {
@@ -282,6 +322,13 @@ export class SellmyproductPage {
                     this.editPrice = this.editProductList.price;
                     this.editProduct = this.editProductList.name;
                     this.editQuantity = this.editProductList.quantity;
+                    if (this.editProductList.unitName == "Gram") {
+                        this.unitName = "Kg";
+                    }
+                    else if (this.editProductList.unitName == "MilliLitre") {
+                        this.unitName = "Litre";
+                    }
+                    this.editProductList.unitName = this.unitName;
                 },
                 error => {
                     console.log(error);

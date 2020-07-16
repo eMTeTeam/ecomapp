@@ -27,8 +27,19 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
+    <ion-content [hidden]=ishiddennorecords>
+        <div>
+            <ion-row class="nodata-found">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8">
+                    <div>No Records Found</div>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+        </div>
+    </ion-content>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
-    <ion-list class="product">
+    <ion-list class="product" [hidden]=ishidden>
         <ion-row class="mr-10">
             <ion-col class="product-col" size="12" *ngFor="let item of searchList">
                 <ion-card class="product-card">
@@ -37,8 +48,7 @@
                             <ion-col size="4">
                                 <ion-item lines="none" mode="ios">
                                     <ion-thumbnail slot="start" style="height:90px;width:90px;">
-                                        <img src="../../assets/products/vegetables/{{item.name}}.jpg"
-                                            style="border-radius:50%;">
+                                        <img src={{item.imageUrl}} onerror="this.src='../../assets/icon/defaultimg.png';" style="border-radius:50%;">
                                     </ion-thumbnail>
                                 </ion-item>
                             </ion-col>
@@ -55,7 +65,7 @@
                                         </ion-label>
                                     </ion-col>
                                     <ion-col size="6">
-                                        <div class="ellipsisText"> : ₹ {{item.price}} / Kg</div>
+                                        <div class="ellipsisText"> : ₹ {{item.price}} / {{item.unitName}}</div>
                                     </ion-col>
                                 </ion-row>
                                 <ion-row>
@@ -65,7 +75,7 @@
                                         </ion-label>
                                     </ion-col>
                                     <ion-col size="6">
-                                        <div class="ellipsisText"> : {{item.quantity}} Kg</div>
+                                        <div class="ellipsisText"> : {{item.quantity}} {{item.unitName}}</div>
                                     </ion-col>
                                 </ion-row>
                                 <ion-row class="action">
@@ -80,7 +90,9 @@
                                     <ion-col size="6">
                                         <ion-chip>
                                             <ion-label color="primary">
-                                                <a class="" fill="clear" (click)="editProduct(item)">Edit Inventory
+                                                <a class="" fill="clear" (click)="editProduct(item)">
+                                                    <ion-icon name="create"></ion-icon>
+                                                    Inventory
                                                 </a>
                                             </ion-label>
                                         </ion-chip>

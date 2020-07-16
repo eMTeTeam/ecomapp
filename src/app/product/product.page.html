@@ -32,17 +32,29 @@
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
+    <ion-content [hidden]=ishiddennorecords>
+        <div>
+            <ion-row class="nodata-found">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8">
+                    <div>No Products available at your range</div>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+        </div>
+    </ion-content>
     <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
-    <ion-list>
+    <ion-list [hidden]=ishidden>
+
         <ion-row class="mr-10">
             <ion-list class="product-card">
-                <ion-item class="product-col" size="12" *ngFor="let item of searchList" (click)="goToProductDetail(item)">
-                    <ion-row >
+                <ion-item class="product-col" size="12" *ngFor="let item of searchList"
+                    (click)="goToProductDetail(item)">
+                    <ion-row>
                         <ion-col size="4">
                             <ion-item lines="none" mode="ios">
                                 <ion-thumbnail slot="start" style="height:75px;width:75px;">
-                                    <img src="../../assets/products/vegetables/{{item.productName}}.jpg"
-                                        style="border-radius:50%;">
+                                    <img src={{item.imageUrl}} onerror="this.src='../../assets/icon/defaultimg.png';" style="border-radius:50%;">
                                 </ion-thumbnail>
                             </ion-item>
                         </ion-col>
@@ -67,7 +79,7 @@
                                 </ion-col>
                                 <ion-col size="12">
                                     <ion-label class="product-details">
-                                        <h2 class="ellipsisText">Price : ₹ {{item.priceRange}} / Kg</h2>
+                                        <h2 class="ellipsisText">Price : ₹ {{item.priceRange}} / {{item.unitName}}</h2>
                                         <div class="dist-range">
                                             <ion-icon name="locate"></ion-icon>
                                             <p>{{item.distanceRange}} Kms</p>

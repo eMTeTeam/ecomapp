@@ -22,7 +22,7 @@ export class AddressPage {
   longitude: any = "";
   savedAddress: any = "";
   addressType: any;
-  defaultAddress: boolean=true;
+  defaultAddress: boolean = true;
   loading: any;
 
   constructor(private menu: MenuController,
@@ -41,43 +41,90 @@ export class AddressPage {
     this.defaultAddress = list.target.checked;
   }
   async addAddress() {
-    this.presentLoading();
-    var dataToApi = {
-      AddressLine1: this.addressline1,
-      AddressLine2: this.addressline2,
-      City: this.city,
-      State: this.state,
-      Country: this.country,
-      Zip: eval(this.zipcode),
-      Lattitude: eval(this.lattitude),
-      Longitude: eval(this.longitude),
-      "isDefault": this.defaultAddress,
-      AddressType: this.addressType
-    };
-    this.accountService.saveAddress(dataToApi).subscribe(
-      (savedreturnData) => {
-        this.savedAddress = JSON.stringify(savedreturnData);
-        console.log(this.savedAddress);
-      }
-    )
-
-    const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
-      message: this.addressType + ' has been saved successfully.',
-      mode: 'ios',
-      buttons: [
-        {
-          text: 'Okay',
-
-          handler: () => {
-            this.router.navigate(['/addresslist']);
-          }
+    let count = 0;
+    let errString = '';
+    if (this.addressType == undefined) {
+      count = 1;
+      errString = errString + ' \n ' + "AddressType";
+    }
+    if (this.addressline1 == undefined) {
+      count = 1;
+      errString = errString + ' \n ' + "Addressline1";
+    }
+    if (this.city == undefined) {
+      errString = errString + ' \n ' + "city ";
+      count = 1;
+    }
+    if (this.state == undefined) {
+      errString = errString + ' \n ' + "state ";
+      count = 1;
+    }
+    if (this.country == undefined) {
+      errString = errString + ' \n ' + "country ";
+      count = 1;
+    }
+    if (this.zipcode == undefined) {
+      errString = errString + ' \n ' + "zipcode ";
+      count = 1;
+    }
+    if (count == 0) {
+      this.presentLoading();
+      var dataToApi = {
+        AddressLine1: this.addressline1,
+        AddressLine2: this.addressline2,
+        City: this.city,
+        State: this.state,
+        Country: this.country,
+        Zip: eval(this.zipcode),
+        Lattitude: eval(this.lattitude),
+        Longitude: eval(this.longitude),
+        "isDefault": this.defaultAddress,
+        AddressType: this.addressType
+      };
+      this.accountService.saveAddress(dataToApi).subscribe(
+        (savedreturnData) => {
+          this.savedAddress = JSON.stringify(savedreturnData);
+          console.log(this.savedAddress);
         }
-      ]
-    });
-    await alert.present().then(() => {
-      this.loading.onDidDismiss();
-    });
+      )
+
+      const alert = await this.alertCtrl.create({
+        header: 'Confirm!',
+        message: this.addressType + ' has been saved successfully.',
+        mode: 'ios',
+        buttons: [
+          {
+            text: 'Okay',
+
+            handler: () => {
+              this.router.navigate(['/addresslist']);
+            }
+          }
+        ]
+      });
+      await alert.present().then(() => {
+        this.loading.onDidDismiss();
+      });
+    }
+    else if (count == 1) {
+      const alert = await this.alertCtrl.create({
+        header: 'Error!',
+        message: 'Please enter the following fields' + '\n' + errString,
+        mode: 'ios',
+        buttons: [
+          {
+            text: 'Okay',
+
+            handler: () => {
+              // this.router.navigate(['/addresslist']);
+            }
+          }
+        ]
+      });
+      await alert.present().then(() => {
+        // this.loading.onDidDismiss();
+      });
+    }
   }
 
   goBack() {

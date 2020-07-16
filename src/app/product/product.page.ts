@@ -23,7 +23,9 @@ export class ProductPage {
     fixedDistance1: any;
     fixedDistance2: any;
     noRecords: boolean = true;
-
+    ishiddennorecords = true;
+    ishidden = true;
+    unitName: any;
     constructor(private menu: MenuController,
         private route: ActivatedRoute,
         private router: Router,
@@ -147,12 +149,25 @@ export class ProductPage {
                             this.fixedDistance2 = this.splitdistance[1];
                         }
                         data[u]["distanceRange"] = parseFloat(this.fixedDistance1).toFixed(2) + " - " + parseFloat(this.fixedDistance2).toFixed(2);
+                        this.unitName = data[u]["unitName"];
+                        if (this.unitName == "Gram") {
+                          data[u]["unitName"] = "Kg";
+                        }
+                        else if (this.unitName == "MilliLitre") {
+                          data[u]["unitName"] = "Litre";
+                        }
                     }
                     this.productList = data;
-                    if (this.productList.length > 0) {
-                        this.noRecords = !this.noRecords;
-                    }
-                    this.searchList = data;
+                    if (this.productList.length == 0) {
+                        this.ishiddennorecords = false;
+                        this.ishidden=true;
+                      }
+                      else {
+                        this.ishidden=false;
+                        this.searchList = data;
+                        
+                        this.ishiddennorecords = true;
+                      }
                     console.log(data);
                 },
                 error => {

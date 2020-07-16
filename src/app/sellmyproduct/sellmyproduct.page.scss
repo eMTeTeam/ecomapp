@@ -38,3 +38,7 @@
 .text-input::-webkit-input-placeholder {
     font-size: 14px;
 }
+.required:after {
+    content:" *";
+    color: red;
+  }

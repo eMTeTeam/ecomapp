@@ -122,7 +122,7 @@ export class HomePage {
     }
 
     openNotification() {
-        this.nav.navigateForward("received");
+        this.nav.navigateForward("notification-list");
     }
 
     getCategories() {

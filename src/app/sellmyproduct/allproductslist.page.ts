@@ -23,7 +23,9 @@ export class AllproductslistPage {
   noRecords: boolean = true;
   loading: any;
   addressList: any;
-
+  ishiddennorecords = true;
+  ishidden = true;
+  unitName: any;
   constructor(
     private menu: MenuController,
     private sellmyproductlistService: SellmyproductlistService,
@@ -240,10 +242,25 @@ export class AllproductslistPage {
     this.sellmyproductlistService.getAllmyproductlist().subscribe(
       data => {
         this.sellmyproductList = data;
-        if (this.sellmyproductList.length > 0) {
-          this.noRecords = !this.noRecords;
+        if (this.sellmyproductList.length == 0) {
+          this.ishiddennorecords = false;
+          this.ishidden = true;
         }
-        this.searchList = data;
+        else {
+          this.ishidden = false;
+          this.ishiddennorecords = true;
+          this.searchList = data;
+          for (let u = 0; u < this.searchList.length; u++) {
+            this.unitName = this.searchList[u]["unitName"];
+            if (this.unitName == "Gram") {
+              this.searchList[u]["unitName"] = "Kg";
+            }
+            else if (this.unitName == "MilliLitre") {
+              this.searchList[u]["unitName"] = "Litre";
+            }
+          }
+        }
+
         this.loading.onDidDismiss();
         console.log(data);
       },

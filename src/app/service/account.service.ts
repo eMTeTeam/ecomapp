@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { CommonapiService } from '../../app/service/commonapi.service';
 
 @Injectable({
@@ -8,6 +8,7 @@ import { CommonapiService } from '../../app/service/commonapi.service';
 export class AccountService {
   controller: string = "Address";
   usercontroller: string = "Users";
+  reviewcontroller: string = "Reviews";
   constructor(public http: HttpClient,
     private commonapiservice: CommonapiService) { }
 
@@ -30,5 +31,12 @@ export class AccountService {
   getProfile() {
     const url = this.commonapiservice.getApiURL(this.usercontroller, '');
     return this.http.get(url);
+  }
+  getReviews(useId) {
+    const params = new HttpParams()
+      .set('userId', useId)
+      .set('isSellerReview', "true")
+    const url = this.commonapiservice.getApiURL(this.reviewcontroller, 'ratings');
+    return this.http.get(url, {params});
   }
 }

@@ -37,6 +37,10 @@
         padding-bottom: 5px;
         color: #000000;
         font-family: sans-serif;
+            
+            ion-row { 
+                margin-bottom: 10px !important;
+            }
         }
 
         .card-content-md ion-col,  ion-col {
@@ -52,6 +56,7 @@
         }
         .prd-byer-name {
             font-weight: bold;
+            text-align: center;
         }
         .productETA ion-label {
             margin-top: -30px;
@@ -62,6 +67,18 @@
         ion-label {
             font-weight: bold;
         }
+        .qty-rs {
+            border: 1px solid rgb(189, 188, 188);
+            text-align: center;
+            padding: 5px !important;
+            width: 45%;
+            font-weight: bold;
+        }
+    }
+    .review-seller { 
+        width: 98%;
+        height: 34px;
+        margin-left: 1%;
     }
     
 }
@@ -164,10 +181,9 @@
     }
     .btn-primary { 
         height: 30px;
-        position: relative;
-        top: 32px;
-        right: 115px;
-    }
+        float: right;
+        margin-right: 17px;
+       }
     .aprv-rej ion-button {
         width: 100%;
     }

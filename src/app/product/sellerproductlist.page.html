@@ -70,7 +70,7 @@
               <ion-col size="4">
                 <ion-item lines="none" mode="ios">
                   <ion-thumbnail slot="start" style="height:75px;width:75px;">
-                    <img src="../../assets/products/vegetables/{{item.name}}.jpg" style="border-radius:50%;">
+                    <img src={{item.imageUrl}} onerror="this.src='../../assets/icon/defaultimg.png';" style="border-radius:50%;">
                   </ion-thumbnail>
                 </ion-item>
               </ion-col>
@@ -80,7 +80,7 @@
                     <p class="seller-name">Seller : {{item.user.firstName}}</p>
                   </ion-col>
                   <ion-col size="4">
-                    <p class="prd-price"> <b>₹ {{item.price}} / Kg</b> </p>
+                    <p class="prd-price"> <b>₹ {{item.price}} / {{item.unitName}}</b> </p>
                   </ion-col>
                 </ion-row>
                 <ion-row>
@@ -109,9 +109,11 @@
                       [disabled]="item.addToCartDisabled" (click)="addToCart(item)">Add
                     </ion-button>
                   </ion-col>
-                  <br />
+                </ion-row>
+                <br/>
+                <ion-row>
                   <ion-col size="12">
-                    <p class="seller-name">Expected Delivery : 2 Days</p>
+                    <p class="seller-name">Expected Delivery : {{item.user.maxNoOfDaysToDeliver}} days</p>
                   </ion-col>
                 </ion-row>
               </ion-col>

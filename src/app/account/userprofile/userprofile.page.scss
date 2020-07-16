@@ -57,6 +57,9 @@
     } 
     .user-email {
         margin-left: -6px;
+        ion-icon { 
+            color: red;
+        }
     }
     .overall-rating {
         .orall-head {
@@ -70,10 +73,14 @@
         .orall-rat-num {
             font-size: 30px;
             font-weight: bold;
+            //color: red;
         }
         .rating-star {
             margin-right: 105px;
             font-size: 25px;
+            ion-icon { 
+                color: red;
+            }
         }
         .prog-span {
             position: relative;
@@ -101,6 +108,10 @@
             float: right;
             font-size: 20;
         }
-
+        .rating-star  {
+            ion-icon { 
+                color:red;
+            }
+        }
     } 
 }

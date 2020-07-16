@@ -17,7 +17,7 @@
     <!-- <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar> -->
     <div style="padding:20px;" [hidden]=ishidden>
         <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Search Product</ion-label>
+            <ion-label position="stacked" class="productLabel required">Search Product</ion-label>
             <ionic-selectable item-content [(ngModel)]="selectedProduct" itemTextField="name"
                 (ngModelChange)="onSelectProduct();" [items]="searchList" [canSearch]="true"
                 (onSearch)="searchText($event)" placeholder="Choose Product">
@@ -29,7 +29,7 @@
                 value="upload" name="filefield" multiple="multiple"></ion-input>
         </ion-item>
         <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Available on</ion-label>
+            <ion-label position="stacked" class="productLabel required">Available on</ion-label>
             <ion-datetime displayFormat="D MMM YYYY" [(ngModel)]="currentDate"
                 (ionChange)="changeProductAvailableDate(currentDate)"></ion-datetime>
         </ion-item>
@@ -39,13 +39,13 @@
                 (ionChange)="changeProductAvailableDate(currentDate)"></ion-datetime>
         </ion-item>
         <ion-item class="productItem">
-            <ion-label position="stacked" class="productLabel">Quantity</ion-label>
+            <ion-label position="stacked" class="productLabel required">Quantity</ion-label>
             <ion-input [(ngModel)]="quantity" type="number"></ion-input>
         </ion-item>
         <ion-row>
             <ion-col col-6 style="width: 70%;">
                 <ion-item class="productItem">
-                    <ion-label position="stacked" class="productLabel">Cost</ion-label>
+                    <ion-label position="stacked" class="productLabel required">Cost</ion-label>
                     <ion-input [(ngModel)]="price" type="number"></ion-input>
                 </ion-item>
             </ion-col>
@@ -56,7 +56,7 @@
             </ion-col>
         </ion-row>
        
-        <ion-row>
+        <!-- <ion-row>
             <ion-col col-6 style="width: 70%;">
                 <ion-item class="productItem">
                     <ion-label position="stacked" class="productLabel">Max Distance Cover:</ion-label>
@@ -81,7 +81,7 @@
                     <ion-label position="stacked" class="productLabel">Days</ion-label>
                 </ion-item>
             </ion-col>
-        </ion-row>
+        </ion-row> -->
         <ion-row style="padding:10px;">
             <ion-button fill="clear" size="large" class="btn-primary" (click)="addProduct()">SAVE</ion-button>
         </ion-row>
@@ -124,7 +124,7 @@
                 </ion-item>
             </ion-col>
         </ion-row>
-       
+<!--        
         <ion-row>
             <ion-col col-6 style="width: 70%;">
                 <ion-item class="productItem">
@@ -150,7 +150,7 @@
                     <ion-label position="stacked" class="productLabel">Days</ion-label>
                 </ion-item>
             </ion-col>
-        </ion-row>
+        </ion-row> -->
         <ion-row style="padding:10px;">
             <ion-button fill="clear" size="large" class="btn-primary" (click)="updateProduct()">Save</ion-button>
         </ion-row>

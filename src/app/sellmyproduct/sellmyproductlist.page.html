@@ -24,154 +24,178 @@
         </ion-title>
     </ion-toolbar>
 </ion-header>
+
+<ion-content [hidden]=ishiddennorecords>
+    <div>
+        <ion-row class="nodata-found">
+            <ion-col size="2"></ion-col>
+            <ion-col size="8">
+                <div>No Records Found</div>
+            </ion-col>
+            <ion-col size="2"></ion-col>
+        </ion-row>
+    </div>
+</ion-content>
+
 <ion-content class="sell-myprod-list">
-    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
-        <ion-refresher-content></ion-refresher-content>
-    </ion-refresher>
-    <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)"></ion-searchbar>
-    <ion-list>
-        <ion-card *ngFor="let item of searchList; let i = index; trackBy: trackByFn" class="sell-crd">
-            <ion-card-content>
-                <ion-row>
-                    <ion-col size="2">
-                        <ion-item lines="none" mode="ios">
-                            <ion-thumbnail slot="end">
-                                <!-- Replace User Image -->
-                                <img src="../../assets/products/vegetables/{{item.productName}}.jpg"
-                                    style="border-radius:50%;">
-                            </ion-thumbnail>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="10">
-                        <ion-row class="prd-byer-name">
-                            <ion-col size="5">
-                                <ion-label> Buyer : {{item.buyer.firstName}} </ion-label>
-                            </ion-col>
-                        </ion-row>
-                    </ion-col>
-                </ion-row>
-                <ion-row>
-                    <ion-col size="5">
-                        <ion-label>Status</ion-label>
-                    </ion-col>
-                    <ion-col size="7">
-                        <p> : {{item.status}} </p>
-                    </ion-col>
-                    <ion-col size="5">
-                        <ion-label>
-                            Ordered Date
-                        </ion-label>
-                    </ion-col>
-                    <ion-col size="7">
-                        <p> : {{item.orderedDate | date: 'yyyy-MM-dd H:mm a'}}</p>
-                    </ion-col>
-                    <ion-col size="6" *ngIf="item?.status =='Approval Pending'">
-                        <ion-label class="productLabel">Estimated Time of Delivery : </ion-label>
-                    </ion-col>
-                    <ion-col size="6" *ngIf="item?.status =='Approval Pending'">
-                        <ion-item class="productETA">
-                            <ion-datetime displayFormat="DD-MMM-YYYY hh:mm:ss A" pickerFormat="DD-MMM-YY HH:mm"
-                                [(ngModel)]="eta" (ionChange)="changeProductAvailableDate(eta)">
-                                {{item.eta | date: 'DD-MMM-YYYY hh:mm:ss A'}}
-                            </ion-datetime>
-                        </ion-item>
-                    </ion-col>
-                    <ion-col size="3">
+    <div [hidden]=ishidden>
+        <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)" mode="ios">
+            <ion-refresher-content></ion-refresher-content>
+        </ion-refresher>
+        <ion-searchbar animated mode="ios" [(ngModel)]="searchQuery" (ionChange)="searchText(searchQuery)">
+        </ion-searchbar>
+        <ion-list>
+            <ion-card *ngFor="let item of searchList; let i = index; trackBy: trackByFn" class="sell-crd">
+                <ion-card-content>
+                    <ion-row>
+                        <ion-col size="4">
+                            <ion-item lines="none" mode="ios">
+                                <ion-thumbnail slot="end">
+                                    <!-- Replace User Image -->
+                                    <img src={{item.imageUrl}} onerror="this.src='../../assets/icon/defaultimg.png';" style="border-radius:50%;">
+                                </ion-thumbnail>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="8">
+                            <ion-row class="prd-byer-name">
+                                <ion-col size="12">
+                                    <ion-label> {{item.buyer.firstName}} </ion-label>
+                                </ion-col>
+                                <ion-col size="12">
+                                    <p>
+                                        : {{item.status}}
+                                    </p>
+                                </ion-col>
+                                <ion-col size="12">
+                                    <p> : {{item.orderedDate | date: 'yyyy-MM-dd H:mm a'}}</p>
+                                </ion-col>
+                            </ion-row>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row style="margin-bottom: 10px; margin-top: 10px;">
+                        <ion-col class="qty-rs" style="margin-right: 10px !important;">
+                            <label> {{item.quantity}} {{item.unitName}}</label>
+                        </ion-col>
+                        <ion-col class="qty-rs">
+                            <label> ₹ {{item.price}} / {{item.unitName}}</label>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="6" *ngIf="item?.status =='Approval Pending'">
+                            <ion-label class="productLabel">Estimated Time of Delivery : </ion-label>
+                        </ion-col>
+                        <ion-col size="6" *ngIf="item?.status =='Approval Pending'">
+                            <ion-item class="productETA">
+                                <ion-datetime displayFormat="DD-MMM-YYYY hh:mm:ss A" pickerFormat="DD-MMM-YY HH:mm"
+                                    [(ngModel)]="eta" (ionChange)="changeProductAvailableDate(eta)">
+                                    {{item.eta | date: 'DD-MMM-YYYY hh:mm:ss A'}}
+                                </ion-datetime>
+                            </ion-item>
+                        </ion-col>
+                        <!-- <ion-col size="3">
                         <ion-label>Quantity</ion-label>
                     </ion-col>
                     <ion-col size="3">
-                        <P> : {{item.quantity}} Kg</P>
+                        <P> : {{item.quantity}} {{item.unitName}}</P>
                     </ion-col>
                     <ion-col size="2">
                         <ion-label>Price</ion-label>
                     </ion-col>
                     <ion-col size="4">
-                        <P> : ₹ {{item.price}} / Kg</P>
-                    </ion-col>
+                        <P> : ₹ {{item.price}} / {{item.unitName}}</P>
+                    </ion-col> -->
 
-                    <ion-col size="3">
-                        <ion-label>Total price</ion-label>
-                    </ion-col>
-                    <ion-col size="3">
-                        <P> : ₹ {{item.price * item.quantity}}</P>
-                    </ion-col>
+                        <ion-col size="6">
+                            <ion-label>Total price</ion-label>
+                        </ion-col>
+                        <ion-col size="6">
+                            <P> : ₹ {{item.price * item.quantity}}</P>
+                        </ion-col>
 
-                </ion-row>
-                <ion-row class="aprv-rej">
-                    <ion-col size="6">
-                        <ion-button *ngIf="item?.status == 'Approval Pending'" style="--background:red;" size="small"
-                            (click)="rejectAlert(item)">Reject</ion-button>
-                    </ion-col>
-                    <ion-col size="6">
-                        <ion-button [disabled]="item.buttonDisabled" *ngIf="item?.status == 'Approval Pending'"
-                            style="--background:green;" size="small" (click)="approve(item)">Approve</ion-button>
-                    </ion-col>
-                </ion-row>
-                <ion-row class="status" *ngIf="item?.status =='Accepted' || item?.status =='Approval Pending'">
-                    <ion-col size="12" class="satus-link">
-                        <span *ngIf="!show">
-                            <ion-icon name="arrow-down"></ion-icon>
-                        </span>
-                        <span *ngIf="show">
-                            <ion-icon name="arrow-up"></ion-icon>
-                        </span>
-                        <a class="" (click)="item.show = !item.show">
-                            View Order Status
-                        </a>
-                    </ion-col>
-                    <ion-col size="12">
-                        <ion-list class="stepper stepper-vertical" lines="none" *ngIf="item.show">
-                            <ion-item class="completed">
-                                <div style="height:100px;">
-                                    <span class="circle">1</span>
-                                    <span class="label">Order Placed</span>
-                                    <p>
-                                        {{item.orderedDate | date: 'yyyy-MM-dd H:mm a'}}
-                                    </p>
-                                </div>
+                    </ion-row>
+                    <ion-row class="aprv-rej">
+                        <ion-col size="6">
+                            <ion-button *ngIf="item?.status == 'Approval Pending'" style="--background:red;"
+                                size="small" (click)="rejectAlert(item)">Reject</ion-button>
+                        </ion-col>
+                        <ion-col size="6">
+                            <ion-button [disabled]="item.buttonDisabled" *ngIf="item?.status == 'Approval Pending'"
+                                style="--background:green;" size="small" (click)="approve(item)">Approve</ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="status" *ngIf="item?.status =='Accepted' || item?.status =='Approval Pending'">
+                        <ion-col size="12" class="satus-link">
+                            <span *ngIf="!show">
+                                <ion-icon name="arrow-down"></ion-icon>
+                            </span>
+                            <span *ngIf="show">
+                                <ion-icon name="arrow-up"></ion-icon>
+                            </span>
+                            <a class="" (click)="item.show = !item.show">
+                                View Order Status
+                            </a>
+                        </ion-col>
+                        <ion-col size="12">
+                            <ion-list class="stepper stepper-vertical" lines="none" *ngIf="item.show">
+                                <ion-item class="completed">
+                                    <div style="height:100px;">
+                                        <span class="circle">1</span>
+                                        <span class="label">Order Placed</span>
+                                        <p>
+                                            {{item.orderedDate | date: 'yyyy-MM-dd H:mm a'}}
+                                        </p>
+                                    </div>
+                                </ion-item>
+                                <ion-item
+                                    [class.active]="item?.status =='Accepted' || item?.status =='Seller Delivered'">
+                                    <div style="height:100px;">
+                                        <span class="circle">2</span>
+                                        <span class="label">Order Confrim</span>
+                                        <p>
+                                            {{item.eta | date: 'yyyy-MM-dd H:mm a'}}
+                                        </p>
+                                        <p> Track Order</p>
+                                    </div>
+                                </ion-item>
+                                <ion-item [class.active]="item?.status =='Seller Delivered'">
+                                    <div style="height:100px;">
+                                        <span class="circle">3</span>
+                                        <span class="label">Delivered</span> <br />
+                                        <p>
+                                            {{item.eta | date: 'yyyy-MM-dd H:mm a'}}
+                                        </p>
+                                    </div>
+                                </ion-item>
+                            </ion-list>
+                            <ion-item *ngIf="item?.status == 'Accepted'">
+                                <ion-row>
+                                    <ion-col size="3"></ion-col>
+                                    <ion-col size="6" class="otp-section">
+                                        <label style="margin-top: 5px;">OTP : </label>
+                                        <!-- <ion-input type="number" placeholder="Enter OTP" value="{{otp}}"
+                                            (change)="onOtp($event)">
+                                        </ion-input> -->
+                                        <ion-input class="otp-ip" style="text-align: center;" #Field1 (keyup)="gotoNextField(Field2)"
+                                            (change)="onOtp($event,1)"></ion-input>
+                                        <ion-input class="otp-ip" style="text-align: center;" #Field2 (keyup)="gotoNextField(Field3)"
+                                            (change)="onOtp($event,2)"></ion-input>
+                                        <ion-input class="otp-ip" style="text-align: center;" #Field3 (keyup)="gotoNextField(Field4)"
+                                            (change)="onOtp($event,3)"></ion-input>
+                                        <ion-input class="otp-ip" style="text-align: center;" #Field4 (keyup)="finishFunction()"
+                                            (change)="onOtp($event,4)"></ion-input>
+                                    </ion-col>
+                                    <ion-col size="3"></ion-col>
+                                    <ion-col size="12" class="cmplt-del">
+                                        <ion-button [disabled]="confirmDisabled" class="btn-primary cmplt-del"
+                                            style="--background:red;" size="small" (click)="sllerreviewAlert(item)">
+                                            Complete Delivery</ion-button>
+                                    </ion-col>
+                                </ion-row>
                             </ion-item>
-                            <ion-item [class.active]="item?.status =='Accepted' || item?.status =='Seller Delivered'">
-                                <div style="height:100px;">
-                                    <span class="circle">2</span>
-                                    <span class="label">Order Confrim</span>
-                                    <p>
-                                        {{item.eta | date: 'yyyy-MM-dd H:mm a'}}
-                                    </p>
-                                    <p> Track Order</p>
-                                </div>
-                            </ion-item>
-                            <ion-item [class.active]="item?.status =='Seller Delivered'">
-                                <div style="height:100px;">
-                                    <span class="circle">3</span>
-                                    <span class="label">Delivered</span> <br />
-                                    <p>
-                                        {{item.eta | date: 'yyyy-MM-dd H:mm a'}}
-                                    </p>
-                                </div>
-                            </ion-item>
-                        </ion-list>
-                        <ion-item *ngIf="item?.status == 'Accepted'">
-                            <ion-row>
-                                <ion-col size="5" class="otp-section">
-                                    <label style="margin-top: 5px;">OTP : </label>
-                                    <!-- <ion-input type="number" placeholder="Enter OTP" value="{{otp}}"
-                                        (change)="onOtp($event)">
-                                    </ion-input> -->
-                                    <ion-input class="otp-ip" #Field1 (keyup)="gotoNextField(Field2)"></ion-input>
-                                    <ion-input class="otp-ip" #Field2 (keyup)="gotoNextField(Field3)"></ion-input>
-                                    <ion-input class="otp-ip" #Field3 (keyup)="gotoNextField(Field4)"></ion-input>
-                                    <ion-input class="otp-ip" #Field4 (keyup)="finishFunction()"
-                                        (change)="onOtp($event)"></ion-input>
-                                </ion-col>
-                                <ion-col size="6">
-                                    <button [disabled]="confirmDisabled" class="btn-primary"
-                                        (click)="sllerreviewAlert(item)">Complete Delivery</button>
-                                </ion-col>
-                            </ion-row>
-                        </ion-item>
-                    </ion-col>
-                </ion-row>
-            </ion-card-content>
-        </ion-card>
-    </ion-list>
+                        </ion-col>
+                    </ion-row>
+                </ion-card-content>
+            </ion-card>
+        </ion-list>
+    </div>
 </ion-content>

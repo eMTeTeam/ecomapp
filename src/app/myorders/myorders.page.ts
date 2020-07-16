@@ -16,7 +16,10 @@ export class MyordersPage {
   searchList: any;
   savedData: any = "";
   noRecords: boolean = true;
-  loading:any;
+  loading: any;
+  ishiddennorecords = true;
+  ishidden = true;
+  unitName: any;
   constructor(
     private menu: MenuController,
     private myordersService: MyordersService,
@@ -126,12 +129,25 @@ export class MyordersPage {
     this.myordersService.getAllmyorders().subscribe(
       data => {
         this.productList = data;
-		console.log(data);
-        if (this.productList.length > 0) {
-          this.noRecords = !this.noRecords;
+        console.log(data);
+        if (this.productList.length == 0) {
+          this.ishiddennorecords = false;
         }
+        else {
+          this.ishidden = false;
+          for (let u = 0; u < this.productList.length; u++) {
+            this.unitName = this.productList[u]["unitName"];
+            if (this.unitName == "Gram") {
+              this.productList[u]["unitName"] = "Kg";
+            }
+            else if (this.unitName == "MilliLitre") {
+              this.productList[u]["unitName"] = "Litre";
+            }
+          }
+        }
+
         this.searchList = data;
-		
+
         this.loading.onDidDismiss();
       },
       error => {
