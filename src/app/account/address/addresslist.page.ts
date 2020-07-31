@@ -16,7 +16,7 @@ export class AddresslistPage {
   isDefault: any;
   ishiddennorecords = true;
   ishidden = true;
-
+  doRefresh:any;
   constructor(private menu: MenuController,
     private accountService: AccountService,
     public loadingController: LoadingController,

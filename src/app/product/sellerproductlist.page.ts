@@ -17,6 +17,7 @@ export class SellerproductlistPage {
   cartItemCount: any;
   productList: any;
   searchList: any;
+  categoryList:any;
   selectedProduct: any;
   sortbyPrice: any;
   minPrice: any;
@@ -27,6 +28,7 @@ export class SellerproductlistPage {
   loading: any;
   itemId: any;
   quantity: number = 0;
+  searchQuery:any;
   addressList: any;
   lat: any;
   longi: any;

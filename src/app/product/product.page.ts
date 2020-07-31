@@ -15,6 +15,8 @@ export class ProductPage {
     productList: any;
     searchList: any;
     addressList: any;
+    categoryList:any;
+    searchQuery:any;
     lat: any;
     longi: any;
     selectedCategory: any;

@@ -12,13 +12,13 @@ import { ProductdetailService } from 'src/app/service/productdetail.service';
 export class ProductDetailPage {
     productDetail: any;
     selectedProduct: any;
-    private currentNumber = 1;
+    currentNumber = 1;
 
-    private increment() {
+    public increment() {
         this.currentNumber++;
     }
 
-    private decrement() {
+    public decrement() {
         this.currentNumber--;
         if (this.currentNumber < 1) {
             this.currentNumber = 1

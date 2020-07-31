@@ -13,6 +13,7 @@ export class HomePage {
     categoryList: any;
     searchList: any;
     userDisplayName = '';
+    searchQuery:any;
     constructor(private menu: MenuController,
         private categoryService: CategoryService,
         public loadingController: LoadingController,

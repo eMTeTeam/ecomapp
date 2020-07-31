@@ -14,6 +14,7 @@ export class ReviewModalPage implements OnInit {
   sellerreviewtags:any;
   searchList: any;
   tags: any;
+  rate:any;
   constructor(
     public modalController: ModalController,
     private ReviewsService: ReviewsService

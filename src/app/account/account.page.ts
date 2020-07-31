@@ -1,5 +1,6 @@
 ﻿import { Component } from '@angular/core';
 import { MenuController, ActionSheetController, LoadingController, NavController, AlertController } from '@ionic/angular';
+import { CommonapiService } from '../../app/service/commonapi.service';
 
 @Component({
     selector: 'app-account',
@@ -9,6 +10,7 @@ import { MenuController, ActionSheetController, LoadingController, NavController
 export class AccountPage {
 
     constructor(private menu: MenuController,
+        private commonapiservice: CommonapiService,
         public loadingController: LoadingController,
         public actionSheetController: ActionSheetController,
         public nav: NavController, public alertController: AlertController) {
@@ -64,6 +66,7 @@ export class AccountPage {
         autoplay: true
     };
     signOut() {
+        this.commonapiservice.setToken("");
         this.nav.navigateForward("login");
     }
 
@@ -118,5 +121,6 @@ export class AccountPage {
     myProfile() {
         this.nav.navigateForward("userprofile");
     }
+  
 }
 

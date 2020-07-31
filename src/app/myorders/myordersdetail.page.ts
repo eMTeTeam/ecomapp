@@ -17,6 +17,7 @@ export class MyordersdetailPage {
   searchList: any;
   currentDate: any;
   rate: any;
+  show:any;
   comments: any;
   reviewData: any;
   selectedItem: any;

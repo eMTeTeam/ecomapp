@@ -24,6 +24,7 @@ export class UserprofilePage {
   reviewDate: any;
   totaluserRating: number;
   userId: any;
+  doRefresh:any;
   averageRating: any;
   sumRating: number = 0;
   constructor(private menu: MenuController,

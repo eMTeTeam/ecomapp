@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
- // url: 'http://mitaisapi.azurewebsites.net/'
-  url: 'http://localhost:5000/api/'
+   url: 'http://mitaistestv1api.azurewebsites.net/api/'
+   //url: 'http://localhost:5000/api/'
 };
 
 /*

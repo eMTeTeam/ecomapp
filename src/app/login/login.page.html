@@ -28,6 +28,18 @@
                     </div>
                     <ion-button fill="clear" class="btn-primary" (click)="googleLogin('google')"
                         routerDirection="forward">SIGN IN</ion-button> -->
+                    <ion-button fill="clear" [hidden]="tempSignIn" class="btn-primary" (click)="tempSignInFunc()"
+                        routerDirection="forward">TEMP SIGN IN</ion-button>
+                    <div padding [hidden]="!tempSignIn">
+                        <ion-item>
+                            <ion-label color="ligh-grey" position="floating">TokenID</ion-label>
+                            <ion-textarea [(ngModel)]="tokenidd"></ion-textarea>
+                        </ion-item>
+                        <ion-button fill="clear" class="btn-primary" (click)="googleLoginman()"
+                            routerDirection="forward">SIGN IN</ion-button>
+                    </div>
+
+
                 </div>
             </ion-col>
         </ion-row>

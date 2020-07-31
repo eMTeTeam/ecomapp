@@ -15,7 +15,9 @@ export class LoginPage implements OnInit {
   public error: any;
   returnUrl: string;
   userName: string;
-
+  fbLogin:any;
+tokenidd:any;
+tempSignIn:boolean;
   constructor(private googlePlus: GooglePlus,
     private commonapiservice: CommonapiService,
     private route: ActivatedRoute,
@@ -25,6 +27,7 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.tempSignIn=false;
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     console.log('URL:', this.returnUrl);
   }
@@ -37,7 +40,8 @@ export class LoginPage implements OnInit {
         this.response = res;
         this.userName = this.response.givenName;
         sessionStorage.setItem('loggedUser', this.userName);
-        this.commonapiservice.setToken(this.response.idToken);
+        //this.commonapiservice.setToken(this.response.idToken);
+        this.commonapiservice.setToken(this.tokenidd);
         this.showWelcomeToast()
           .then(response => this.navCtrl.navigateRoot(['home']));
       })
@@ -48,7 +52,15 @@ export class LoginPage implements OnInit {
       });
   }
 
+  googleLoginman = () => {
+    this.tokenidd=this.tokenidd;
+    console.log("TOke: ",this.tokenidd);
+    this.googleLogin();
+  }
 
+  tempSignInFunc = () => {
+   this.tempSignIn=true;
+  }
 
   async showWelcomeToast() {
     const toast = await this.toastController.create({

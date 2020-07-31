@@ -33,6 +33,7 @@ export class CartbasketPage {
   noRecords: boolean = false;
   buyNowDisabled = false;
   unitName: any;
+  list:any;
   constructor(private menu: MenuController,
     public loadingController: LoadingController,
     public actionSheetController: ActionSheetController,

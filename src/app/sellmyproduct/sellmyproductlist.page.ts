@@ -29,16 +29,19 @@ export class SellmyproductlistPage {
   otp2: any;
   otp3: any;
   otp4: any;
+  show:any;
   resultReview: any;
   buttonDisabled: boolean = true;
   confirmDisabled: boolean = true;
   productName: any;
+  searchQuery:any;
   eta: any;
   ishiddennorecords = false;
   ishidden = false;
   etaReadable: any;
   unitName:any;
   tagID:any;
+  finishFunction:any;
   trackByFn(index: any, item: any) {
     return index;
   }

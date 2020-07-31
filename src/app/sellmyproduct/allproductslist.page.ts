@@ -20,6 +20,7 @@ export class AllproductslistPage {
   rejectedData: any;
   savedData: any = "";
   price: string;
+  searchQuery:any;
   noRecords: boolean = true;
   loading: any;
   addressList: any;
