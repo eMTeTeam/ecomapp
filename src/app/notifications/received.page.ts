@@ -12,6 +12,7 @@ export class ReceivedPage {
   searchList: any;
   noRecords: boolean = true;
   loading: any;
+  doRefresh: any;
 
   constructor(private menu: MenuController,
     private notificationsService: NotificationsService,
@@ -58,5 +59,4 @@ export class ReceivedPage {
       }
     );
   }
-
 }
