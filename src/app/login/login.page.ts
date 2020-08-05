@@ -54,8 +54,12 @@ tempSignIn:boolean;
 
   googleLoginman = () => {
     this.tokenidd=this.tokenidd;
+    this.userName = 'Guest';
+    sessionStorage.setItem('loggedUser', 'Guest');
+    this.commonapiservice.setToken(this.tokenidd);
+    this.navCtrl.navigateRoot(['home']);
+    
     console.log("TOke: ",this.tokenidd);
-    this.googleLogin();
   }
 
   tempSignInFunc = () => {
