@@ -30,7 +30,7 @@ export function provideConfig() {
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, ReactiveFormsModule, FormsModule, IonicModule.forRoot(), SocialLoginModule, ReviewModalPageModule, AppRoutingModule, IonicRatingModule, HttpClientModule, NgxPrettyCheckboxModule, IonicSelectableModule],
+  imports: [BrowserModule, ReactiveFormsModule, FormsModule, SocialLoginModule, IonicModule.forRoot(), AppRoutingModule, IonicRatingModule, HttpClientModule, NgxPrettyCheckboxModule, IonicSelectableModule, ReviewModalPageModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   providers: [
     StatusBar,
